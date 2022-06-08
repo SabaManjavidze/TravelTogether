@@ -1,0 +1,92 @@
+export const fake_arr = [
+  {
+    id: 1,
+    name: "Lizard",
+    image:
+      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 2,
+    name: "Lizard",
+    image:
+      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 3,
+    name: "Lizard",
+    image:
+      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 4,
+    name: "Lizard",
+    image:
+      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 5,
+    name: "Lizard",
+    image:
+      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+];
