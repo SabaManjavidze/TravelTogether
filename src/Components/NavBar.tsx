@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { CardTravel } from "@mui/icons-material/";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material";
+import { useColorMode } from "../App";
 
 const pages = [
   { title: "Find Appartments", path: "search" },
@@ -29,6 +30,7 @@ const settings = [
 
 export default function NavBar() {
   const theme = useTheme();
+  const colorMode = useColorMode();
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -61,20 +63,26 @@ export default function NavBar() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: ".3rem",
-              color: "inherit",
+              color: "white",
               textDecoration: "none",
             }}
           >
             TravelTogether
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", md: "none" },
+            }}
+          >
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
+              sx={{ color: "white !important" }}
               color="inherit"
             >
               <MenuIcon />
@@ -109,7 +117,9 @@ export default function NavBar() {
                     style={{ color: "black", textDecoration: "none" }}
                     to={`/${path}`}
                   >
-                    {title}
+                    <Typography variant="h6" fontSize={16} color="text.primary">
+                      {title}
+                    </Typography>
                   </Link>
                 </MenuItem>
               ))}
@@ -136,15 +146,9 @@ export default function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ title, path }) => (
-              <Button
-                key={title}
-                // onClick={() => {
-                //   handleNavLink(page);
-                // }}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
+              <Button key={title} sx={{ my: 2, display: "block" }}>
                 <Link
-                  style={{ color: "white", textDecoration: "none" }}
+                  style={{ textDecoration: "none", color: "white" }}
                   to={`/${path}`}
                 >
                   {title}
@@ -152,7 +156,22 @@ export default function NavBar() {
               </Button>
             ))}
           </Box>
-
+          <Button
+            sx={{ mr: 5 }}
+            onClick={(e: any) => {
+              const currTheme = theme.palette.mode;
+              if (currTheme === "dark") {
+                e.currentTarget.firstElementChild.innerHTML = "Light Mode";
+              } else {
+                e.currentTarget.firstElementChild.innerHTML = "Dark Mode";
+              }
+              colorMode.toggleColorMode();
+            }}
+          >
+            <Typography variant="h5" color="white" textTransform={"none"}>
+              Light Mode
+            </Typography>
+          </Button>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -189,7 +208,9 @@ export default function NavBar() {
                       color: "black",
                     }}
                   >
-                    {setting.title}
+                    <Typography variant="h6" fontSize={16} color="text.primary">
+                      {setting.title}
+                    </Typography>
                   </Link>
                 </MenuItem>
               ))}

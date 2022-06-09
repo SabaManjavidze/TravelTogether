@@ -1,9 +1,8 @@
 export const fake_arr = [
   {
     id: 1,
-    name: "Lizard",
-    image:
-      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    name: "Leo",
+    image: "https://source.unsplash.com/random?query=geography&count=1",
     price: "100",
     rating: "4.5",
     review_count: "100",
@@ -19,9 +18,8 @@ export const fake_arr = [
   },
   {
     id: 2,
-    name: "Lizard",
-    image:
-      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    name: "John",
+    image: "https://source.unsplash.com/random?query=geography&count=2",
     price: "100",
     rating: "4.5",
     review_count: "100",
@@ -37,9 +35,8 @@ export const fake_arr = [
   },
   {
     id: 3,
-    name: "Lizard",
-    image:
-      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    name: "Alex",
+    image: "https://source.unsplash.com/random?query=geography&count=3",
     price: "100",
     rating: "4.5",
     review_count: "100",
@@ -55,9 +52,8 @@ export const fake_arr = [
   },
   {
     id: 4,
-    name: "Lizard",
-    image:
-      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    name: "George",
+    image: "https://source.unsplash.com/random?query=geography&count=4",
     price: "100",
     rating: "4.5",
     review_count: "100",
@@ -73,9 +69,42 @@ export const fake_arr = [
   },
   {
     id: 5,
-    name: "Lizard",
-    image:
-      "https://media.istockphoto.com/photos/iguana-picture-id146059113?k=20&m=146059113&s=612x612&w=0&h=zUZsfGlsb2wR488nqBZwgg6OzVB4yaH__L8QjNmoQ58=",
+    name: "Daniel",
+    image: "https://source.unsplash.com/random?query=geography&count=5",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 6,
+    name: "Ben",
+    image: "https://source.unsplash.com/random?query=geography&count=6",
+    price: "100",
+    rating: "4.5",
+    review_count: "100",
+    location: "San Francisco, CA",
+    lat: "37.7749",
+    lng: "-122.4194",
+    url: "https://www.airbnb.com/rooms/146059113",
+    host_name: "John",
+    host_image:
+      "https://a0.muscache.com/im/users/146059113/profile_pic/146059113/original.jpg?aki_policy=profile_x_medium",
+    host_url: "https://www.airbnb.com/users/show/146059113",
+    host_location: "San Francisco, CA",
+  },
+  {
+    id: 7,
+    name: "Leonard",
+    image: "https://source.unsplash.com/random?query=geography&count=7",
     price: "100",
     rating: "4.5",
     review_count: "100",

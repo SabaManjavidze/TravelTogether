@@ -1,4 +1,11 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { fake_arr } from "../Components/FakeDB";
@@ -9,15 +16,21 @@ export default function SearchResultsPage() {
   const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
   const location = params.get("location");
-  const check_in = params.get("check_in");
-  const check_out = params.get("check_out");
+  // const check_in = params.get("check_in");
+  // const check_out = params.get("check_out");
+  const theme = useTheme();
   const [currSortingIdx, setCurrSortingIdx] = useState(0);
   const sort_arr = ["num. of beds", "available", "distance"];
   return (
-    <Container sx={{ margin: 5, width: "100%", maxWidth: "90% !important" }}>
-      <Box mt={20} ml={15} width={"90%"}>
+    <Container>
+      <Box mt={10}>
         <SearchBar navigate={navigate} />
-        <Typography component={"h1"} variant={"h2"} mt={10}>
+        <Typography
+          component={"h1"}
+          variant={"h2"}
+          mt={10}
+          color="text.primary"
+        >
           Results for {location?.toUpperCase()}
         </Typography>
         <Box
@@ -33,6 +46,7 @@ export default function SearchResultsPage() {
         >
           {sort_arr.map((item, i) => (
             <Button
+              key={item}
               onClick={() => {
                 setCurrSortingIdx(i);
               }}
@@ -53,10 +67,22 @@ export default function SearchResultsPage() {
         </Box>
         <Grid
           container
-          sx={{ display: "flex", justifyContent: "center", mt: 10 }}
+          rowGap={5}
+          columnGap={theme.breakpoints.down("md") ? 5 : 5}
+          paddingBottom={10}
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            columnCount: 4,
+            ml: 0,
+            mr: 0,
+            mt: 10,
+          }}
         >
           {fake_arr.map((item) => (
-            <Grid item xs={3} mx={5} my={3} key={item.id}>
+            <Grid item key={item.id}>
               <ResultCard item={item} />
             </Grid>
           ))}

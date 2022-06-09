@@ -1,11 +1,24 @@
-import { Grid, TextField, Button } from "@mui/material";
-import React, { FormEvent } from "react";
-
+import {
+  Grid,
+  TextField,
+  Button,
+  useTheme,
+  InputAdornment,
+  makeStyles,
+} from "@mui/material";
+import React, { FormEvent, useState } from "react";
+import { getDateFromParams } from "../utils/Services";
+import "../App.css";
+import { useColorMode } from "../App";
 export default function SearchBar({ navigate }: any) {
   const params = new URLSearchParams(window.location.search);
-  const location = params.get("location");
-  const check_in = params.get("check_in");
-  const check_out = params.get("check_out");
+  const location_param = params.get("location") || "";
+  const check_in = params.get("checkIn") || "";
+  const check_out = params.get("checkOut") || "";
+  const [checkIn, setCheckIn] = useState(check_in);
+  const [checkOut, setCheckOut] = useState(check_out);
+  const [location, setLocation] = useState(location_param);
+  const theme = useTheme();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
@@ -17,9 +30,6 @@ export default function SearchBar({ navigate }: any) {
       return;
     }
     navigate(
-      `/search?location=${location}&checkIn=${check_in}&checkOut=${check_out}`
-    );
-    navigate(
       `/search-results?location=${location}&checkIn=${check_in}&checkOut=${check_out}`
     );
   };
@@ -28,7 +38,7 @@ export default function SearchBar({ navigate }: any) {
       container
       component={"form"}
       onSubmit={handleSubmit}
-      mt={8}
+      // mt={5}
       display="flex"
       justifyContent={"center"}
       alignItems={"center"}
@@ -39,18 +49,35 @@ export default function SearchBar({ navigate }: any) {
           margin="normal"
           type="text"
           placeholder="Search location"
-          defaultValue={location || ""}
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           name="location"
           id="location"
-          sx={{ width: 400, m: 0 }}
+          sx={{
+            width: 400,
+            m: 0,
+            [theme.breakpoints.down("lg")]: { width: 220 },
+            [theme.breakpoints.down("md")]: { width: 300 },
+          }}
         />
       </Grid>
-      <Grid item sx={{ display: "flex", alignItems: "center" }}>
+      <Grid
+        item
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          [theme.breakpoints.down("lg")]: { mt: 4 },
+          mt: 0,
+          [theme.breakpoints.between("md", "lg")]: { mt: 0 },
+        }}
+      >
         <TextField
           name="check_in"
           label="Check in"
           type="date"
-          defaultValue={check_in || ""}
+          value={checkIn}
+          onChange={(e: any) => setCheckIn(e.target.value)}
+          className={theme.palette.mode === "dark" ? "input-icon" : ""}
           sx={{ width: 220 }}
           InputLabelProps={{
             shrink: true,
@@ -60,7 +87,13 @@ export default function SearchBar({ navigate }: any) {
           name="check_out"
           label="Check out"
           type="date"
-          defaultValue={new Date(check_out || "").toLocaleDateString() || ""}
+          className={theme.palette.mode === "dark" ? "input-icon" : ""}
+          // inputProps={{
+          //   endAdornment: <DateIcon />,
+          // }}
+          value={checkOut}
+          // defaultValue={}
+          onChange={(e) => setCheckOut(e.target.value)}
           sx={{ width: 220, ml: 5 }}
           InputLabelProps={{
             shrink: true,
@@ -73,6 +106,9 @@ export default function SearchBar({ navigate }: any) {
           display: "flex",
           alignItems: "center",
           ml: 5,
+          mt: 0,
+          [theme.breakpoints.down("lg")]: { width: "100%", mt: 4 },
+          // [theme.breakpoints.between("md", "lg")]: { mt: 0 },
           // height: "100%",
         }}
       >
@@ -80,6 +116,9 @@ export default function SearchBar({ navigate }: any) {
           type="submit"
           color="primary"
           variant="contained"
+          sx={{
+            [theme.breakpoints.down("lg")]: { width: "100%" },
+          }}
           size={"large"}
         >
           Search

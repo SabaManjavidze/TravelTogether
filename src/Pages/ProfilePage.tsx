@@ -1,7 +1,17 @@
-import { Container, Box, TextField, Grid, Button } from "@mui/material";
+import {
+  Container,
+  Box,
+  TextField,
+  Grid,
+  Button,
+  Avatar,
+  Typography,
+} from "@mui/material";
 import React, { FormEvent, useState } from "react";
 import "../App.css";
 import ChangePictureModal from "../Components/ChangePictureModal";
+import { CameraAlt as ImageIcon } from "@mui/icons-material";
+import AddAppartmentView from "../Components/AddAppartmentView";
 export default function ProfilePage() {
   const fake_user = {
     first_name: "John",
@@ -23,6 +33,7 @@ export default function ProfilePage() {
         e.preventDefault();
         console.log(new FormData(e.currentTarget).get("image"));
       }}
+      sx={{ minHeight: window.innerHeight, paddingBottom: 15 }}
     >
       <ChangePictureModal open={open} setOpen={setOpen} />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 15 }}>
@@ -31,17 +42,22 @@ export default function ProfilePage() {
             borderRadius: "10px",
             background: "black",
             height: "440px",
-
+            position: "relative",
             width: "400px",
           }}
+          className="hover-section"
         >
+          <ImageIcon
+            className="image-icon"
+            fontSize="large"
+            onClick={() => {
+              setOpen(!open);
+            }}
+          />
           <img
             src={profImage || ""}
             alt=""
             className="profile-image"
-            onClick={() => {
-              setOpen(!open);
-            }}
             style={{
               height: "440px",
               width: "400px",
@@ -102,7 +118,6 @@ export default function ProfilePage() {
                 resize: "none",
                 height: "75px",
                 maxHeight: "200px",
-                // overflowY: "auto",
                 boxSizing: "border-box",
               }}
               rows={4}
@@ -111,11 +126,25 @@ export default function ProfilePage() {
 
               defaultValue={fake_user?.bio || ""}
             />
-            <Button type="submit" variant="contained">
-              Save Changes
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ width: "25%", py: 1, whiteSpace: "nowrap" }}
+            >
+              <Typography
+                color={"white"}
+                variant="h5"
+                fontSize={17}
+                textTransform={"none"}
+              >
+                Save Changes
+              </Typography>
             </Button>
           </Box>
         </Box>
+      </Box>
+      <Box sx={{ mt: 10 }}>
+        <AddAppartmentView />
       </Box>
     </Container>
   );

@@ -40,18 +40,48 @@
   font-family: Montserrat !important;
   font-style: normal;
   font-weight: 700;
-  color: #000000 !important;
+  /* color: #000000 !important; */
   letter-spacing: -0.015em;
 }
 .round-input {
-  /* border-radius: 5px !important; */
+  border-radius: 5px !important;
 }
-.profile-image:hover {
-  opacity: 0.8;
+.input-icon input::-webkit-calendar-picker-indicator {
+  /* background: url("../public/PngItem_3204339.png") center center no-repeat; */
+  filter: invert(1);
+}
+.image-icon {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  opacity: 0;
+  transition: 0.3s;
+  z-index: 99;
+}
+
+.hover-section:hover .image-icon {
+  opacity: 1;
+  transition: 0.5s;
+}
+.hover-section:hover .profile-image {
+  opacity: 0.6;
   transition: 0.5s;
 }
 .profile-image {
-  cursor: pointer;
   background: black !important;
   transition: 0.3s;
+}
+.expand-icon-wrapper {
+  position: absolute;
+  top: 35%;
+  cursor: pointer;
+  left: 20%;
+  /* transform: translate(-50%, -50%); */
+  color: rgb(135, 72, 174) !important;
+  /* opacity: 0; */
+  transition: 0.3s;
+  z-index: 99;
 }
