@@ -15,13 +15,13 @@ import SearchBar from "../Components/SearchBar";
 export default function SearchPage() {
   const navigate = useNavigate();
   return (
-    <Container sx={{ height: window.innerHeight }}>
+    <Container>
       <Box
         sx={{
           marginTop: 15,
           display: "flex",
           flexDirection: "column",
-          height: "100%",
+          minHeight: "80vh",
           // alignItems: "center",
         }}
       >

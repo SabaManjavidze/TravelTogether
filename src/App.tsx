@@ -15,6 +15,7 @@ import SearchPage from "./Pages/SearchPage";
 import { Box, Container, createTheme, ThemeProvider } from "@mui/material";
 import NavBar from "./Components/NavBar";
 import { blue, cyan, deepPurple, purple } from "@mui/material/colors";
+import MyBookingsPage from "./Pages/MyBookingsPage";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 export const useColorMode = () => {
@@ -66,7 +67,11 @@ function App() {
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Box sx={{ backgroundColor: "background.default" }}>
+        <Box
+          sx={{
+            backgroundColor: "background.default",
+          }}
+        >
           <Router>
             <NavBar />
             <Routes>
@@ -75,6 +80,7 @@ function App() {
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/search-results" element={<SearchResultsPage />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/mybookings" element={<MyBookingsPage />} />
             </Routes>
           </Router>
         </Box>

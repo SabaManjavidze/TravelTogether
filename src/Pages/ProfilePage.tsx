@@ -33,7 +33,7 @@ export default function ProfilePage() {
         e.preventDefault();
         console.log(new FormData(e.currentTarget).get("image"));
       }}
-      sx={{ minHeight: window.innerHeight, paddingBottom: 15 }}
+      sx={{ paddingBottom: 15 }}
     >
       <ChangePictureModal open={open} setOpen={setOpen} />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 15 }}>

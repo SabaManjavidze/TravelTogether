@@ -16,7 +16,8 @@ export default function Register() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      username: data.get("username"),
+      first_name: data.get("firstname"),
+      last_name: data.get("lastname"),
       email: data.get("email"),
       password: data.get("password"),
     });
@@ -37,22 +38,37 @@ export default function Register() {
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{
+            mt: 1,
+            display: "flex",
+            flexDirection: "column",
+            width: "60%",
+          }}
+        >
           <TextField
             margin="normal"
             required
-            fullWidth
-            name="username"
-            label="User Name"
+            name="firstName"
+            label="FirstName"
             type="text"
-            id="username"
             autoFocus
             // autoComplete="current-password"
           />
           <TextField
             margin="normal"
             required
-            fullWidth
+            name="lastname"
+            label="LastName"
+            type="text"
+            // autoComplete="current-password"
+          />
+          <TextField
+            margin="normal"
+            required
             id="email"
             label="Email Address"
             name="email"
@@ -61,7 +77,6 @@ export default function Register() {
           <TextField
             margin="normal"
             required
-            fullWidth
             name="password"
             label="Password"
             type="password"
