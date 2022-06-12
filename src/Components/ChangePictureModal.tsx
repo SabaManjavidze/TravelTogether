@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { ChangeEventHandler, FormEvent, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+import { SxProps, TextField, Typography, useTheme } from "@mui/material";
+import { Theme } from "@mui/system";
 
-const style = {
-  position: "absolute" as "absolute",
+const style: SxProps<Theme> = {
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -19,14 +20,20 @@ const style = {
   p: 4,
 };
 
-export default function ChangePictureModal({ setOpen, open }: any) {
+export default function ChangePictureModal({
+  setOpen,
+  open,
+  setProfImage,
+}: any) {
+  const [localImage, setLocalImage] = useState<any>();
+  const theme = useTheme();
   return (
     <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={() => setOpen(false)}
+        // onClose={() => setOpen(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -35,21 +42,101 @@ export default function ChangePictureModal({ setOpen, open }: any) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Typography
-              id="transition-modal-title"
-              variant="h6"
-              component="h2"
-              color="text.primary"
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column ",
+                alignItems: "center",
+              }}
             >
-              Text in a modal
-            </Typography>
-            <Typography
-              id="transition-modal-description"
-              sx={{ mt: 2 }}
-              color="text.primary"
-            >
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
+              <Box sx={{ width: "100%" }}>
+                <Typography variant="h5" color="text.primary">
+                  Enter a new picture URL
+                </Typography>
+                <TextField
+                  placeholder="Enter image url"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  // alignItems: "center",
+                  flexDirection: "column",
+                  width: "100%",
+                  pt: 5,
+                  // bgcolor: "black",
+                }}
+              >
+                <Typography variant="h5" color="text.primary">
+                  Upload local image
+                </Typography>
+                {/* <Button sx={{ mt: 3 }} variant="outlined"> */}
+                <TextField
+                  type="file"
+                  // value={localImage}
+                  onChange={(e: any) => {
+                    setLocalImage(e.target.files[0]);
+                  }}
+                />
+                {localImage ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      mt: 3,
+                    }}
+                  >
+                    <img
+                      alt="not fount"
+                      width={"250px"}
+                      src={URL.createObjectURL(localImage)}
+                    />
+                  </Box>
+                ) : null}
+
+                {/* <Typography variant="subtitle1" color="primary">
+                    Choose a file
+                  </Typography>
+                </Button> */}
+              </Box>
+              <Button
+                variant="contained"
+                sx={{ mt: 5, width: "100%" }}
+                onClick={() => {
+                  setOpen(false);
+                  setLocalImage(null);
+                  setProfImage(URL.createObjectURL(localImage));
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="text.paper"
+                  textTransform={"none"}
+                >
+                  Save
+                </Typography>
+              </Button>
+              <Button
+                variant="outlined"
+                sx={{ mt: 2, width: "100%" }}
+                onClick={() => {
+                  setOpen(false);
+                  setLocalImage(null);
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  color="primary.light"
+                  textTransform={"none"}
+                >
+                  Cancel
+                </Typography>
+              </Button>
+            </Box>
           </Box>
         </Fade>
       </Modal>

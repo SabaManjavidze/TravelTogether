@@ -6,7 +6,7 @@ import React, {
   useState,
 } from "react";
 import { BrowserRouter as Router, Routes } from "react-router-dom";
-import { Route } from "react-router";
+import { Navigate, Route } from "react-router";
 import Register from "./Pages/Register";
 import LoginPage from "./Pages/LoginPage";
 import ProfilePage from "./Pages/ProfilePage";
@@ -16,6 +16,7 @@ import { Box, Container, createTheme, ThemeProvider } from "@mui/material";
 import NavBar from "./Components/NavBar";
 import { blue, cyan, deepPurple, purple } from "@mui/material/colors";
 import MyBookingsPage from "./Pages/MyBookingsPage";
+import MyGuestsPage from "./Pages/MyGuestsPage";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 export const useColorMode = () => {
@@ -50,20 +51,18 @@ function App() {
       }),
     [mode]
   );
-  // const theme = createTheme({
-  //   palette: {
-  //     primary: {
-  //       main: purple[800],
-  //     },
-  //     background: {
-  //       default: deepPurple[900],
-  //     },
-  //     mode: "light",
-  //   },
-  // });
-  // useEffect(() => {
-  //   console.log(theme);
-  // }, []);
+  const fake_user = {
+    first_name: "John",
+    last_name: "Doe",
+  };
+  useEffect(() => {
+    const last_theme: any = localStorage.getItem("theme");
+    console.log(last_theme !== mode);
+    if (last_theme !== mode) {
+      setMode(last_theme);
+    }
+  }, []);
+  // const fake_user = undefined;
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -75,12 +74,19 @@ function App() {
           <Router>
             <NavBar />
             <Routes>
+              <Route
+                path="/"
+                element={
+                  <Navigate to={fake_user ? "/search" : "/login"} replace />
+                }
+              />
+              <Route path="/search" element={<SearchPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/search-results" element={<SearchResultsPage />} />
-              <Route path="/search" element={<SearchPage />} />
               <Route path="/mybookings" element={<MyBookingsPage />} />
+              <Route path="/myguests" element={<MyGuestsPage />} />
             </Routes>
           </Router>
         </Box>

@@ -73,6 +73,7 @@ export default function AddAppartmentView() {
             borderRadius: "10px",
             height: "inherit",
             position: "relative",
+            // bgcolor: "black",
             width: "400px",
             paddingLeft: 10,
             paddingRight: 5,
@@ -88,17 +89,28 @@ export default function AddAppartmentView() {
             //   setOpen(!open);
             // }}
           />
-          <img
-            src={"https://source.unsplash.com/random?query=geography&count=1"}
-            alt=""
+          <Box
             style={{
-              height: "100%",
+              height: "440px",
               width: "400px",
               borderRadius: "10px",
-              objectFit: "cover",
+              margin: 0,
+              padding: 0,
+              backgroundColor: "black",
             }}
-            className="profile-image"
-          />
+          >
+            <img
+              src={"https://source.unsplash.com/random?query=geography&count=1"}
+              alt=""
+              style={{
+                height: "100%",
+                width: "400px",
+                borderRadius: "10px",
+                objectFit: "cover",
+              }}
+              className="profile-image"
+            />
+          </Box>
         </Box>
       </AccordionDetails>
     </Accordion>

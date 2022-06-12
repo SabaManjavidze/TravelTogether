@@ -7,7 +7,7 @@ import {
   Avatar,
   Typography,
 } from "@mui/material";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import "../App.css";
 import ChangePictureModal from "../Components/ChangePictureModal";
 import { CameraAlt as ImageIcon } from "@mui/icons-material";
@@ -26,6 +26,7 @@ export default function ProfilePage() {
   };
   const [profImage, setProfImage] = useState(fake_user.image);
   const [open, setOpen] = useState(false);
+
   return (
     <Container
       component={"form"}
@@ -33,17 +34,21 @@ export default function ProfilePage() {
         e.preventDefault();
         console.log(new FormData(e.currentTarget).get("image"));
       }}
-      sx={{ paddingBottom: 15 }}
+      sx={{ paddingBottom: 15, minHeight: "79.9vh" }}
     >
-      <ChangePictureModal open={open} setOpen={setOpen} />
+      <ChangePictureModal
+        open={open}
+        setOpen={setOpen}
+        setProfImage={setProfImage}
+      />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 15 }}>
         <Box
           sx={{
             borderRadius: "10px",
-            background: "black",
             height: "440px",
             position: "relative",
             width: "400px",
+            bgcolor: "black",
           }}
           className="hover-section"
         >
@@ -129,12 +134,12 @@ export default function ProfilePage() {
             <Button
               type="submit"
               variant="contained"
-              sx={{ width: "25%", py: 1, whiteSpace: "nowrap" }}
+              sx={{ width: "25%", py: 1 }}
             >
               <Typography
                 color={"white"}
-                variant="h5"
-                fontSize={17}
+                variant="subtitle1"
+                fontSize={15}
                 textTransform={"none"}
               >
                 Save Changes

@@ -6,10 +6,11 @@ import {
   InputAdornment,
   makeStyles,
 } from "@mui/material";
-import React, { FormEvent, useState } from "react";
-import { getDateFromParams } from "../utils/Services";
+import React, { FormEvent, useCallback, useState } from "react";
 import "../App.css";
-import { useColorMode } from "../App";
+import axios, { AxiosError } from "axios";
+// import { debounce } from "lodash";
+
 export default function SearchBar({ navigate }: any) {
   const params = new URLSearchParams(window.location.search);
   const location_param = params.get("location") || "";
@@ -50,7 +51,10 @@ export default function SearchBar({ navigate }: any) {
           type="text"
           placeholder="Search location"
           value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          onChange={(e) => {
+            const { value } = e.target;
+            setLocation(value);
+          }}
           name="location"
           id="location"
           sx={{

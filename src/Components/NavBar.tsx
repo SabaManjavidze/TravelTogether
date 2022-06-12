@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,8 +13,9 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { CardTravel } from "@mui/icons-material/";
 import { Link } from "react-router-dom";
-import { useTheme } from "@mui/material";
+import { FormControlLabel, FormGroup, useTheme } from "@mui/material";
 import { useColorMode } from "../App";
+import { MaterialUISwitch } from "./MaterialUISwitch";
 
 const pages = [
   { title: "Find Appartments", path: "search" },
@@ -156,26 +157,28 @@ export default function NavBar() {
               </Button>
             ))}
           </Box>
-          <Button
+          <MaterialUISwitch
             sx={{ mr: 5 }}
+            checked={theme.palette.mode === "dark"}
             onClick={(e: any) => {
-              const currTheme = theme.palette.mode;
-              if (currTheme === "dark") {
-                e.currentTarget.firstElementChild.innerHTML = "Light Mode";
-              } else {
-                e.currentTarget.firstElementChild.innerHTML = "Dark Mode";
-              }
               colorMode.toggleColorMode();
+              localStorage.setItem(
+                "theme",
+                theme.palette.mode === "dark" ? "light" : "dark"
+              );
             }}
-          >
-            <Typography variant="h5" color="white" textTransform={"none"}>
-              Light Mode
-            </Typography>
-          </Button>
+          />
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Saba"
+                  src="/static/images/avatar/2.jpg"
+                  // sx={{
+                  //   color: theme.palette.mode === "dark" ? "white" : "white",
+                  // }}
+                  sx={{ color: "white" }}
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -199,18 +202,30 @@ export default function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting.title} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting.title}
+                  onClick={handleCloseUserMenu}
+                  sx={{ width: "100%" }}
+                >
                   <Link
                     to={`/${setting.path}`}
                     style={{
                       textAlign: "center",
                       textDecoration: "none",
                       color: "black",
+                      width: "100%",
+                      height: "100%",
                     }}
                   >
-                    <Typography variant="h6" fontSize={16} color="text.primary">
-                      {setting.title}
-                    </Typography>
+                    <Box>
+                      <Typography
+                        variant="h6"
+                        fontSize={16}
+                        color="text.primary"
+                      >
+                        {setting.title}
+                      </Typography>
+                    </Box>
                   </Link>
                 </MenuItem>
               ))}

@@ -1,27 +1,16 @@
-import {
-  Container,
-  Box,
-  Typography,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  useTheme,
-  Grid,
-  Avatar,
-} from "@mui/material";
+import { Container, Box, Typography, Grid, useTheme } from "@mui/material";
 import React from "react";
-import { fake_arr, my_bookings } from "../Components/FakeDB";
 import BookingCard from "../Components/BookingCard";
+import { fake_arr } from "../Components/FakeDB";
+import GuestCard from "../Components/GuestCard";
 
-export default function MyBookingsPage() {
+export default function MyGuestsPage() {
   const theme = useTheme();
   return (
     <Container>
       <Box mt={10}>
         <Typography variant={"h3"} color="text.primary">
-          My Bookings
+          My Guests
         </Typography>
       </Box>
       <Grid
@@ -39,10 +28,10 @@ export default function MyBookingsPage() {
           mt: 10,
         }}
       >
-        {my_bookings.map((item) => {
+        {fake_arr.map((item) => {
           return (
             <Grid item key={item.id}>
-              <BookingCard item={item} />
+              <GuestCard item={item} />;
             </Grid>
           );
         })}

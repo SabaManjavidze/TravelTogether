@@ -35,7 +35,7 @@ export default function Register() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" color="text.primary">
           Register
         </Typography>
         <Box
@@ -49,23 +49,36 @@ export default function Register() {
             width: "60%",
           }}
         >
-          <TextField
-            margin="normal"
-            required
-            name="firstName"
-            label="FirstName"
-            type="text"
-            autoFocus
-            // autoComplete="current-password"
-          />
-          <TextField
-            margin="normal"
-            required
-            name="lastname"
-            label="LastName"
-            type="text"
-            // autoComplete="current-password"
-          />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <TextField
+              margin="normal"
+              required
+              name="firstName"
+              label="FirstName"
+              type="text"
+              autoFocus
+              fullWidth
+              sx={{ mr: 3 }}
+              // autoComplete="current-password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="lastname"
+              label="LastName"
+              sx={{ ml: 3 }}
+              type="text"
+              // autoComplete="current-password"
+            />
+          </Box>
           <TextField
             margin="normal"
             required
@@ -85,11 +98,11 @@ export default function Register() {
           />
           <Button
             type="submit"
-            fullWidth
+            // fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, width: "20%", textTransform: "none" }}
           >
-            Sign In
+            Register
           </Button>
           <Grid container>
             <Grid item>

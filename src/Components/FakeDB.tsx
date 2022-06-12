@@ -119,3 +119,83 @@ export const fake_arr = [
     host_location: "San Francisco, CA",
   },
 ];
+export const my_bookings = [
+  {
+    id: 1,
+    image: "https://source.unsplash.com/random?query=geography&count=1",
+    address: "San Francisco, CA",
+    country: "United States",
+    distance_from_center: "100",
+    num_of_beds: "2",
+    check_in: "2020-01-01",
+    check_out: "2020-01-02",
+    status: "Pending",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+  {
+    id: 2,
+    image: "https://source.unsplash.com/random?query=geography&count=2",
+    address: "Massachusetts, MA",
+    country: "United States",
+    distance_from_center: "200",
+    num_of_beds: "3",
+    check_in: "2020-01-01",
+    check_out: "2020-01-02",
+    status: "Accepted",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+  {
+    id: 4,
+    image: "https://source.unsplash.com/random?query=geography&count=4",
+    address: "San Francisco, CA",
+    country: "United States",
+    distance_from_center: "100",
+    num_of_beds: "2",
+    check_in: "2020-01-01",
+    check_out: "2020-01-02",
+    status: "Rejected",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+  {
+    id: 3,
+    image: "https://source.unsplash.com/random?query=geography&count=3",
+    address: "San Francisco, CA",
+    country: "United States",
+    distance_from_center: "100",
+    num_of_beds: "2",
+    check_in: "2020-01-01",
+    check_out: "2020-01-02",
+    status: "Pending",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+  {
+    id: 5,
+    image: "https://source.unsplash.com/random?query=geography&count=5",
+    address: "Miami, FL",
+    country: "United States",
+    distance_from_center: "500",
+    num_of_beds: "1",
+    check_in: "2022-01-01",
+    check_out: "2022-01-02",
+    status: "Pending",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+  {
+    id: 6,
+    image: "https://source.unsplash.com/random?query=geography&count=6",
+    address: "Texas, TX",
+    country: "United States",
+    distance_from_center: "1000",
+    num_of_beds: "3",
+    check_in: "2022-01-01",
+    check_out: "2022-01-02",
+    status: "Rejected",
+    description:
+      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+  },
+];
