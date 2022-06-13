@@ -58,6 +58,9 @@ export default function ChangePictureModal({
                   variant="outlined"
                   margin="normal"
                   fullWidth
+                  onSubmit={(e: any) => {
+                    setProfImage(e.target.value);
+                  }}
                 />
               </Box>
               <Box
