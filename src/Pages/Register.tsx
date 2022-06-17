@@ -9,7 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import React, { FormEvent } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 
 export default function Register() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

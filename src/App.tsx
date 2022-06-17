@@ -57,8 +57,8 @@ function App() {
   };
   useEffect(() => {
     const last_theme: any = localStorage.getItem("theme");
-    console.log(last_theme !== mode);
-    if (last_theme !== mode) {
+
+    if (last_theme && last_theme !== mode) {
       setMode(last_theme);
     }
   }, []);
