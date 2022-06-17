@@ -26,7 +26,7 @@ export default function ChangePictureModal({
   setProfImage,
 }: any) {
   const [localImage, setLocalImage] = useState<any>();
-  const theme = useTheme();
+  // const theme = useTheme();
   return (
     <div>
       <Modal
@@ -58,8 +58,11 @@ export default function ChangePictureModal({
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  onSubmit={(e: any) => {
-                    setProfImage(e.target.value);
+                  onKeyDown={(e: any) => {
+                    if (e.keyCode === 13) {
+                      // setProfImage(e.target.value);
+                      setLocalImage(e.target.value);
+                    }
                   }}
                 />
               </Box>
@@ -81,7 +84,7 @@ export default function ChangePictureModal({
                   type="file"
                   // value={localImage}
                   onChange={(e: any) => {
-                    setLocalImage(e.target.files[0]);
+                    setLocalImage(URL.createObjectURL(e.target.files[0]));
                   }}
                 />
                 {localImage ? (
@@ -93,11 +96,7 @@ export default function ChangePictureModal({
                       mt: 3,
                     }}
                   >
-                    <img
-                      alt="not fount"
-                      width={"250px"}
-                      src={URL.createObjectURL(localImage)}
-                    />
+                    <img alt="not fount" width={"250px"} src={localImage} />
                   </Box>
                 ) : null}
 
@@ -112,7 +111,7 @@ export default function ChangePictureModal({
                 onClick={() => {
                   setOpen(false);
                   setLocalImage(null);
-                  setProfImage(URL.createObjectURL(localImage));
+                  setProfImage(localImage);
                 }}
               >
                 <Typography

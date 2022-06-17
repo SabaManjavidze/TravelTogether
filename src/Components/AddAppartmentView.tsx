@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -14,12 +14,22 @@ import {
   ExpandMore as ExpandMoreIcon,
   CameraAlt as ImageIcon,
 } from "@mui/icons-material";
-import { makeStyles } from "@mui/material/styles";
+import ChangePictureModal from "./ChangePictureModal";
 
 export default function AddAppartmentView() {
   const theme = useTheme();
+  const [appOpen, setAppOpen] = useState(false);
+  const [profImage, setProfImage] = useState(
+    "https://source.unsplash.com/random?query=geography&count=1"
+  );
+
   return (
     <Accordion defaultExpanded>
+      <ChangePictureModal
+        open={appOpen}
+        setOpen={setAppOpen}
+        setProfImage={setProfImage}
+      />
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         classes={{
@@ -85,9 +95,9 @@ export default function AddAppartmentView() {
             className="image-icon"
             sx={{ left: "54% !important" }}
             fontSize="large"
-            // onClick={() => {
-            //   setOpen(!open);
-            // }}
+            onClick={() => {
+              setAppOpen(true);
+            }}
           />
           <Box
             style={{
@@ -100,7 +110,7 @@ export default function AddAppartmentView() {
             }}
           >
             <img
-              src={"https://source.unsplash.com/random?query=geography&count=1"}
+              src={profImage}
               alt=""
               style={{
                 height: "100%",

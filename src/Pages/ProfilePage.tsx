@@ -25,7 +25,7 @@ export default function ProfilePage() {
     image: "https://source.unsplash.com/random",
   };
   const [profImage, setProfImage] = useState(fake_user.image);
-  const [open, setOpen] = useState(false);
+  const [profOpen, setProfOpen] = useState(false);
 
   return (
     <Container
@@ -37,8 +37,8 @@ export default function ProfilePage() {
       sx={{ paddingBottom: 15, minHeight: "79.9vh" }}
     >
       <ChangePictureModal
-        open={open}
-        setOpen={setOpen}
+        open={profOpen}
+        setOpen={setProfOpen}
         setProfImage={setProfImage}
       />
       <Box sx={{ display: "flex", justifyContent: "center", mt: 15 }}>
@@ -56,7 +56,7 @@ export default function ProfilePage() {
             className="image-icon"
             fontSize="large"
             onClick={() => {
-              setOpen(!open);
+              setProfOpen(!profOpen);
             }}
           />
           <img
