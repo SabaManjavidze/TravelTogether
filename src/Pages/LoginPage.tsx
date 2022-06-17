@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { FormEventHandler } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/VpnLockOutlined";
 export default function LoginPage() {
   const handleSubmit = (event: any) => {
     event.preventDefault();
