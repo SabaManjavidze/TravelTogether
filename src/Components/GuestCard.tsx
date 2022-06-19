@@ -106,10 +106,9 @@ export default function GuestCard({
                 },
               }}
             >
-              Lizards are a widespread group of squamate reptiles, with over
-              6,000 species, ranging across all continents except Antarctica and
-              most islands. The most common species are the European lizards,
-              although other species of lizards are also present.
+              lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
             </Typography>
             <Box
               sx={{

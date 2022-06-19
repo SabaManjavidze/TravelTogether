@@ -5,6 +5,7 @@ import {
   useTheme,
   InputAdornment,
   makeStyles,
+  Autocomplete,
 } from "@mui/material";
 import React, { FormEvent, useCallback, useState } from "react";
 import "../App.css";
@@ -19,6 +20,7 @@ export default function SearchBar({ navigate }: any) {
   const [checkIn, setCheckIn] = useState(check_in);
   const [checkOut, setCheckOut] = useState(check_out);
   const [location, setLocation] = useState(location_param);
+  const [searchData, setSearchData] = useState<any>([]);
   const theme = useTheme();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,24 +47,74 @@ export default function SearchBar({ navigate }: any) {
       alignItems={"center"}
     >
       <Grid item sx={{ display: "flex", alignItems: "center", mr: 5 }}>
-        <TextField
+        <Autocomplete
+          getOptionLabel={(option) => {
+            return (searchData.length > 0 &&
+              option &&
+              (option as any).properties.result_type === "city") ||
+              (option as any).properties.result_type === "suburb" ||
+              (option as any).properties.result_type === "postcode"
+              ? (option as any).properties.city
+              : "";
+          }}
+          freeSolo
+          options={searchData}
           className="search-input"
-          margin="normal"
-          type="text"
           placeholder="Search location"
-          value={location}
-          onChange={(e) => {
-            const { value } = e.target;
-            setLocation(value);
-          }}
-          name="location"
-          id="location"
-          sx={{
-            width: 400,
-            m: 0,
-            [theme.breakpoints.down("lg")]: { width: 220 },
-            [theme.breakpoints.down("md")]: { width: 300 },
-          }}
+          aria-expanded={true}
+          renderOption={(props, option): any => (
+            <li
+              {...props}
+              key={(option as any).properties.lat}
+              style={{
+                flex: "1 1 auto",
+                flexDirection: "column",
+                alignItems: "start",
+                justifyContent: "center",
+              }}
+            >
+              <div style={{ fontSize: "20px" }}>
+                {(option as any).properties.city}
+              </div>
+              <div
+                style={{
+                  fontSize: "13px",
+                  color: theme.palette.text.secondary,
+                  marginLeft: 5,
+                }}
+              >
+                {(option as any).properties.address_line2}
+                {", " + (option as any).properties.address_line1}
+              </div>
+            </li>
+          )}
+          renderInput={(params: any) => (
+            <TextField
+              {...params}
+              value={location}
+              onChange={async (e) => {
+                const value = e.target.value;
+                if (value.length === 0) {
+                  setSearchData([]);
+                  setLocation("");
+                  return;
+                }
+                setLocation(value);
+                const url = `https://api.geoapify.com/v1/geocode/autocomplete?text=${value}
+            &apiKey=${process.env.REACT_APP_AUTOCOMPLETE_API_KEY}`;
+                const { data } = await axios.get(url);
+                setSearchData(data.features);
+                // console.log(data.features[0].properties.name);
+              }}
+              name="location"
+              sx={{
+                width: 400,
+                m: 0,
+                [theme.breakpoints.down("lg")]: { width: 220 },
+                [theme.breakpoints.down("md")]: { width: 300 },
+              }}
+            />
+          )}
         />
       </Grid>
       <Grid
