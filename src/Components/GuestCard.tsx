@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardMedia,
@@ -11,8 +11,13 @@ import {
 } from "@mui/material";
 import { Check as AcceptIcon, Close as DeclineIcon } from "@mui/icons-material";
 
-export default function GuestCard({ item }: any) {
+export default function GuestCard({
+  item,
+  acceptedItem,
+  setAcceptedItem,
+}: any) {
   const theme = useTheme();
+  const [btnColor, setBtnColor] = useState<any>("primary");
   return (
     <Card
       sx={{
@@ -125,7 +130,17 @@ export default function GuestCard({ item }: any) {
                   px: 5,
                   py: 1,
                 }}
-                color="primary"
+                onClick={() => {
+                  // console.log("accepted");
+                  if (acceptedItem === null) {
+                    setAcceptedItem(item.id);
+                    setBtnColor("success");
+                  }
+                }}
+                disabled={
+                  acceptedItem !== null ? acceptedItem !== item.id : false
+                }
+                color={btnColor}
                 variant="contained"
               >
                 <AcceptIcon />

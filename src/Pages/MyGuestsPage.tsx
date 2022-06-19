@@ -1,11 +1,17 @@
 import { Container, Box, Typography, Grid, useTheme } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BookingCard from "../Components/BookingCard";
 import { fake_arr } from "../Components/FakeDB";
 import GuestCard from "../Components/GuestCard";
 
 export default function MyGuestsPage() {
   const theme = useTheme();
+  const [acceptedItem, setAcceptedItem] = useState(null);
+
+  useEffect(() => {
+    console.log(acceptedItem);
+  }, [acceptedItem]);
+
   return (
     <Container>
       <Box mt={10}>
@@ -31,7 +37,12 @@ export default function MyGuestsPage() {
         {fake_arr.map((item) => {
           return (
             <Grid item key={item.id}>
-              <GuestCard item={item} />;
+              <GuestCard
+                item={item}
+                setAcceptedItem={setAcceptedItem}
+                acceptedItem={acceptedItem}
+              />
+              ;
             </Grid>
           );
         })}
