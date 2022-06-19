@@ -36,7 +36,7 @@ export default function SearchPage() {
           letterSpacing={"-0.015em"}
           color="text.primary"
         >
-          Find Appartments
+          Find apartments
         </Typography>
         <Box mt={10}>
           <SearchBar navigate={navigate} />

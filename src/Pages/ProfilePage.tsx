@@ -11,7 +11,8 @@ import React, { FormEvent, useEffect, useState } from "react";
 import "../App.css";
 import ChangePictureModal from "../Components/ChangePictureModal";
 import { CameraAlt as ImageIcon } from "@mui/icons-material";
-import AddAppartmentView from "../Components/AddAppartmentView";
+import AddapartmentView from "../Components/AddApartmentView";
+import ApartmentCard from "../Components/ApartmentCard";
 export default function ProfilePage() {
   const fake_user = {
     first_name: "John",
@@ -148,8 +149,11 @@ export default function ProfilePage() {
           </Box>
         </Box>
       </Box>
+      {/* <Box my={10}>
+        <ApartmentCard />
+      </Box> */}
       <Box sx={{ mt: 10 }}>
-        <AddAppartmentView />
+        <AddapartmentView />
       </Box>
     </Container>
   );

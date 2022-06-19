@@ -68,7 +68,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Box
           sx={{
-            backgroundColor: "background.default",
+            bgcolor: "background.paper",
           }}
         >
           <Router>

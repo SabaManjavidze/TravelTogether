@@ -17,7 +17,7 @@ import { useColorMode } from "../App";
 import { MaterialUISwitch } from "./MaterialUISwitch";
 
 const pages = [
-  { title: "Find Appartments", path: "search" },
+  { title: "Find apartments", path: "search" },
   { title: "My Bookings", path: "mybookings" },
   { title: "My Guests", path: "myguests" },
 ];

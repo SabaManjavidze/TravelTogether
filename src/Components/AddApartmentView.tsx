@@ -4,6 +4,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
+  Button,
   Collapse,
   TextField,
   Typography,
@@ -16,7 +17,7 @@ import {
 } from "@mui/icons-material";
 import ChangePictureModal from "./ChangePictureModal";
 
-export default function AddAppartmentView() {
+export default function AddapartmentView() {
   const theme = useTheme();
   const [appOpen, setAppOpen] = useState(false);
   const [profImage, setProfImage] = useState(
@@ -40,7 +41,7 @@ export default function AddAppartmentView() {
         }}
       >
         <Typography variant="h5" color="primary.light">
-          Add an appartment
+          Add an Apartment
         </Typography>
       </AccordionSummary>
       <AccordionDetails
@@ -123,6 +124,22 @@ export default function AddAppartmentView() {
           </Box>
         </Box>
       </AccordionDetails>
+      <AccordionSummary>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mb: 3, ml: 3, py: 1.5, px: 3 }}
+        >
+          <Typography
+            variant="h5"
+            fontSize="20px"
+            color="text.primary"
+            textTransform="none"
+          >
+            Add Apartment
+          </Typography>
+        </Button>
+      </AccordionSummary>
     </Accordion>
   );
 }

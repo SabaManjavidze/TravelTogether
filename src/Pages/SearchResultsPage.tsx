@@ -30,6 +30,11 @@ export default function SearchResultsPage() {
           variant={"h2"}
           mt={10}
           color="text.primary"
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              textAlign: "center",
+            },
+          }}
         >
           Results for {location?.toUpperCase()}
         </Typography>
