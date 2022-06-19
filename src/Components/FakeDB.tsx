@@ -119,6 +119,9 @@ export const fake_arr = [
     host_location: "San Francisco, CA",
   },
 ];
+const booking_desc_1 =
+  "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
+const booking_desc = `${booking_desc_1} ${booking_desc_1}`;
 export const my_bookings = [
   {
     id: 1,
@@ -130,8 +133,7 @@ export const my_bookings = [
     check_in: "2020-01-01",
     check_out: "2020-01-02",
     status: "Pending",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
   {
     id: 2,
@@ -143,8 +145,7 @@ export const my_bookings = [
     check_in: "2020-01-01",
     check_out: "2020-01-02",
     status: "Accepted",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
   {
     id: 4,
@@ -156,8 +157,7 @@ export const my_bookings = [
     check_in: "2020-01-01",
     check_out: "2020-01-02",
     status: "Rejected",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
   {
     id: 3,
@@ -169,8 +169,7 @@ export const my_bookings = [
     check_in: "2020-01-01",
     check_out: "2020-01-02",
     status: "Pending",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
   {
     id: 5,
@@ -182,8 +181,7 @@ export const my_bookings = [
     check_in: "2022-01-01",
     check_out: "2022-01-02",
     status: "Pending",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
   {
     id: 6,
@@ -195,7 +193,6 @@ export const my_bookings = [
     check_in: "2022-01-01",
     check_out: "2022-01-02",
     status: "Rejected",
-    description:
-      "This is a description, it is very long and I am writing it so that it is long enough to be a description",
+    description: booking_desc,
   },
 ];

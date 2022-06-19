@@ -12,7 +12,6 @@ import React, { FormEvent, useCallback, useState } from "react";
 import "../App.css";
 import axios, { AxiosError } from "axios";
 import { debounce } from "lodash";
-// import { debounce } from "lodash";
 
 export default function SearchBar({ navigate }: any) {
   const params = new URLSearchParams(window.location.search);

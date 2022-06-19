@@ -37,9 +37,11 @@ export default function BookingCard({ item }: any) {
   return (
     <Card
       sx={{
-        width: 550,
         height: 450,
-        [theme.breakpoints.down("lg")]: { width: 400 },
+        width: "500px",
+        // [theme.breakpoints.up("sm")]: { width: "50%" },
+        [theme.breakpoints.down("sm")]: { width: "400px" },
+        [theme.breakpoints.down("lg")]: { width: "350px" },
         border: 1,
         borderColor: "primary.main",
       }}
@@ -101,10 +103,8 @@ export default function BookingCard({ item }: any) {
           overflow={"auto"}
           // maxHeight={"30%"}
           sx={{
-            [theme.breakpoints.down("md")]: {
-              overflow: "auto",
-              maxHeight: "10px",
-            },
+            overflow: "auto",
+            maxHeight: "45px",
           }}
         >
           {item.description}

@@ -87,6 +87,9 @@ export default function NavBar() {
             >
               <MenuIcon />
             </IconButton>
+
+            {/* Collapsable Menu */}
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -103,6 +106,7 @@ export default function NavBar() {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
+                mt: 1,
               }}
             >
               {pages.map(({ title, path }) => (
@@ -111,13 +115,28 @@ export default function NavBar() {
                   onClick={() => {
                     handleCloseNavMenu();
                   }}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{
+                    color: "white",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
                 >
                   <Link
                     style={{ color: "black", textDecoration: "none" }}
                     to={`/${path}`}
                   >
-                    <Typography variant="h6" fontSize={16} color="text.primary">
+                    <Typography
+                      variant="h6"
+                      fontSize={16}
+                      color="text.primary"
+                      textAlign="center"
+                      sx={{
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: "1rem",
+                        },
+                      }}
+                    >
                       {title}
                     </Typography>
                   </Link>
@@ -125,6 +144,7 @@ export default function NavBar() {
               ))}
             </Menu>
           </Box>
+          {/* Website logo for phone screen  */}
           <CardTravel sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -140,22 +160,38 @@ export default function NavBar() {
               letterSpacing: ".3rem",
               color: "inherit",
               textDecoration: "none",
+              [theme.breakpoints.down("sm")]: {
+                fontSize: "17px",
+                letterSpacing: ".1rem",
+              },
             }}
           >
             TravelTogether
           </Typography>
+          {/* Nav links for desktop screen */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map(({ title, path }) => (
-              <Button key={title} sx={{ my: 2, display: "block" }}>
-                <Link
-                  style={{ textDecoration: "none", color: "white" }}
-                  to={`/${path}`}
-                >
-                  {title}
-                </Link>
-              </Button>
+              // <Button key={title} sx={{ my: 2, display: "block" }}>
+              <Link
+                style={{
+                  textDecoration: "none",
+                  color: "white",
+                  textTransform: "none",
+                  fontFamily: "monospace",
+                  fontSize: "20px",
+                  fontWeight: 700,
+                  marginLeft: 15,
+                  marginRight: 15,
+                  textAlign: "center",
+                }}
+                to={`/${path}`}
+              >
+                {title}
+              </Link>
+              // </Button>
             ))}
           </Box>
+          {/* Theme switcher */}
           <MaterialUISwitch
             sx={{ mr: 5 }}
             checked={theme.palette.mode === "dark"}
@@ -167,7 +203,12 @@ export default function NavBar() {
               );
             }}
           />
-          <Box sx={{ flexGrow: 0 }}>
+          {/* Profile Icon */}
+          <Box
+            sx={{
+              flexGrow: 0,
+            }}
+          >
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar
@@ -180,11 +221,12 @@ export default function NavBar() {
                 />
               </IconButton>
             </Tooltip>
+            {/* Collapsable Profile Menu */}
             <Menu
               sx={{
                 mt: "45px",
-                ml: 5,
-                [theme.breakpoints.up("sm")]: { ml: 2 },
+                ml: 1,
+                // [theme.breakpoints.up("sm")]: { ml: 2 },
               }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -204,12 +246,13 @@ export default function NavBar() {
                 <MenuItem
                   key={setting.title}
                   onClick={handleCloseUserMenu}
-                  sx={{ width: "100%" }}
+                  sx={{
+                    width: "100%",
+                  }}
                 >
                   <Link
                     to={`/${setting.path}`}
                     style={{
-                      textAlign: "center",
                       textDecoration: "none",
                       color: "black",
                       width: "100%",
@@ -219,8 +262,14 @@ export default function NavBar() {
                     <Box>
                       <Typography
                         variant="h6"
-                        fontSize={16}
                         color="text.primary"
+                        sx={{
+                          textAlign: "center",
+                          fontSize: 16,
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: "15px !important",
+                          },
+                        }}
                       >
                         {setting.title}
                       </Typography>
