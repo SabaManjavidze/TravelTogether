@@ -36,7 +36,7 @@ export default function ProfilePage() {
         e.preventDefault();
         console.log(new FormData(e.currentTarget).get("image"));
       }}
-      sx={{ paddingBottom: 15, minHeight: "79.9vh" }}
+      sx={{ paddingBottom: 15, minHeight: "80.4vh" }}
     >
       <ChangePictureModal
         open={profOpen}
@@ -58,14 +58,14 @@ export default function ProfilePage() {
           sx={{
             position: "relative",
             borderRadius: "10px",
-            width: "400px",
+            width: "30%",
             bgcolor: "black",
+            height: "440px",
+
             [theme.breakpoints.down("md")]: {
-              height: "440px",
               width: "400px",
             },
             [theme.breakpoints.down("sm")]: {
-              height: "440px",
               width: "85%",
             },
           }}
@@ -96,13 +96,14 @@ export default function ProfilePage() {
           sx={{
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
+            width: "50%",
             [theme.breakpoints.down("md")]: {
               ml: 0,
               mt: 3,
               width: "85%",
             },
             ml: 10,
-            width: "100%",
           }}
         >
           <Grid
@@ -122,6 +123,9 @@ export default function ProfilePage() {
             <Grid
               item
               sx={{
+                [theme.breakpoints.up("lg")]: {
+                  width: "40%",
+                },
                 [theme.breakpoints.down("md")]: {
                   width: "100%",
                 },
@@ -138,8 +142,11 @@ export default function ProfilePage() {
             <Grid
               item
               sx={{
+                [theme.breakpoints.up("lg")]: {
+                  width: "40%",
+                },
                 [theme.breakpoints.down("md")]: {
-                  mt: 3,
+                  mt: 2,
                   width: "100%",
                 },
               }}
@@ -156,7 +163,7 @@ export default function ProfilePage() {
           <Box
             sx={{
               display: "flex",
-              justifyContent: "space-around",
+              justifyContent: "space-between",
               flexDirection: "column",
               height: "100%",
             }}
@@ -166,22 +173,21 @@ export default function ProfilePage() {
               name="email"
               placeholder="Email address"
               type="email"
-              sx={{ mt: 3 }}
               defaultValue={fake_user?.email || ""}
+              sx={{ mt: 5 }}
             />
             <TextField
               name="bio"
               placeholder="Something about yourself "
               multiline
               sx={{
-                mt: 3,
                 mb: 10,
                 resize: "none",
                 height: "75px",
                 maxHeight: "200px",
                 boxSizing: "border-box",
               }}
-              rows={4}
+              rows={5}
               className="round-input"
               // ignore ts error
 

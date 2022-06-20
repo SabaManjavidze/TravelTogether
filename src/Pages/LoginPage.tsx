@@ -32,7 +32,7 @@ export default function LoginPage() {
           flexDirection: "column",
           alignItems: "center",
           // justifyContent: "center",
-          minHeight: "92.7vh",
+          minHeight: "93.2vh",
         }}
       >
         <Box>
