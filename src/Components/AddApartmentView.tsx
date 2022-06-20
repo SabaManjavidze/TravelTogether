@@ -20,19 +20,40 @@ import ChangePictureModal from "./ChangePictureModal";
 export default function AddapartmentView() {
   const theme = useTheme();
   const [appOpen, setAppOpen] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [profImage, setProfImage] = useState(
     "https://source.unsplash.com/random?query=geography&count=1"
   );
 
   return (
-    <Accordion defaultExpanded>
+    <Accordion
+      defaultExpanded
+      sx={{
+        [theme.breakpoints.down("md")]: {
+          width: "85%",
+        },
+      }}
+    >
       <ChangePictureModal
         open={appOpen}
         setOpen={setAppOpen}
         setProfImage={setProfImage}
       />
       <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
+        onClick={() => setExpanded(!expanded)}
+        expandIcon={
+          <ExpandMoreIcon
+            sx={{
+              ml: 10,
+              [theme.breakpoints.down("md")]: {
+                ml: 15,
+              },
+              [theme.breakpoints.down("sm")]: {
+                ml: 20,
+              },
+            }}
+          />
+        }
         classes={{
           expandIconWrapper: "expand-icon-wrapper",
         }}
@@ -45,9 +66,27 @@ export default function AddapartmentView() {
         </Typography>
       </AccordionSummary>
       <AccordionDetails
-        sx={{ display: "flex", justifyContent: "center", mt: 5 }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mt: 5,
+          [theme.breakpoints.down("md")]: {
+            flexDirection: "column-reverse",
+            alignItems: "center",
+          },
+        }}
       >
-        <Box sx={{ display: "flex", flexDirection: "column", width: "60%" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "60%",
+            [theme.breakpoints.down("md")]: {
+              mt: 3,
+              width: "80%",
+            },
+          }}
+        >
           {[
             "City",
             "Address",
@@ -81,54 +120,53 @@ export default function AddapartmentView() {
 
         <Box
           sx={{
+            boxShadow: "0px 0px 40px rgba(0, 0, 0, 0.5)",
             borderRadius: "10px",
-            height: "inherit",
-            position: "relative",
-            // bgcolor: "black",
             width: "400px",
-            paddingLeft: 10,
-            paddingRight: 5,
+            bgcolor: "black",
+            position: "relative",
+            ml: 10,
+            mr: 5,
             mb: 3,
+            [theme.breakpoints.down("md")]: {
+              mb: 0,
+              px: 0,
+              height: "440px",
+              width: "400px",
+            },
+            [theme.breakpoints.down("sm")]: {
+              height: "440px",
+              width: "85%",
+            },
           }}
           className="hover-section"
         >
           <ImageIcon
             className="image-icon"
-            sx={{ left: "54% !important" }}
+            // sx={{ top: 0 }}
             fontSize="large"
             onClick={() => {
               setAppOpen(true);
             }}
           />
-          <Box
+          <img
+            src={profImage}
+            alt=""
             style={{
-              height: "440px",
-              width: "400px",
+              width: "100%",
+              height: "100%",
               borderRadius: "10px",
-              margin: 0,
-              padding: 0,
-              backgroundColor: "black",
+              objectFit: "cover",
             }}
-          >
-            <img
-              src={profImage}
-              alt=""
-              style={{
-                height: "100%",
-                width: "400px",
-                borderRadius: "10px",
-                objectFit: "cover",
-              }}
-              className="profile-image"
-            />
-          </Box>
+            className="profile-image"
+          />
         </Box>
       </AccordionDetails>
-      <AccordionSummary>
+      <Box>
         <Button
           variant="contained"
           color="primary"
-          sx={{ mb: 3, ml: 3, py: 1.5, px: 3 }}
+          sx={{ mb: 3, ml: 3, py: 1.5 }}
         >
           <Typography
             variant="h5"
@@ -139,7 +177,7 @@ export default function AddapartmentView() {
             Add Apartment
           </Typography>
         </Button>
-      </AccordionSummary>
+      </Box>
     </Accordion>
   );
 }

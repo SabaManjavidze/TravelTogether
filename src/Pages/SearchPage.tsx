@@ -21,7 +21,7 @@ export default function SearchPage() {
           marginTop: 15,
           display: "flex",
           flexDirection: "column",
-          minHeight: "79.9vh",
+          minHeight: "80.4vh",
           // alignItems: "center",
         }}
       >

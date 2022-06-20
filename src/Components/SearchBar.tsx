@@ -57,6 +57,11 @@ export default function SearchBar({ navigate }: any) {
       display="flex"
       justifyContent={"center"}
       alignItems={"center"}
+      sx={{
+        [theme.breakpoints.down("md")]: {
+          flexDirection: "column",
+        },
+      }}
     >
       <Grid
         item
@@ -64,7 +69,7 @@ export default function SearchBar({ navigate }: any) {
           display: "flex",
           alignItems: "center",
           mr: 5,
-          [theme.breakpoints.down("sm")]: {
+          [theme.breakpoints.down("md")]: {
             mr: 0,
           },
         }}
@@ -144,7 +149,7 @@ export default function SearchBar({ navigate }: any) {
           [theme.breakpoints.down("lg")]: { mt: 4 },
           mt: 0,
           [theme.breakpoints.between("md", "lg")]: { mt: 0 },
-          [theme.breakpoints.down("sm")]: {
+          [theme.breakpoints.down("md")]: {
             flexDirection: "column",
           },
         }}
@@ -158,7 +163,7 @@ export default function SearchBar({ navigate }: any) {
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
           sx={{
             width: 220,
-            [theme.breakpoints.down("sm")]: {
+            [theme.breakpoints.down("md")]: {
               mb: 3,
             },
           }}
@@ -181,7 +186,7 @@ export default function SearchBar({ navigate }: any) {
             width: 220,
             ml: 5,
 
-            [theme.breakpoints.down("sm")]: { ml: 0 },
+            [theme.breakpoints.down("md")]: { ml: 0 },
           }}
           InputLabelProps={{
             shrink: true,
@@ -196,7 +201,7 @@ export default function SearchBar({ navigate }: any) {
           ml: 5,
           mt: 0,
           [theme.breakpoints.down("lg")]: { width: "100%", mt: 4 },
-          [theme.breakpoints.down("sm")]: { ml: 0, width: "50%" },
+          [theme.breakpoints.down("md")]: { ml: 0, width: "50%" },
           // [theme.breakpoints.between("md", "lg")]: { mt: 0 },
           // height: "100%",
         }}

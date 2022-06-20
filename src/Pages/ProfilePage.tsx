@@ -6,6 +6,7 @@ import {
   Button,
   Avatar,
   Typography,
+  useTheme,
 } from "@mui/material";
 import React, { FormEvent, useEffect, useState } from "react";
 import "../App.css";
@@ -27,7 +28,7 @@ export default function ProfilePage() {
   };
   const [profImage, setProfImage] = useState(fake_user.image);
   const [profOpen, setProfOpen] = useState(false);
-
+  const theme = useTheme();
   return (
     <Container
       component={"form"}
@@ -42,14 +43,31 @@ export default function ProfilePage() {
         setOpen={setProfOpen}
         setProfImage={setProfImage}
       />
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 15 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          mt: 15,
+          [theme.breakpoints.down("md")]: {
+            flexDirection: "column",
+            alignItems: "center",
+          },
+        }}
+      >
         <Box
           sx={{
-            borderRadius: "10px",
-            height: "440px",
             position: "relative",
+            borderRadius: "10px",
             width: "400px",
             bgcolor: "black",
+            [theme.breakpoints.down("md")]: {
+              height: "440px",
+              width: "400px",
+            },
+            [theme.breakpoints.down("sm")]: {
+              height: "440px",
+              width: "85%",
+            },
           }}
           className="hover-section"
         >
@@ -65,8 +83,10 @@ export default function ProfilePage() {
             alt=""
             className="profile-image"
             style={{
-              height: "440px",
-              width: "400px",
+              // maxWidth: "100%",
+              // maxHeight: "100%",
+              width: "100%",
+              height: "100%",
               borderRadius: "10px",
               objectFit: "cover",
             }}
@@ -76,25 +96,60 @@ export default function ProfilePage() {
           sx={{
             display: "flex",
             flexDirection: "column",
+            [theme.breakpoints.down("md")]: {
+              ml: 0,
+              mt: 3,
+              width: "85%",
+            },
             ml: 10,
             width: "100%",
           }}
         >
-          <Grid container width={"100%"}>
-            <Grid item xs>
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              [theme.breakpoints.down("md")]: {
+                flexDirection: "column",
+                justifyContent: "center",
+                width: "100%",
+              },
+            }}
+          >
+            <Grid
+              item
+              sx={{
+                [theme.breakpoints.down("md")]: {
+                  width: "100%",
+                },
+              }}
+            >
               <TextField
                 className="round-input"
                 name="first_name"
                 placeholder="First Name"
                 defaultValue={fake_user?.first_name || ""}
+                fullWidth
               />
             </Grid>
-            <Grid item>
+            <Grid
+              item
+              sx={{
+                [theme.breakpoints.down("md")]: {
+                  mt: 3,
+                  width: "100%",
+                },
+              }}
+            >
               <TextField
                 className="round-input"
                 name="last_name"
                 placeholder="Last Name"
                 defaultValue={fake_user?.last_name || ""}
+                fullWidth
               />
             </Grid>
           </Grid>
@@ -135,13 +190,21 @@ export default function ProfilePage() {
             <Button
               type="submit"
               variant="contained"
-              sx={{ width: "25%", py: 1 }}
+              sx={{
+                width: "25%",
+                py: 1,
+
+                [theme.breakpoints.down("md")]: {
+                  width: "100%",
+                },
+              }}
             >
               <Typography
                 color={"white"}
                 variant="subtitle1"
                 fontSize={15}
                 textTransform={"none"}
+                whiteSpace="nowrap"
               >
                 Save Changes
               </Typography>
@@ -149,10 +212,17 @@ export default function ProfilePage() {
           </Box>
         </Box>
       </Box>
-      {/* <Box my={10}>
-        <ApartmentCard />
-      </Box> */}
-      <Box sx={{ mt: 10 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 10,
+          [theme.breakpoints.down("md")]: {
+            mt: 15,
+          },
+        }}
+      >
         <AddapartmentView />
       </Box>
     </Container>

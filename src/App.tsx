@@ -63,12 +63,25 @@ function App() {
     }
   }, []);
   // const fake_user = undefined;
+
+  // extra-small
+  //  xs: 0,
+  // small
+  //  sm: 600,
+  // medium
+  //  md: 900,
+  // large
+  //  lg: 1200,
+  // extra-large
+  //  xl: 1536,
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <Box
           sx={{
             bgcolor: "background.paper",
+            overflowX: "hidden",
           }}
         >
           <Router>
