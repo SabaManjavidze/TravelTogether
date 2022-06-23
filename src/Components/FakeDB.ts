@@ -107,10 +107,6 @@ export const fake_arr = [
     image: "https://source.unsplash.com/random?query=geography&count=7",
     price: "100",
     rating: "4.5",
-    review_count: "100",
-    location: "San Francisco, CA",
-    lat: "37.7749",
-    lng: "-122.4194",
     url: "https://www.airbnb.com/rooms/146059113",
     host_name: "John",
     host_image:

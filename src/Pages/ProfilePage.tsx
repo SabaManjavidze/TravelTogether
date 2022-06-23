@@ -123,11 +123,11 @@ export default function ProfilePage() {
             <Grid
               item
               sx={{
-                [theme.breakpoints.up("lg")]: {
+                [theme.breakpoints.up("md")]: {
                   width: "40%",
                 },
                 [theme.breakpoints.down("md")]: {
-                  width: "100%",
+                  width: "100% !important",
                 },
               }}
             >
@@ -142,7 +142,7 @@ export default function ProfilePage() {
             <Grid
               item
               sx={{
-                [theme.breakpoints.up("lg")]: {
+                [theme.breakpoints.up("md")]: {
                   width: "40%",
                 },
                 [theme.breakpoints.down("md")]: {
@@ -174,7 +174,12 @@ export default function ProfilePage() {
               placeholder="Email address"
               type="email"
               defaultValue={fake_user?.email || ""}
-              sx={{ mt: 5 }}
+              sx={{
+                mt: 5,
+                [theme.breakpoints.down("md")]: {
+                  my: 2,
+                },
+              }}
             />
             <TextField
               name="bio"

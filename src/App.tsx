@@ -26,6 +26,11 @@ export const useColorMode = () => {
   }
   return context;
 };
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xsm: true;
+  }
+}
 function App() {
   // const [user, setUser] = useState(null);
   // const [token, setToken] = useState(null);
@@ -48,6 +53,16 @@ function App() {
           primary: { main: purple[700], dark: purple[800] },
           // primary: { main: "#18A0FB" },
         },
+        breakpoints: {
+          values: {
+            xs: 0,
+            xsm: 450,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+          },
+        },
       }),
     [mode]
   );
@@ -65,7 +80,7 @@ function App() {
   // const fake_user = undefined;
 
   // extra-small
-  //  xs: 0,
+  //  xs: 450,
   // small
   //  sm: 600,
   // medium

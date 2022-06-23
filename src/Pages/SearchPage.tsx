@@ -5,6 +5,7 @@ import {
   Grid,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import axios from "axios";
 import React, { FormEvent } from "react";
@@ -14,6 +15,7 @@ import SearchBar from "../Components/SearchBar";
 
 export default function SearchPage() {
   const navigate = useNavigate();
+  const theme = useTheme();
   return (
     <Container>
       <Box
@@ -35,6 +37,12 @@ export default function SearchPage() {
           fontWeight={"700"}
           letterSpacing={"-0.015em"}
           color="text.primary"
+          sx={{
+            [theme.breakpoints.down("sm")]: {
+              textAlign: "center",
+              ml: 0,
+            },
+          }}
         >
           Find apartments
         </Typography>

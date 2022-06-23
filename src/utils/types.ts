@@ -1,15 +1,20 @@
 export type User = {
-  fisrt_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  photo: string;
+  password: string;
 };
-export type UserAparatment = {
-  city: string;
+export interface UserProfile extends User {
+  image: string;
+}
+export type UserApartment = {
+  id: string;
   address: string;
-  number_of_beds: number;
-  photo: string;
+  image: string;
   distance_from_center: number;
+  num_of_beds: number;
+  description: string;
+  city: string;
 };
 export type Guest = {
   firstName: string;

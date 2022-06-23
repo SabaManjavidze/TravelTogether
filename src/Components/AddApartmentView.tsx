@@ -27,6 +27,7 @@ export default function AddapartmentView() {
 
   return (
     <Accordion
+      defaultExpanded
       sx={{
         width: "100%",
         [theme.breakpoints.down("xl")]: {

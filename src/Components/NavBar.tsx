@@ -25,7 +25,7 @@ const settings = [
   { title: "Profile", path: "profile" },
   { title: "My Bookings", path: "mybookings" },
   { title: "My Guests", path: "myguests" },
-  { title: "LogOut", path: "/login" },
+  // { title: "LogOut", path: "/login" },
 ];
 
 export default function NavBar() {
@@ -59,10 +59,11 @@ export default function NavBar() {
             href="/"
             sx={{
               mr: 5,
+              pr: 4,
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".25rem",
               color: "white",
               textDecoration: "none",
             }}
@@ -150,17 +151,16 @@ export default function NavBar() {
             variant="h5"
             noWrap
             component="a"
-            href=""
+            href="/"
             sx={{
-              mr: 2,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
               fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
+              fontWeight: 500,
+              letterSpacing: ".15rem",
               color: "inherit",
               textDecoration: "none",
-              [theme.breakpoints.down("sm")]: {
+              [theme.breakpoints.down("xsm")]: {
                 fontSize: "17px",
                 letterSpacing: ".1rem",
               },
@@ -173,6 +173,7 @@ export default function NavBar() {
             {pages.map(({ title, path }) => (
               // <Button key={title} sx={{ my: 2, display: "block" }}>
               <Link
+                key={title}
                 style={{
                   textDecoration: "none",
                   color: "white",
@@ -193,7 +194,12 @@ export default function NavBar() {
           </Box>
           {/* Theme switcher */}
           <MaterialUISwitch
-            sx={{ mr: 5 }}
+            sx={{
+              mr: 5,
+              [theme.breakpoints.down("sm")]: {
+                mr: 2,
+              },
+            }}
             checked={theme.palette.mode === "dark"}
             onClick={(e: any) => {
               colorMode.toggleColorMode();
@@ -277,6 +283,30 @@ export default function NavBar() {
                   </Link>
                 </MenuItem>
               ))}
+              <MenuItem
+                sx={{ width: "100%" }}
+                onClick={() => {
+                  // clear cookies
+                  // document.cookie = "";
+                }}
+                key="logout"
+              >
+                <Box sx={{ width: "100%" }}>
+                  <Typography
+                    variant="h6"
+                    color="text.primary"
+                    sx={{
+                      textAlign: "center",
+                      fontSize: 16,
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: "15px !important",
+                      },
+                    }}
+                  >
+                    LogOut
+                  </Typography>
+                </Box>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

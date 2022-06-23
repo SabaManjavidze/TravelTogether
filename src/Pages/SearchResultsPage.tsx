@@ -9,7 +9,8 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { fake_arr } from "../Components/FakeDB";
-import ResultCard from "../Components/ResultCard";
+import { fake_apparts } from "../Components/MOCK_DATA";
+import { ResultCard } from "../Components/ResultCard";
 import SearchBar from "../Components/SearchBar";
 
 export default function SearchResultsPage() {
@@ -21,6 +22,7 @@ export default function SearchResultsPage() {
   const theme = useTheme();
   const [currSortingIdx, setCurrSortingIdx] = useState(0);
   const sort_arr = ["num. of beds", "available", "distance"];
+  const [page, setPage] = useState<number>(1);
   return (
     <Container>
       <Box mt={10}>
@@ -86,7 +88,7 @@ export default function SearchResultsPage() {
             mt: 10,
           }}
         >
-          {fake_arr.map((item) => (
+          {fake_apparts.slice(0, page * 10).map((item) => (
             <Grid item key={item.id}>
               <ResultCard item={item} />
             </Grid>

@@ -8,7 +8,7 @@ import {
   Autocomplete,
   Typography,
 } from "@mui/material";
-import React, { FormEvent, useCallback, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import "../App.css";
 import axios, { AxiosError } from "axios";
 import { debounce } from "lodash";
@@ -23,14 +23,40 @@ export default function SearchBar({ navigate }: any) {
   const [location, setLocation] = useState(location_param);
   const [searchData, setSearchData] = useState<any>([]);
   const theme = useTheme();
+  const suggestionRenderItem = (option: any, props: any) => (
+    <li
+      {...props}
+      key={option.properties.lat}
+      style={{
+        flex: "1 1 auto",
+        flexDirection: "column",
+        alignItems: "start",
+        justifyContent: "center",
+      }}
+    >
+      <div style={{ fontSize: "20px" }}>{option.properties.city}</div>
+      <div
+        style={{
+          fontSize: "13px",
+          color: theme.palette.text.secondary,
+          marginLeft: 5,
+        }}
+      >
+        {option.properties.address_line2}
+        {", " + option.properties.address_line1}
+      </div>
+    </li>
+  );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    e.cancelable = true;
     const data = new FormData(e.currentTarget);
-    const location = data.get("location");
     const check_in = data.get("check_in");
     const check_out = data.get("check_out");
-    if (!location || location === "") {
-      alert("Please enter a valid search query");
+    if (location === "") {
+      setSearchData([]);
+      // setLocation("");
+      alert(`${location} Please enter a valid search query`);
       return;
     }
     navigate(
@@ -44,21 +70,25 @@ export default function SearchBar({ navigate }: any) {
     setSearchData(data.features);
   };
   const debouncedGetAutoCompleteData = useCallback(
-    debounce(getAutoCompleteData, 350),
+    debounce(getAutoCompleteData, 300),
     []
   );
-
+  const response_type_table = {
+    suburb: "Suburb",
+    city: "City",
+    postcode: "Postcode",
+  };
   return (
     <Grid
       container
       component={"form"}
-      onSubmit={handleSubmit}
+      onSubmit={(e: any) => handleSubmit(e)}
       // mt={5}
       display="flex"
       justifyContent={"center"}
       alignItems={"center"}
       sx={{
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down("lg")]: {
           flexDirection: "column",
         },
       }}
@@ -69,55 +99,32 @@ export default function SearchBar({ navigate }: any) {
           display: "flex",
           alignItems: "center",
           mr: 5,
-          [theme.breakpoints.down("md")]: {
+          [theme.breakpoints.down("lg")]: {
             mr: 0,
           },
         }}
       >
         <Autocomplete
-          getOptionLabel={(option) => {
-            return (searchData.length > 0 &&
+          getOptionLabel={(option: any) => {
+            const some =
+              searchData.length > 1 &&
               option &&
-              (option as any).properties.result_type === "city") ||
-              (option as any).properties.result_type === "suburb" ||
-              (option as any).properties.result_type === "postcode"
-              ? (option as any).properties.city
-              : "";
+              option.properties?.result_type in response_type_table
+                ? option.properties.city || option.properties.suburb
+                : "";
+            // console.log(option.properties.result_type, some);
+            return some;
           }}
           freeSolo
           options={searchData}
           className="search-input"
           aria-expanded={true}
-          renderOption={(props, option): any => (
-            <li
-              {...props}
-              key={(option as any).properties.lat}
-              style={{
-                flex: "1 1 auto",
-                flexDirection: "column",
-                alignItems: "start",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ fontSize: "20px" }}>
-                {(option as any).properties.city}
-              </div>
-              <div
-                style={{
-                  fontSize: "13px",
-                  color: theme.palette.text.secondary,
-                  marginLeft: 5,
-                }}
-              >
-                {(option as any).properties.address_line2}
-                {", " + (option as any).properties.address_line1}
-              </div>
-            </li>
-          )}
+          renderOption={(props, option) => suggestionRenderItem(option, props)}
           renderInput={(params: any) => (
             <TextField
               {...params}
               value={location}
+              autoFocus
               placeholder="Search location"
               onChange={async (e) => {
                 const value = e.target.value;
@@ -134,8 +141,9 @@ export default function SearchBar({ navigate }: any) {
               sx={{
                 width: 400,
                 m: 0,
-                [theme.breakpoints.down("lg")]: { width: 220 },
+                // [theme.breakpoints.down("lg")]: { width: 220 },
                 [theme.breakpoints.down("md")]: { width: 300 },
+                [theme.breakpoints.between("md", "lg")]: { mb: 3 },
               }}
             />
           )}
@@ -200,7 +208,12 @@ export default function SearchBar({ navigate }: any) {
           alignItems: "center",
           ml: 5,
           mt: 0,
-          [theme.breakpoints.down("lg")]: { width: "100%", mt: 4 },
+          [theme.breakpoints.down("lg")]: {
+            width: "100%",
+            mt: 4,
+            ml: 0,
+            justifyContent: "center",
+          },
           [theme.breakpoints.down("md")]: { ml: 0, width: "50%" },
           // [theme.breakpoints.between("md", "lg")]: { mt: 0 },
           // height: "100%",
@@ -211,7 +224,7 @@ export default function SearchBar({ navigate }: any) {
           color="primary"
           variant="contained"
           sx={{
-            [theme.breakpoints.down("lg")]: { width: "100%" },
+            [theme.breakpoints.down("lg")]: { width: "60%" },
           }}
           size={"large"}
         >
