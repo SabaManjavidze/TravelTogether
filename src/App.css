@@ -72,6 +72,20 @@
   background: black !important;
   transition: 0.3s;
 }
+/* custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.custom-scrollbar:hover.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgb(36, 33, 44);
+  transition: 0.3s;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0);
+  outline: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
 .expand-icon-wrapper {
   position: absolute;
   top: 35%;

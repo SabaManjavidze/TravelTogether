@@ -6,6 +6,7 @@ import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import { SxProps, TextField, Typography, useTheme } from "@mui/material";
 import { Theme } from "@mui/system";
+import { convertToBase64 } from "../utils/Services";
 
 const style: SxProps<Theme> = {
   position: "absolute",
@@ -24,8 +25,10 @@ export default function ChangePictureModal({
   setOpen,
   open,
   setProfImage,
+  setEncoded,
 }: any) {
   const [localImage, setLocalImage] = useState<any>();
+  const [encoded, setLocalEncoded] = useState<any>();
   // const theme = useTheme();
   return (
     <div>
@@ -83,8 +86,11 @@ export default function ChangePictureModal({
                 <TextField
                   type="file"
                   // value={localImage}
-                  onChange={(e: any) => {
-                    setLocalImage(URL.createObjectURL(e.target.files[0]));
+                  onChange={async (e: any) => {
+                    const file = e.target.files[0];
+                    const base64 = await convertToBase64(file);
+                    setLocalEncoded(base64);
+                    setLocalImage(URL.createObjectURL(file));
                   }}
                 />
                 {localImage ? (
@@ -111,7 +117,9 @@ export default function ChangePictureModal({
                 onClick={() => {
                   setOpen(false);
                   setLocalImage(null);
+                  setLocalEncoded(null);
                   setProfImage(localImage);
+                  setEncoded(encoded);
                 }}
               >
                 <Typography

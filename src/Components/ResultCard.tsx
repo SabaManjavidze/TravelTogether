@@ -11,10 +11,13 @@ import {
   useTheme,
 } from "@mui/material";
 import { UserApartment } from "../utils/types";
+import { useNavigate } from "react-router";
+import "../App.css";
 
 export const ResultCard: React.FC<{ item: UserApartment }> = ({ item }) => {
   const theme = useTheme();
   const imgBoxHeight = 50;
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -25,22 +28,31 @@ export const ResultCard: React.FC<{ item: UserApartment }> = ({ item }) => {
         borderColor: "primary.main",
       }}
     >
-      <Box sx={{ height: `${imgBoxHeight}%` }}>
+      <CardActions
+        sx={{ p: 0, cursor: "pointer" }}
+        onClick={() => {
+          navigate(`/details/${item.id}`);
+        }}
+      >
         <CardMedia
           component="img"
           height="230px"
           image={item.image}
           alt="green iguana"
         />
-      </Box>
+      </CardActions>
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "center",
-          height: `${100 - imgBoxHeight}%`,
-          mt: 2,
+          height: "160px",
+          pt: 2,
+          m: "4px",
+        }}
+        onClick={() => {
+          navigate(`/details/${item.id}`);
         }}
       >
         <Typography
@@ -69,22 +81,39 @@ export const ResultCard: React.FC<{ item: UserApartment }> = ({ item }) => {
         <Typography
           variant="body2"
           color="text.secondary"
+          className="custom-scrollbar"
           sx={{
             textAlign: "center",
-            [theme.breakpoints.down("md")]: {
-              overflowY: "auto",
-              height: 100,
-            },
+            maxWidth: "80%",
+            maxHeight: "70%",
+            overflowY: "auto",
+            my: 2,
+            // [theme.breakpoints.down("md")]: {
+            //   overflowY: "auto",
+            //   height: 100,
+            // },
           }}
         >
           {item.description}
         </Typography>
+      </Box>
+      {/* <Box sx={{ height: "15%" }}> */}
+      <Box>
         <Button
-          sx={{ width: "100%", pb: 2, borderRadius: 0 }}
+          sx={{
+            width: "100%",
+            // pb: 2,
+            borderRadius: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
           color="primary"
           variant="contained"
         >
-          Book Now
+          <Typography sx={{ mt: 0, textTransform: "none" }}>
+            Book Now
+          </Typography>
         </Button>
       </Box>
     </Box>

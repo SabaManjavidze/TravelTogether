@@ -5,7 +5,10 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Checkbox,
   Collapse,
+  FormControlLabel,
+  FormGroup,
   TextField,
   Typography,
   useTheme,
@@ -21,6 +24,7 @@ export default function AddapartmentView() {
   const theme = useTheme();
   const [appOpen, setAppOpen] = useState(false);
   const [expanded, setExpanded] = useState(true);
+  const [encoded, setEncoded] = useState("");
   const [profImage, setProfImage] = useState(
     "https://source.unsplash.com/random?query=geography&count=1"
   );
@@ -65,6 +69,7 @@ export default function AddapartmentView() {
             open={appOpen}
             setOpen={setAppOpen}
             setProfImage={setProfImage}
+            setEncoded={setEncoded}
           />
           <Box
             sx={{
@@ -152,6 +157,29 @@ export default function AddapartmentView() {
               className="profile-image"
             />
           </Box>
+        </Box>
+
+        {/* <FormGroup
+          sx={{
+            ml: 4,
+            mb: 4,
+
+            width: "auto",
+          }}
+        > */}
+        <Box
+          sx={{
+            display: "inline-flex",
+            flexDirection: "column ",
+            ml: 4,
+            mb: 4,
+          }}
+        >
+          <FormControlLabel control={<Checkbox />} label="Pool" />
+          <FormControlLabel control={<Checkbox />} label="Gym" />
+          <FormControlLabel control={<Checkbox />} label="Wifi" />
+          <FormControlLabel control={<Checkbox />} label="Parking" />
+          {/* </FormGroup> */}
         </Box>
         <Box>
           <Button

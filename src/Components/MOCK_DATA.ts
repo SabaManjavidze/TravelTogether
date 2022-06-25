@@ -1,6 +1,6 @@
 import { UserApartment } from "../utils/types";
 
-export const fake_apparts: UserApartment[] = [
+export const fake_aparts: UserApartment[] = [
   {
     id: "5c3cdbf3-d2cd-4b72-8fea-633a2d6bd3de",
     address: "91 Victoria Court",

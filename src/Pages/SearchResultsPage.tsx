@@ -8,8 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { fake_arr } from "../Components/FakeDB";
-import { fake_apparts } from "../Components/MOCK_DATA";
+import { fake_aparts } from "../Components/MOCK_DATA";
 import { ResultCard } from "../Components/ResultCard";
 import SearchBar from "../Components/SearchBar";
 
@@ -88,7 +87,7 @@ export default function SearchResultsPage() {
             mt: 10,
           }}
         >
-          {fake_apparts.slice(0, page * 10).map((item) => (
+          {fake_aparts.slice(0, page * 10).map((item) => (
             <Grid item key={item.id}>
               <ResultCard item={item} />
             </Grid>

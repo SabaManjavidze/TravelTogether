@@ -17,6 +17,7 @@ import NavBar from "./Components/NavBar";
 import { blue, cyan, deepPurple, purple } from "@mui/material/colors";
 import MyBookingsPage from "./Pages/MyBookingsPage";
 import MyGuestsPage from "./Pages/MyGuestsPage";
+import DetailsPage from "./Pages/DetailsPage/DetailsPage";
 
 export const ColorModeContext = createContext({ toggleColorMode: () => {} });
 export const useColorMode = () => {
@@ -97,6 +98,7 @@ function App() {
           sx={{
             bgcolor: "background.paper",
             overflowX: "hidden",
+            minHeight: "100vh",
           }}
         >
           <Router>
@@ -115,6 +117,7 @@ function App() {
               <Route path="/search-results" element={<SearchResultsPage />} />
               <Route path="/mybookings" element={<MyBookingsPage />} />
               <Route path="/myguests" element={<MyGuestsPage />} />
+              <Route path="/details/:id" element={<DetailsPage />} />
             </Routes>
           </Router>
         </Box>
