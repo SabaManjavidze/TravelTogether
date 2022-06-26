@@ -1,12 +1,24 @@
 export type User = {
   firstName: string;
   lastName: string;
+  image: string;
+  description: string;
+};
+export interface UpdateProfile {
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  image?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+}
+export interface UserProfile extends User {
+  apartments?: UserApartment[] | null;
+  email?: string;
+}
+export type LoginType = {
   email: string;
   password: string;
 };
-export interface UserProfile extends User {
-  image: string;
-}
 export type UserApartment = {
   id: string;
   address: string;

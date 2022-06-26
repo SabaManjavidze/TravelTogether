@@ -7,26 +7,28 @@ import {
   TextField,
   Button,
   Grid,
+  useTheme,
 } from "@mui/material";
 import React, { FormEvent, useState } from "react";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import ChangePictureModal from "../Components/ChangePictureModal";
+import { default_user_avatar, RegisterUser } from "../utils/Services";
 
 export default function Register() {
-  const [profImage, setProfImage] = useState(
-    "https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png"
-  );
+  const [profImage, setProfImage] = useState(default_user_avatar);
   const [profOpen, setProfOpen] = useState(false);
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      first_name: data.get("firstname"),
-      last_name: data.get("lastname"),
+    const user: any = {
+      firstName: data.get("firstname"),
+      lastName: data.get("lastname"),
       email: data.get("email"),
       password: data.get("password"),
-    });
+    };
+    RegisterUser(user);
   };
+  const theme = useTheme();
   return (
     <Container>
       <Box
@@ -59,6 +61,9 @@ export default function Register() {
             display: "flex",
             flexDirection: "column",
             width: "60%",
+            [theme.breakpoints.down("sm")]: {
+              width: "85%",
+            },
           }}
         >
           <Box
@@ -72,7 +77,7 @@ export default function Register() {
             <TextField
               margin="normal"
               required
-              name="firstName"
+              name="firstname"
               label="FirstName"
               type="text"
               autoFocus

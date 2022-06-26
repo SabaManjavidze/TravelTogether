@@ -14,14 +14,25 @@ import {
 import React, { FormEventHandler } from "react";
 import "../App.css";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
+import { UserLogin } from "../utils/Services";
+import { useNavigate } from "react-router";
+import { useAuth } from "../Hooks/useAuth";
 export default function LoginPage() {
-  const handleSubmit = (event: any) => {
+  const navigate = useNavigate();
+  const { setIsLoggedIn }: any = useAuth();
+
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const login = {
+      email: data.get("email")?.toString() || "",
+      password: data.get("password")?.toString() || "",
+    };
+    const response = await UserLogin(login);
+    if (response && response === 200) {
+      setIsLoggedIn(true);
+      navigate("/search");
+    }
   };
 
   return (
