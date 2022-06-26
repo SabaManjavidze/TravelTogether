@@ -6,10 +6,10 @@ export const default_user_avatar =
   "https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png";
 export const RegisterUser = async (user: User) => {
   try {
-    const { data } = await axios.post(`${BACKEND_URL}/User/Register`, {
+    const resp = await axios.post(`${BACKEND_URL}/User/Register`, {
       ...user,
     });
-    console.log(data);
+    return resp;
   } catch (error) {
     console.log(JSON.stringify(error, null, 2));
   }

@@ -13,20 +13,32 @@ import React, { FormEvent, useState } from "react";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
 import ChangePictureModal from "../Components/ChangePictureModal";
 import { default_user_avatar, RegisterUser } from "../utils/Services";
+import { CameraAlt as ImageIcon } from "@mui/icons-material";
+import { useAuth } from "../Hooks/useAuth";
+import { useNavigate } from "react-router";
 
 export default function Register() {
   const [profImage, setProfImage] = useState(default_user_avatar);
+  const [encoded, setEncoded] = useState();
   const [profOpen, setProfOpen] = useState(false);
+  const { userLoading }: any = useAuth();
+  const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const user: any = {
-      firstName: data.get("firstname"),
-      lastName: data.get("lastname"),
-      email: data.get("email"),
-      password: data.get("password"),
-    };
-    RegisterUser(user);
+    const user: any = {};
+    data.forEach((item, key): any => {
+      if (item !== "" && item != null) {
+        user[key] = item;
+      }
+    });
+    if (profImage !== "" && encoded !== "") {
+      user.image = encoded;
+    }
+    const response = await RegisterUser(user);
+    if (response && response.status === 200) {
+      navigate("/login");
+    }
   };
   const theme = useTheme();
   return (
@@ -45,6 +57,7 @@ export default function Register() {
           open={profOpen}
           setOpen={setProfOpen}
           setProfImage={setProfImage}
+          setEncoded={setEncoded}
         />
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
@@ -114,37 +127,49 @@ export default function Register() {
           <Box
             sx={{
               display: "flex",
+              justifyContent: "center",
               alignItems: "center",
-              justifyContent: "space-between",
-              flexDirection: "column",
-              my: 3,
+              my: 4,
             }}
-            onClick={() => setProfOpen(true)}
           >
-            <Typography variant="h6" color="text.primary" mb={3}>
-              Profile Picture
-            </Typography>
-            <img
-              src={profImage}
-              alt=""
-              width="350"
-              height="350"
-              style={{ borderRadius: 4, objectFit: "cover" }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mt: 3 }}
+            <Box
+              sx={{
+                position: "relative",
+                borderRadius: "10px",
+                width: "50%",
+                bgcolor: "black",
+                height: "340px",
+
+                [theme.breakpoints.down("md")]: {
+                  width: "400px",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "85%",
+                },
+              }}
+              className="hover-section"
             >
-              <Typography
-                variant="subtitle1"
-                color="text.primary"
-                textTransform={"none"}
-              >
-                Set Profile Picture
-              </Typography>
-            </Button>
+              <ImageIcon
+                className="image-icon"
+                fontSize="large"
+                onClick={() => {
+                  setProfOpen(!profOpen);
+                }}
+              />
+              <img
+                src={userLoading || profImage || default_user_avatar}
+                alt=""
+                className="profile-image"
+                style={{
+                  // maxWidth: "100%",
+                  // maxHeight: "100%",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+              />
+            </Box>
           </Box>
           <Box
             sx={{
@@ -163,17 +188,13 @@ export default function Register() {
             >
               Register
             </Button>
-            <Grid container sx={{ width: "auto" }}>
-              <Grid item>
-                <Link
-                  href="/login"
-                  variant="subtitle2"
-                  sx={{ textDecoration: "none" }}
-                >
-                  Already have an account? Log In
-                </Link>
-              </Grid>
-            </Grid>
+            <Link
+              href="/login"
+              variant="subtitle2"
+              sx={{ textDecoration: "none" }}
+            >
+              Already have an account? Log In
+            </Link>
           </Box>
         </Box>
         {/* <Typography
