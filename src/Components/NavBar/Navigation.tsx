@@ -27,8 +27,14 @@ export default function Navigation() {
       <NavBar />
       {userLoading ? null : (
         <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route
+            element={
+              isLoggedIn ? <Navigate to="/search" replace /> : <Outlet />
+            }
+          >
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<LoginPage />} />
+          </Route>
           <Route
             element={isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />}
           >

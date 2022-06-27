@@ -23,11 +23,8 @@ import ChangePictureModal from "./ChangePictureModal";
 export default function AddapartmentView() {
   const theme = useTheme();
   const [appOpen, setAppOpen] = useState(false);
-  const [expanded, setExpanded] = useState(true);
   const [encoded, setEncoded] = useState("");
-  const [profImage, setProfImage] = useState(
-    "https://source.unsplash.com/random?query=geography&count=1"
-  );
+  const [profImage, setProfImage] = useState();
 
   return (
     <Accordion
@@ -159,14 +156,6 @@ export default function AddapartmentView() {
           </Box>
         </Box>
 
-        {/* <FormGroup
-          sx={{
-            ml: 4,
-            mb: 4,
-
-            width: "auto",
-          }}
-        > */}
         <Box
           sx={{
             display: "inline-flex",

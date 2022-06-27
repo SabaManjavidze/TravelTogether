@@ -73,10 +73,10 @@ export default function DetailsPage() {
           >
             <Box>
               <Typography color="text.primary" variant="h6">
-                {apar?.distance_from_center} meters from center
+                {apar?.distanceFromCenter} meters from center
               </Typography>
               <Typography color="text.primary" variant="h6">
-                {apar?.num_of_beds} beds
+                {apar?.numOfBeds} beds
               </Typography>
               <Typography color="text.primary" variant="h5" my={2}>
                 Amenities

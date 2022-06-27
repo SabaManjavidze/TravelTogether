@@ -10,11 +10,11 @@ import {
   CardActions,
   useTheme,
 } from "@mui/material";
-import { UserApartment } from "../utils/types";
+import { Apartment } from "../utils/types";
 import { useNavigate } from "react-router";
 import "../App.css";
 
-export const ResultCard: React.FC<{ item: UserApartment }> = ({ item }) => {
+export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
   const theme = useTheme();
   const imgBoxHeight = 50;
   const navigate = useNavigate();
@@ -73,9 +73,9 @@ export const ResultCard: React.FC<{ item: UserApartment }> = ({ item }) => {
             alignItems: "center",
           }}
         >
-          <Typography color="text.primary">{item.num_of_beds} beds</Typography>
+          <Typography color="text.primary">{item.numOfBeds} beds</Typography>
           <Typography color="text.primary">
-            {item.distance_from_center}m
+            {item.distanceFromCenter}m
           </Typography>
         </Box>
         <Typography

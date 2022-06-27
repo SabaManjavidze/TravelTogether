@@ -10,8 +10,12 @@ import {
   useTheme,
 } from "@mui/material";
 import { Pending, Close, CheckCircle } from "@mui/icons-material";
+import { Booking } from "../utils/types";
 
-export default function BookingCard({ item }: any) {
+type BookingCardProps = {
+  item: Booking;
+};
+export default function BookingCard({ item }: BookingCardProps) {
   const statusColorMap: any = {
     Pending: { icon: "warning", text: "#ed6c02" },
     Accepted: { icon: "success", text: "#2e7d32" },
@@ -52,7 +56,7 @@ export default function BookingCard({ item }: any) {
         // sx={{
         //   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.8)",
         // }}
-        image={item.image}
+        image={item.apartment.image}
         alt="green iguana"
       />
       <CardContent
@@ -65,7 +69,7 @@ export default function BookingCard({ item }: any) {
         }}
       >
         <Typography gutterBottom variant="h6" component="div" mb={0}>
-          {item.address}, {item.country}
+          {item.apartment.address}, {item.apartment.city}
         </Typography>
         <Box
           sx={{
@@ -84,7 +88,7 @@ export default function BookingCard({ item }: any) {
             fontFamily="Montserrat"
             fontWeight={"900"}
           >
-            {item.distance_from_center} m
+            {item.apartment.distanceFromCenter} m
           </Typography>
           <Typography
             variant="h6"
@@ -93,7 +97,7 @@ export default function BookingCard({ item }: any) {
             fontFamily="Montserrat"
             fontWeight={"900"}
           >
-            {item.num_of_beds} beds
+            {item.apartment.numOfBeds} beds
           </Typography>
         </Box>
 
@@ -107,7 +111,7 @@ export default function BookingCard({ item }: any) {
             maxHeight: "45px",
           }}
         >
-          {item.description}
+          {item.apartment.description}
         </Typography>
       </CardContent>
       <CardActions
@@ -124,7 +128,8 @@ export default function BookingCard({ item }: any) {
           fontSize={14}
           whiteSpace="nowrap"
         >
-          {item.check_in.replace("-", "/")} - {item.check_out.replace("-", "/")}
+          {/* {item.check_in.replace("-", "/")} - {item.check_out.replace("-", "/")} */}
+          {item.from.toString()} - {item.to.toString()}
         </Typography>
         <Box
           sx={{

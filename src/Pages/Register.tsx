@@ -49,7 +49,7 @@ export default function Register() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          minHeight: "85.9vh",
+          // minHeight: "85.9vh"
           pb: 15,
         }}
       >
@@ -96,7 +96,6 @@ export default function Register() {
               autoFocus
               fullWidth
               sx={{ mr: 3 }}
-              // autoComplete="current-password"
             />
             <TextField
               margin="normal"
@@ -106,7 +105,6 @@ export default function Register() {
               label="LastName"
               sx={{ ml: 3 }}
               type="text"
-              // autoComplete="current-password"
             />
           </Box>
           <TextField

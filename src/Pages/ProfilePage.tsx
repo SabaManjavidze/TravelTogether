@@ -17,7 +17,7 @@ import ApartmentCard from "../Components/ApartmentCard";
 import {
   default_user_avatar,
   getUserProfile,
-  UpdateUserProfile,
+  updateUserProfile,
 } from "../utils/Services";
 import { UpdateProfile, User, UserProfile } from "../utils/types";
 export default function ProfilePage() {
@@ -60,7 +60,7 @@ export default function ProfilePage() {
           updates.image = encoded;
         }
         console.log(updates);
-        UpdateUserProfile(updates);
+        updateUserProfile(updates);
       }}
       sx={{ paddingBottom: 15, minHeight: "80.4vh" }}
     >
