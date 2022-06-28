@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -19,12 +19,50 @@ import {
   CameraAlt as ImageIcon,
 } from "@mui/icons-material";
 import ChangePictureModal from "./ChangePictureModal";
+import {
+  amenities,
+  AmenitiesSet,
+  createApartment,
+  getUserApartment,
+  updateApartment,
+} from "../utils/Services";
+import { Apartment, UserProfile } from "../utils/types";
+import { useAuth } from "../Hooks/useAuth";
 
 export default function AddapartmentView() {
   const theme = useTheme();
   const [appOpen, setAppOpen] = useState(false);
   const [encoded, setEncoded] = useState("");
-  const [profImage, setProfImage] = useState();
+  const [profImage, setProfImage] = useState("");
+  const [apartment, setApartment] = useState<any>(null);
+  const [accordionLabel, setAccordionLabel] = useState<
+    "Add Apartment" | "Update Apartment"
+  >("Add Apartment");
+  const [apartmentLoading, setApartmentLoading] = useState(true);
+  // const { user, setUser, userLoading }: any = useAuth();
+
+  const apart_input_arr = {
+    City: "city",
+    Address: "address",
+    "Distance From Center": "distanceFromCenter",
+    "Num Of Beds": "numOfBeds",
+  };
+
+  const setUserApartment = async () => {
+    const apart = await getUserApartment();
+    if (apart) {
+      setAccordionLabel("Update Apartment");
+      setApartment(apart);
+    }
+    setApartmentLoading(false);
+  };
+  useEffect(() => {
+    if (!apartmentLoading) {
+      console.log({ apartment });
+      setProfImage(apartment.image);
+    }
+    setUserApartment();
+  }, [apartmentLoading]);
 
   return (
     <Accordion
@@ -46,145 +84,183 @@ export default function AddapartmentView() {
         }}
       >
         <Typography variant="h5" color="primary.light">
-          Add an Apartment
+          {accordionLabel}
         </Typography>
       </AccordionSummary>
       <AccordionDetails>
         <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-
-            alignItems: "center",
-            mt: 5,
-            [theme.breakpoints.down("md")]: {
-              flexDirection: "column-reverse",
-            },
+          component="form"
+          onSubmit={(e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const apartment_input: any = {};
+            formData.forEach((value, key) => {
+              // console.log(`${key}: ${value}`);
+              if (key in AmenitiesSet) {
+                apartment_input[key] = !!value;
+              } else {
+                apartment_input[key.replaceAll(" ", "")] = value;
+              }
+            });
+            if (profImage !== "" && encoded !== "") {
+              apartment_input.image = encoded;
+            }
+            console.log(apartment);
+            if (apartment && apartment !== null && apartment != null) {
+              updateApartment(apartment_input);
+            } else {
+              createApartment(apartment_input);
+            }
+            setApartment(apartment_input);
           }}
         >
-          <ChangePictureModal
-            open={appOpen}
-            setOpen={setAppOpen}
-            setProfImage={setProfImage}
-            setEncoded={setEncoded}
-          />
           <Box
             sx={{
               display: "flex",
-              flexDirection: "column",
-              width: "60%",
+              justifyContent: "center",
+
+              alignItems: "center",
+              mt: 5,
               [theme.breakpoints.down("md")]: {
-                mt: 3,
-                width: "80%",
+                flexDirection: "column-reverse",
               },
             }}
           >
-            {[
-              "City",
-              "Address",
-              "Distance to center",
-              "Max Number of guests",
-            ].map((item, i) => {
-              return (
-                <TextField
-                  key={item}
-                  name={item.toLowerCase()}
-                  placeholder={item}
-                  sx={{ mt: i > 0 ? 3 : 0 }}
-                />
-              );
-            })}
-            <TextField
-              name="Description"
-              placeholder="Description"
-              multiline
-              sx={{
-                mt: 3,
-                mb: 10,
-                resize: "none",
-                height: "75px",
-                maxHeight: "200px",
-                boxSizing: "border-box",
-              }}
-              rows={4}
+            <ChangePictureModal
+              open={appOpen}
+              setOpen={setAppOpen}
+              setProfImage={setProfImage}
+              setEncoded={setEncoded}
             />
+            {apartmentLoading ? null : (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "60%",
+                  [theme.breakpoints.down("md")]: {
+                    mt: 3,
+                    width: "80%",
+                  },
+                }}
+              >
+                {Object.entries(apart_input_arr).map((item, i) => {
+                  return (
+                    <TextField
+                      key={item[1]}
+                      name={item[1]}
+                      defaultValue={apartment[item[1]]}
+                      type={i > 1 ? "number" : "string"}
+                      placeholder={item[0]}
+                      sx={{ mt: i > 0 ? 3 : 0 }}
+                    />
+                  );
+                })}
+                <TextField
+                  name="Description"
+                  placeholder="Description"
+                  defaultValue={apartment.description}
+                  multiline
+                  sx={{
+                    mt: 3,
+                    mb: 10,
+                    resize: "none",
+                    height: "75px",
+                    maxHeight: "200px",
+                    boxSizing: "border-box",
+                  }}
+                  rows={4}
+                />
+              </Box>
+            )}
+            <Box
+              sx={{
+                boxShadow: "0px 0px 40px rgba(0, 0, 0, 0.5)",
+                borderRadius: "10px",
+                width: "400px",
+                bgcolor: "black",
+                position: "relative",
+                ml: 10,
+                mr: 5,
+                mb: 3,
+                height: "440px",
+                [theme.breakpoints.down("md")]: {
+                  mx: 0,
+                  mb: 0,
+                  // px: 0,
+                  width: "400px",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  // height: "440px",
+                  width: "85%",
+                },
+              }}
+              className="hover-section"
+            >
+              <ImageIcon
+                className="image-icon"
+                // sx={{ top: 0 }}
+                fontSize="large"
+                onClick={() => {
+                  setAppOpen(true);
+                }}
+              />
+              <img
+                src={profImage}
+                alt=""
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "10px",
+                  objectFit: "cover",
+                }}
+                className="profile-image"
+              />
+            </Box>
           </Box>
 
           <Box
             sx={{
-              boxShadow: "0px 0px 40px rgba(0, 0, 0, 0.5)",
-              borderRadius: "10px",
-              width: "400px",
-              bgcolor: "black",
-              position: "relative",
-              ml: 10,
-              mr: 5,
-              mb: 3,
-              height: "440px",
-              [theme.breakpoints.down("md")]: {
-                mx: 0,
-                mb: 0,
-                // px: 0,
-                width: "400px",
-              },
-              [theme.breakpoints.down("sm")]: {
-                // height: "440px",
-                width: "85%",
-              },
+              display: "inline-flex",
+              flexDirection: "column ",
+              ml: 4,
+              mb: 4,
             }}
-            className="hover-section"
           >
-            <ImageIcon
-              className="image-icon"
-              // sx={{ top: 0 }}
-              fontSize="large"
-              onClick={() => {
-                setAppOpen(true);
-              }}
-            />
-            <img
-              src={profImage}
-              alt=""
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "10px",
-                objectFit: "cover",
-              }}
-              className="profile-image"
-            />
+            {apartmentLoading
+              ? null
+              : Object.keys(AmenitiesSet).map((item) => {
+                  return (
+                    <Box
+                      sx={{ display: "flex", alignItems: "center" }}
+                      key={item}
+                    >
+                      <Checkbox
+                        name={item}
+                        defaultChecked={apartment[item.toLowerCase()]}
+                      />
+                      <Typography color="text.primary">{item}</Typography>
+                    </Box>
+                  );
+                })}
           </Box>
-        </Box>
-
-        <Box
-          sx={{
-            display: "inline-flex",
-            flexDirection: "column ",
-            ml: 4,
-            mb: 4,
-          }}
-        >
-          <FormControlLabel control={<Checkbox />} label="Pool" />
-          <FormControlLabel control={<Checkbox />} label="Gym" />
-          <FormControlLabel control={<Checkbox />} label="Wifi" />
-          <FormControlLabel control={<Checkbox />} label="Parking" />
-          {/* </FormGroup> */}
-        </Box>
-        <Box>
-          <Button
-            variant="contained"
-            color="primary"
-            sx={{ mb: 3, ml: 3, py: 1.5 }}
-          >
-            <Typography
-              variant="h5"
-              fontSize="20px"
-              color="text.primary"
-              textTransform="none"
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              sx={{ mb: 3, ml: 3, py: 1.5 }}
             >
-              Add Apartment
-            </Typography>
-          </Button>
+              <Typography
+                variant="h5"
+                fontSize="20px"
+                color="text.primary"
+                textTransform="none"
+              >
+                {accordionLabel}
+              </Typography>
+            </Button>
+          </Box>
         </Box>
       </AccordionDetails>
     </Accordion>
