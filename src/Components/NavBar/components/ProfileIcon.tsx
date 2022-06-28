@@ -27,49 +27,53 @@ export default function ProfileIcon() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const { userLoading, user }: any = useAuth();
+  const { userLoading, user, isLoggedIn }: any = useAuth();
   return (
     <Box
       sx={{
         flexGrow: 0,
       }}
     >
-      {userLoading ? null : (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            color="text.prymary"
-            mr={3}
-            sx={{
-              [theme.breakpoints.down("sm")]: {
-                display: "none",
-              },
-            }}
-          >
-            {`${user.firstName[0].toUpperCase()}${user.firstName.slice(
-              1,
-              user.firstName.length
-            )}`}
-          </Typography>
-          <Tooltip title="Open settings">
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar
-                alt={user.firstName}
-                src={user.image}
-                // sx={{
-                //   color: theme.palette.mode === "dark" ? "white" : "white",
-                // }}
-                sx={{ color: "white" }}
-              />
-            </IconButton>
-          </Tooltip>
-        </Box>
-      )}
+      {user != null ? (
+        isLoggedIn ? (
+          userLoading ? null : (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography
+                color="text.prymary"
+                mr={3}
+                sx={{
+                  [theme.breakpoints.down("sm")]: {
+                    display: "none",
+                  },
+                }}
+              >
+                {`${user.firstName[0].toUpperCase()}${user.firstName.slice(
+                  1,
+                  user.firstName.length
+                )}`}
+              </Typography>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar
+                    alt={user.firstName}
+                    src={user.image}
+                    // sx={{
+                    //   color: theme.palette.mode === "dark" ? "white" : "white",
+                    // }}
+                    sx={{ color: "white" }}
+                  />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )
+        ) : null
+      ) : null}
       {/* Collapsable Profile Menu */}
       <Menu
         sx={{

@@ -29,14 +29,14 @@ export const AuthProvider = ({ children }: any) => {
       setIsLoggedIn(true);
     } catch (error) {
       console.log("User is not logged in");
+      setIsLoggedIn(false);
     }
     setUserLoading(false);
   };
   useEffect(() => {
     setUserProfile();
-    console.log({ isLoggedIn });
-    console.log({ userLoading });
-  }, [isLoggedIn]);
+    // console.log({ isLoggedIn }); console.log({ userLoading });
+  }, []);
 
   return (
     <AuthContext.Provider

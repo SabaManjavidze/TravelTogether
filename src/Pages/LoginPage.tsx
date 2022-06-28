@@ -14,12 +14,12 @@ import {
 import React, { FormEventHandler } from "react";
 import "../App.css";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
-import { UserLogin } from "../utils/Services";
+import { getUserProfile, UserLogin } from "../utils/Services";
 import { useNavigate } from "react-router";
 import { useAuth } from "../Hooks/useAuth";
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { setIsLoggedIn }: any = useAuth();
+  const { setIsLoggedIn, setUser }: any = useAuth();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -30,6 +30,8 @@ export default function LoginPage() {
     };
     const response = await UserLogin(login);
     if (response && response === 200) {
+      const profile = await getUserProfile();
+      setUser(profile);
       setIsLoggedIn(true);
       navigate("/search");
     }

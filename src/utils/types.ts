@@ -12,7 +12,7 @@ export interface UpdateProfile {
   email?: string | undefined;
 }
 export interface UserProfile extends User {
-  apartments?: Apartment[] | null;
+  // apartment?: Apartment | null;
   email?: string;
 }
 export type LoginType = {

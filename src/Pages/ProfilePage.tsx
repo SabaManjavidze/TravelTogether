@@ -14,12 +14,9 @@ import ChangePictureModal from "../Components/ChangePictureModal";
 import { CameraAlt as ImageIcon } from "@mui/icons-material";
 import AddapartmentView from "../Components/AddApartmentView";
 import ApartmentCard from "../Components/ApartmentCard";
-import {
-  default_user_avatar,
-  getUserProfile,
-  updateUserProfile,
-} from "../utils/Services";
+import { default_user_avatar, updateUserProfile } from "../utils/Services";
 import { UpdateProfile, User, UserProfile } from "../utils/types";
+import { useAuth } from "../Hooks/useAuth";
 export default function ProfilePage() {
   const [profImage, setProfImage] = useState("");
   const [email, setEmail] = useState("");
@@ -29,41 +26,23 @@ export default function ProfilePage() {
   const [profOpen, setProfOpen] = useState(false);
   const [encoded, setEncoded] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const { userLoading, user }: any = useAuth();
   // const { decodedToken } = useJwt(token);
   const theme = useTheme();
-  const setUserProfile = async () => {
-    const prof = await getUserProfile();
-    // console.log(JSON.stringify(prof, null, 2));
-    setProfImage(prof.image);
-    setFirstName(prof.firstName);
-    setLastName(prof.lastName);
-    setEmail(prof?.email || "");
-    setDescription(prof?.description || "");
-    setLoaded(true);
+  const setUserProfile = () => {
+    setProfImage(user.image);
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setEmail(user?.email || "");
+    setDescription(user?.description || "");
   };
   useEffect(() => {
-    setUserProfile();
-  }, []);
+    if (!userLoading) {
+      setUserProfile();
+    }
+  }, [userLoading]);
   return (
-    <Container
-      component={"form"}
-      onSubmit={(e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const updates: any = {};
-        formData.forEach((item, key): any => {
-          if (item !== "" && item != null) {
-            updates[key] = item;
-          }
-        });
-        if (profImage !== "" && encoded !== "") {
-          updates.image = encoded;
-        }
-        console.log(updates);
-        updateUserProfile(updates);
-      }}
-      sx={{ paddingBottom: 15, minHeight: "80.4vh" }}
-    >
+    <Container sx={{ paddingBottom: 15 }}>
       <ChangePictureModal
         open={profOpen}
         setOpen={setProfOpen}
@@ -71,6 +50,22 @@ export default function ProfilePage() {
         setEncoded={setEncoded}
       />
       <Box
+        component={"form"}
+        onSubmit={(e: FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const updates: any = {};
+          formData.forEach((item, key): any => {
+            if (item !== "" && item != null) {
+              updates[key] = item;
+            }
+          });
+          if (profImage !== "" && encoded !== "") {
+            updates.image = encoded;
+          }
+          console.log(updates);
+          updateUserProfile(updates);
+        }}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -106,7 +101,7 @@ export default function ProfilePage() {
             }}
           />
           <img
-            src={(loaded && profImage) || default_user_avatar}
+            src={profImage || default_user_avatar}
             alt=""
             className="profile-image"
             style={{
