@@ -21,7 +21,7 @@ export default function Register() {
   const [profImage, setProfImage] = useState(default_user_avatar);
   const [encoded, setEncoded] = useState();
   const [profOpen, setProfOpen] = useState(false);
-  const { userLoading }: any = useAuth();
+  const { userLoading } = useAuth();
   const navigate = useNavigate();
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,7 +62,7 @@ export default function Register() {
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5" color="text.primary">
+        <Typography component="h1" variant="h5">
           Register
         </Typography>
         <Box

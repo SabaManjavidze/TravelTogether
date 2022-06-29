@@ -33,9 +33,7 @@ export default function MyBookingsPage() {
   return (
     <Container>
       <Box mt={10}>
-        <Typography variant={"h3"} color="text.primary">
-          My Bookings
-        </Typography>
+        <Typography variant={"h3"}>My Bookings</Typography>
       </Box>
       <Grid
         container

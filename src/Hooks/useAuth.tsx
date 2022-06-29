@@ -15,7 +15,13 @@ type AuthContextProps = {
   isLoggedIn: boolean;
   setIsLoggedIn: Dispatch<boolean>;
 };
-export const AuthContext = createContext<AuthContextProps | null>(null);
+export const AuthContext = createContext<AuthContextProps>({
+  user: { description: "", firstName: "", image: "", lastName: "", email: "" },
+  isLoggedIn: false,
+  setIsLoggedIn: () => null,
+  setUser: dispatchEvent,
+  userLoading: true,
+});
 export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<any>(null);

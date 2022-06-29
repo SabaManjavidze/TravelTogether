@@ -26,7 +26,7 @@ export default function ProfilePage() {
   const [profOpen, setProfOpen] = useState(false);
   const [encoded, setEncoded] = useState("");
   const [loaded, setLoaded] = useState(false);
-  const { userLoading, user }: any = useAuth();
+  const { userLoading, user } = useAuth();
   // const { decodedToken } = useJwt(token);
   const theme = useTheme();
   const setUserProfile = () => {

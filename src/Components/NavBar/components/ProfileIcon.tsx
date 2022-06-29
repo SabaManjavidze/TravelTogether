@@ -27,7 +27,7 @@ export default function ProfileIcon() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const { userLoading, user, isLoggedIn }: any = useAuth();
+  const { userLoading, user, isLoggedIn } = useAuth();
   return (
     <Box
       sx={{
@@ -115,7 +115,6 @@ export default function ProfileIcon() {
               <Box>
                 <Typography
                   variant="h6"
-                  color="text.primary"
                   sx={{
                     textAlign: "center",
                     fontSize: 16,
@@ -141,7 +140,6 @@ export default function ProfileIcon() {
           <Box sx={{ width: "100%" }}>
             <Typography
               variant="h6"
-              color="text.primary"
               sx={{
                 textAlign: "center",
                 fontSize: 16,

@@ -46,7 +46,6 @@ export default function NavBar() {
         <Typography
           variant="h6"
           fontSize={16}
-          color="text.primary"
           textAlign="center"
           sx={{
             [theme.breakpoints.down("sm")]: {
@@ -62,7 +61,7 @@ export default function NavBar() {
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-  const { isLoggedIn }: any = useAuth();
+  const { isLoggedIn } = useAuth();
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -189,12 +188,14 @@ export default function NavBar() {
           {/* Theme switcher */}
           <MaterialUISwitch
             sx={
-              isLoggedIn && {
-                mr: 5,
-                [theme.breakpoints.down("sm")]: {
-                  mr: 2,
-                },
-              }
+              isLoggedIn
+                ? {
+                    mr: 5,
+                    [theme.breakpoints.down("sm")]: {
+                      mr: 2,
+                    },
+                  }
+                : {}
             }
             checked={theme.palette.mode === "dark"}
             onClick={(e: any) => {

@@ -55,12 +55,7 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
           navigate(`/details/${item.id}`);
         }}
       >
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="div"
-          color="text.primary"
-        >
+        <Typography gutterBottom variant="h5" component="div">
           {item.address}
         </Typography>
 
@@ -73,10 +68,8 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
             alignItems: "center",
           }}
         >
-          <Typography color="text.primary">{item.numOfBeds} beds</Typography>
-          <Typography color="text.primary">
-            {item.distanceFromCenter}m
-          </Typography>
+          <Typography>{item.numOfBeds} beds</Typography>
+          <Typography>{item.distanceFromCenter}m</Typography>
         </Box>
         <Typography
           variant="body2"

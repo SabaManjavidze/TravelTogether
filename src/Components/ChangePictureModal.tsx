@@ -1,4 +1,9 @@
-import React, { ChangeEventHandler, FormEvent, useState } from "react";
+import React, {
+  ChangeEventHandler,
+  FormEvent,
+  useEffect,
+  useState,
+} from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -27,9 +32,13 @@ export default function ChangePictureModal({
   setProfImage,
   setEncoded,
 }: any) {
-  const [localImage, setLocalImage] = useState<any>();
-  const [encoded, setLocalEncoded] = useState<any>();
+  const [localImage, setLocalImage] = useState<any>("");
+  const [encoded, setLocalEncoded] = useState<any>("");
   // const theme = useTheme();
+  // useEffect(() => {
+  //   console.log({ localImage });
+  // }, [localImage]);
+
   return (
     <div>
       <Modal
@@ -53,19 +62,17 @@ export default function ChangePictureModal({
               }}
             >
               <Box sx={{ width: "100%" }}>
-                <Typography variant="h5" color="text.primary">
-                  Enter a new picture URL
-                </Typography>
+                <Typography variant="h5">Enter a new picture URL</Typography>
                 <TextField
                   placeholder="Enter image url"
                   variant="outlined"
                   margin="normal"
                   fullWidth
-                  onKeyDown={(e: any) => {
-                    if (e.keyCode === 13) {
-                      // setProfImage(e.target.value);
-                      setLocalImage(e.target.value);
-                    }
+                  onChange={(e: any) => {
+                    // if (e.keyCode === 13) {
+                    // setProfImage(e.target.value);
+                    setLocalImage(e.target.value);
+                    // }
                   }}
                 />
               </Box>
@@ -79,9 +86,7 @@ export default function ChangePictureModal({
                   // bgcolor: "black",
                 }}
               >
-                <Typography variant="h5" color="text.primary">
-                  Upload local image
-                </Typography>
+                <Typography variant="h5">Upload local image</Typography>
                 {/* <Button sx={{ mt: 3 }} variant="outlined"> */}
                 <TextField
                   type="file"

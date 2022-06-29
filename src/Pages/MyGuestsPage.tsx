@@ -15,9 +15,7 @@ export default function MyGuestsPage() {
   return (
     <Container>
       <Box mt={10}>
-        <Typography variant={"h3"} color="text.primary">
-          My Guests
-        </Typography>
+        <Typography variant={"h3"}>My Guests</Typography>
       </Box>
       <Grid
         container

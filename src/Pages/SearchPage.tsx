@@ -36,7 +36,6 @@ export default function SearchPage() {
           fontStyle={"normal"}
           fontWeight={"700"}
           letterSpacing={"-0.015em"}
-          color="text.primary"
           sx={{
             [theme.breakpoints.down("sm")]: {
               textAlign: "center",

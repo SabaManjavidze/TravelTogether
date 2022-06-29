@@ -17,6 +17,7 @@ import "../App.css";
 import {
   ExpandMore as ExpandMoreIcon,
   CameraAlt as ImageIcon,
+  ConstructionOutlined,
 } from "@mui/icons-material";
 import ChangePictureModal from "./ChangePictureModal";
 import {
@@ -39,7 +40,7 @@ export default function AddapartmentView() {
     "Add Apartment" | "Update Apartment"
   >("Add Apartment");
   const [apartmentLoading, setApartmentLoading] = useState(true);
-  // const { user, setUser, userLoading }: any = useAuth();
+  // const { user, setUser, userLoading }= useAuth();
 
   const apart_input_arr = {
     City: "city",
@@ -56,9 +57,12 @@ export default function AddapartmentView() {
     }
     setApartmentLoading(false);
   };
+  // useEffect(() => {
+  //   console.log({ encoded });
+  // }, [encoded]);
   useEffect(() => {
     if (!apartmentLoading) {
-      console.log({ apartment });
+      // console.log({ apartment });
       setProfImage(apartment.image);
     }
     setUserApartment();
@@ -102,8 +106,8 @@ export default function AddapartmentView() {
                 apartment_input[key.replaceAll(" ", "")] = value;
               }
             });
-            if (profImage !== "" && encoded !== "") {
-              apartment_input.image = encoded;
+            if (profImage !== "") {
+              apartment_input.image = profImage;
             }
             console.log(apartment);
             if (apartment && apartment !== null && apartment != null) {
@@ -148,7 +152,7 @@ export default function AddapartmentView() {
                   return (
                     <TextField
                       key={item[1]}
-                      name={item[1]}
+                      name={item[0]}
                       defaultValue={apartment[item[1]]}
                       type={i > 1 ? "number" : "string"}
                       placeholder={item[0]}
@@ -239,7 +243,7 @@ export default function AddapartmentView() {
                         name={item}
                         defaultChecked={apartment[item.toLowerCase()]}
                       />
-                      <Typography color="text.primary">{item}</Typography>
+                      <Typography>{item}</Typography>
                     </Box>
                   );
                 })}
@@ -251,12 +255,7 @@ export default function AddapartmentView() {
               type="submit"
               sx={{ mb: 3, ml: 3, py: 1.5 }}
             >
-              <Typography
-                variant="h5"
-                fontSize="20px"
-                color="text.primary"
-                textTransform="none"
-              >
+              <Typography variant="h5" fontSize="20px" textTransform="none">
                 {accordionLabel}
               </Typography>
             </Button>

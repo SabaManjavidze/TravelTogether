@@ -19,7 +19,7 @@ import { useNavigate } from "react-router";
 import { useAuth } from "../Hooks/useAuth";
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUser }: any = useAuth();
+  const { setIsLoggedIn, setUser } = useAuth();
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -52,7 +52,7 @@ export default function LoginPage() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main", mt: 15 }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" color="text.primary">
+          <Typography component="h1" variant="h5">
             Log in
           </Typography>
         </Box>

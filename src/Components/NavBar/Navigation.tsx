@@ -21,7 +21,7 @@ import {
 import NavBar from "../NavBar";
 
 export default function Navigation() {
-  const { isLoggedIn, userLoading }: any = useAuth();
+  const { isLoggedIn, userLoading } = useAuth();
   return (
     <Router>
       <NavBar />
