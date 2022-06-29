@@ -1,20 +1,38 @@
 export type User = {
   firstName: string;
   lastName: string;
+  image: string;
+  description: string;
+};
+export interface UpdateProfile {
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  image?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+}
+export interface UserProfile extends User {
+  // apartment?: Apartment | null;
+  email?: string;
+}
+export type LoginType = {
   email: string;
   password: string;
 };
-export interface UserProfile extends User {
-  image: string;
-}
-export type UserApartment = {
+export interface Apartment extends Amenities {
   id: string;
   address: string;
   image: string;
-  distance_from_center: number;
-  num_of_beds: number;
+  distanceFromCenter: number;
+  numOfBeds: number;
   description: string;
   city: string;
+}
+export type Amenities = {
+  pool: boolean;
+  gym: boolean;
+  wifi: boolean;
+  parking: boolean;
 };
 export type Guest = {
   firstName: string;
@@ -22,8 +40,21 @@ export type Guest = {
   from: Date;
   to: Date;
 };
-export type Booking = {
-  city: string;
+type DateRange = {
   from: Date;
   to: Date;
 };
+export interface CreateBooking {
+  GuestId: string;
+  HostId: string;
+  From: Date;
+  To: Date;
+}
+export type Status = "Accept" | "Decline" | "Pending";
+
+export interface Booking extends DateRange {
+  id: string;
+  apartment: Apartment;
+  status: Status;
+  Image: string;
+}

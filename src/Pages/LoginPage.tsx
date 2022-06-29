@@ -14,14 +14,27 @@ import {
 import React, { FormEventHandler } from "react";
 import "../App.css";
 import { LockOutlined as LockOutlinedIcon } from "@mui/icons-material";
+import { getUserProfile, UserLogin } from "../utils/Services";
+import { useNavigate } from "react-router";
+import { useAuth } from "../Hooks/useAuth";
 export default function LoginPage() {
-  const handleSubmit = (event: any) => {
+  const navigate = useNavigate();
+  const { setIsLoggedIn, setUser } = useAuth();
+
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const login = {
+      email: data.get("email")?.toString() || "",
+      password: data.get("password")?.toString() || "",
+    };
+    const response = await UserLogin(login);
+    if (response && response === 200) {
+      const profile = await getUserProfile();
+      setUser(profile);
+      setIsLoggedIn(true);
+      navigate("/search");
+    }
   };
 
   return (
@@ -39,7 +52,7 @@ export default function LoginPage() {
           <Avatar sx={{ m: 1, bgcolor: "secondary.main", mt: 15 }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5" color="text.primary">
+          <Typography component="h1" variant="h5">
             Log in
           </Typography>
         </Box>

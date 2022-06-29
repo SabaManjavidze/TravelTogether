@@ -8,42 +8,64 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useMemo, useState } from "react";
 import "../App.css";
 import ChangePictureModal from "../Components/ChangePictureModal";
 import { CameraAlt as ImageIcon } from "@mui/icons-material";
 import AddapartmentView from "../Components/AddApartmentView";
 import ApartmentCard from "../Components/ApartmentCard";
+import { default_user_avatar, updateUserProfile } from "../utils/Services";
+import { UpdateProfile, User, UserProfile } from "../utils/types";
+import { useAuth } from "../Hooks/useAuth";
 export default function ProfilePage() {
-  const fake_user = {
-    first_name: "John",
-    last_name: "Doe",
-    email: "JohnDoe@gmail.com",
-    // bio: `lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    //  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    //   Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-    //    nisi ut aliquip ex ea commodo consequat`,
-    bio: "",
-    image: "https://source.unsplash.com/random",
-  };
-  const [profImage, setProfImage] = useState(fake_user.image);
+  const [profImage, setProfImage] = useState("");
+  const [email, setEmail] = useState("");
+  const [description, setDescription] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [profOpen, setProfOpen] = useState(false);
+  const [encoded, setEncoded] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const { userLoading, user } = useAuth();
+  // const { decodedToken } = useJwt(token);
   const theme = useTheme();
+  const setUserProfile = () => {
+    setProfImage(user.image);
+    setFirstName(user.firstName);
+    setLastName(user.lastName);
+    setEmail(user?.email || "");
+    setDescription(user?.description || "");
+  };
+  useEffect(() => {
+    if (!userLoading) {
+      setUserProfile();
+    }
+  }, [userLoading]);
   return (
-    <Container
-      component={"form"}
-      onSubmit={(e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log(new FormData(e.currentTarget).get("image"));
-      }}
-      sx={{ paddingBottom: 15, minHeight: "80.4vh" }}
-    >
+    <Container sx={{ paddingBottom: 15 }}>
       <ChangePictureModal
         open={profOpen}
         setOpen={setProfOpen}
         setProfImage={setProfImage}
+        setEncoded={setEncoded}
       />
       <Box
+        component={"form"}
+        onSubmit={(e: FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const updates: any = {};
+          formData.forEach((item, key): any => {
+            if (item !== "" && item != null) {
+              updates[key] = item;
+            }
+          });
+          if (profImage !== "" && encoded !== "") {
+            updates.image = encoded;
+          }
+          console.log(updates);
+          updateUserProfile(updates);
+        }}
         sx={{
           display: "flex",
           justifyContent: "center",
@@ -79,7 +101,7 @@ export default function ProfilePage() {
             }}
           />
           <img
-            src={profImage || ""}
+            src={profImage || default_user_avatar}
             alt=""
             className="profile-image"
             style={{
@@ -133,9 +155,12 @@ export default function ProfilePage() {
             >
               <TextField
                 className="round-input"
-                name="first_name"
+                name="firstName"
                 placeholder="First Name"
-                defaultValue={fake_user?.first_name || ""}
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                }}
                 fullWidth
               />
             </Grid>
@@ -153,9 +178,12 @@ export default function ProfilePage() {
             >
               <TextField
                 className="round-input"
-                name="last_name"
+                name="lastName"
                 placeholder="Last Name"
-                defaultValue={fake_user?.last_name || ""}
+                value={lastName}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                }}
                 fullWidth
               />
             </Grid>
@@ -173,7 +201,11 @@ export default function ProfilePage() {
               name="email"
               placeholder="Email address"
               type="email"
-              defaultValue={fake_user?.email || ""}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              // defaultValue={loaded ? userProfile?.email || "" : ""}
               sx={{
                 mt: 5,
                 [theme.breakpoints.down("md")]: {
@@ -182,9 +214,13 @@ export default function ProfilePage() {
               }}
             />
             <TextField
-              name="bio"
+              name="description"
               placeholder="Something about yourself "
               multiline
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
               sx={{
                 mb: 10,
                 resize: "none",
@@ -195,12 +231,11 @@ export default function ProfilePage() {
               rows={5}
               className="round-input"
               // ignore ts error
-
-              defaultValue={fake_user?.bio || ""}
             />
             <Button
               type="submit"
               variant="contained"
+              // onClick={handleSubmit}
               sx={{
                 width: "25%",
                 py: 1,

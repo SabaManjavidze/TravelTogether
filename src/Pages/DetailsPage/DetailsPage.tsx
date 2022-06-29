@@ -1,21 +1,74 @@
-import { Box, Container, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Container,
+  LinearProgress,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
-import { fake_aparts } from "../../Components/MOCK_DATA";
 import { LocationOn as LocationIcon } from "@mui/icons-material";
 import { Close, Check } from "@mui/icons-material";
+import {
+  amenities,
+  AmenitiesSet,
+  getApartmentDetails,
+} from "../../utils/Services";
+import BookNowForm from "./components/BookNowForm";
+import BookedDatesView from "./components/BookedDatesView";
 export default function DetailsPage() {
   const params = useParams();
-  //   const [apar, setApar] = useState<UserApartment>();
-  const apar = useMemo(() => {
-    return fake_aparts.find((item) => item.id == params.id);
+  const [apartmentDetails, setApartmentDetails] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  const amenitiesRenderitem = ({ item, index }: any) => {
+    return (
+      <Typography
+        key={item}
+        variant="caption"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          color: "text.primary",
+          mt: 2,
+        }}
+      >
+        <Typography sx={{ lineHeight: 0, width: "50%", textAlign: "right" }}>
+          {apartmentDetails[item.toLowerCase()] ? (
+            <Check color="success" />
+          ) : (
+            <Close color="error" />
+          )}
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{ px: 3, width: "50%", textAlign: "left" }}
+        >
+          {item}
+        </Typography>
+      </Typography>
+    );
+  };
+  const theme = useTheme();
+
+  const fetchApartmentDetails = async () => {
+    if (params.id) {
+      const apartment_details = await getApartmentDetails(params.id);
+      setApartmentDetails(apartment_details.apartment);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchApartmentDetails();
   }, []);
-  //   useEffect(() => {
-  //     setApar();
-  //   }, []);
-  const amenities = ["wifi", "pool", "gym", "parking"];
   return (
-    <Container sx={{ height: "100%" }}>
+    <Container
+      sx={{ height: "100%", maxWidth: "60%", pb: 15 }}
+      maxWidth={false}
+    >
       <Box
         sx={{
           display: "flex",
@@ -29,7 +82,7 @@ export default function DetailsPage() {
           sx={{
             display: "flex",
             // flexDirection: "row",
-
+            width: "100%",
             justifyContent: "space-between",
             alignItems: "center",
           }}
@@ -37,29 +90,50 @@ export default function DetailsPage() {
           <Box>
             <Typography
               variant="caption"
-              color="text.primary"
               sx={{
                 display: "flex",
                 justifyContent: "center",
               }}
               my={1.5}
             >
-              <LocationIcon fontSize="large" />
-              <Typography variant="h5" fontSize={25} color="text.primary">
-                {apar?.city}, {apar?.address}
-              </Typography>
+              <LocationIcon fontSize="large" sx={{ color: "text.primary" }} />
+              {loading ? (
+                <LinearProgress />
+              ) : (
+                <Typography variant="h5" fontSize={25} mx={1}>
+                  {apartmentDetails?.city}, {apartmentDetails?.address}
+                </Typography>
+              )}
             </Typography>
-            <img
-              src={apar?.image}
-              alt=""
-              width="500px"
-              height="450px"
-              style={{
-                borderRadius: 2,
-                objectFit: "cover",
-                boxShadow: "0px 0px 20px ffffff3b",
-              }}
-            />
+            {loading ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "500px",
+                  height: "450px",
+                  bgcolor:
+                    theme.palette.mode == "dark"
+                      ? "rgb(99 98 98 / 50%)"
+                      : "rgb(59 59 59 / 50%)",
+                }}
+              >
+                <CircularProgress sx={{ color: theme.palette.primary.light }} />
+              </Box>
+            ) : (
+              <img
+                src={apartmentDetails?.image}
+                alt=""
+                width="500px"
+                height="450px"
+                style={{
+                  borderRadius: 5,
+                  objectFit: "cover",
+                  boxShadow: "0px 0px 20px ffffff3b",
+                }}
+              />
+            )}
           </Box>
           <Box
             sx={{
@@ -71,48 +145,29 @@ export default function DetailsPage() {
               ml: 10,
             }}
           >
-            <Box>
-              <Typography color="text.primary" variant="h6">
-                {apar?.distance_from_center} meters from center
-              </Typography>
-              <Typography color="text.primary" variant="h6">
-                {apar?.num_of_beds} beds
-              </Typography>
-              <Typography color="text.primary" variant="h5" my={2}>
-                Amenities
-              </Typography>
-              <Box>
-                {amenities.map((item, index) => {
-                  return (
-                    <Typography
-                      variant="caption"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "100%",
-                        color: "text.primary",
-                      }}
-                    >
-                      <Typography sx={{ lineHeight: 0, ml: 5, width: "50%" }}>
-                        {index % 2 == 0 ? (
-                          <Close color="error" />
-                        ) : (
-                          <Check color="success" />
-                        )}
-                      </Typography>
-                      <Typography
-                        variant="h6"
-                        sx={{ pr: 5, width: "50%", textAlign: "left" }}
-                      >
-                        {item}
-                      </Typography>
-                    </Typography>
-                  );
-                })}
+            {loading ? (
+              <Box sx={{ width: "30vh" }}>
+                <CircularProgress />
               </Box>
-            </Box>
-            {/* <Typography color="text.primary" variant="h6"></Typography> */}
+            ) : (
+              <Box>
+                <Typography variant="h4">
+                  {apartmentDetails?.distanceFromCenter} meters from center
+                </Typography>
+                <Typography variant="h4" mt={2}>
+                  {apartmentDetails?.numOfBeds} beds
+                </Typography>
+                <Typography variant="h3" mt={2}>
+                  Amenities
+                </Typography>
+                <Box>
+                  {Object.keys(AmenitiesSet).map((item, index) =>
+                    amenitiesRenderitem({ item, index })
+                  )}
+                </Box>
+              </Box>
+            )}
+            {/* <Typography  variant="h6"></Typography> */}
           </Box>
         </Box>
         <Box
@@ -122,15 +177,10 @@ export default function DetailsPage() {
             alignItems: "center",
             textAlign: "left",
             width: "100%",
-            ml: 20,
+            // ml: 20,
           }}
         >
-          <Typography
-            variant="h5"
-            fontSize={"2rem"}
-            color="text.primary"
-            my={2}
-          >
+          <Typography variant="h5" fontSize={"2rem"} my={2}>
             Description :
           </Typography>
           <Box
@@ -144,15 +194,23 @@ export default function DetailsPage() {
               variant="h6"
               sx={{
                 // textAlign: "left",
-                lineHeight: "1.5rem",
-                maxWidth: 700,
-                fontSize: 15,
+                // lineHeight: "1.5rem",
+                // fontSize: 15,
+                maxWidth: "70vh",
               }}
-              color="text.primary"
             >
-              {apar?.description}
+              {apartmentDetails?.description}
             </Typography>
           </Box>
+        </Box>
+        <Box sx={{ mt: 15, width: "100%" }}>
+          <Box mb={10}>
+            <BookNowForm ownerId={apartmentDetails.ownerId} />
+          </Box>
+          <Typography sx={{ textTransform: "none" }} variant="h3" ml={5} mb={4}>
+            Booked Dates
+          </Typography>
+          <BookedDatesView />
         </Box>
       </Box>
     </Container>
