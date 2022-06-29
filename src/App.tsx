@@ -5,7 +5,13 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { Box, Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Container,
+  createTheme,
+  CSSInterpolation,
+  ThemeProvider,
+} from "@mui/material";
 import { purple } from "@mui/material/colors";
 import { AuthProvider, useAuth } from "./Hooks/useAuth";
 import Navigation from "./Components/NavBar/Navigation";
@@ -34,6 +40,11 @@ function App() {
     }),
     []
   );
+  const fontStyleOverride: CSSInterpolation = {
+    fontFamily: "Montserrat",
+    fontWeight: "bold",
+    color: mode === "dark" ? "#f4eee6" : "black",
+  };
   const theme = useMemo(
     () =>
       createTheme({
@@ -41,6 +52,18 @@ function App() {
           mode: mode,
           primary: { main: purple[700], dark: purple[800] },
           // primary: { main: "#18A0FB" },
+        },
+        components: {
+          MuiTypography: {
+            styleOverrides: {
+              h1: fontStyleOverride,
+              h2: fontStyleOverride,
+              h3: fontStyleOverride,
+              h4: fontStyleOverride,
+              h5: fontStyleOverride,
+              h6: fontStyleOverride,
+            },
+          },
         },
         breakpoints: {
           values: {
