@@ -45,16 +45,16 @@ type DateRange = {
   to: Date;
 };
 export interface CreateBooking {
-  GuestId: string;
-  HostId: string;
-  From: Date;
-  To: Date;
+  hostId: string;
+  from: Date;
+  to: Date;
 }
 export type Status = "Accept" | "Decline" | "Pending";
+export type StatusEnum = "-1" | 0 | 1;
 
 export interface Booking extends DateRange {
   id: string;
   apartment: Apartment;
-  status: Status;
+  status: StatusEnum;
   Image: string;
 }

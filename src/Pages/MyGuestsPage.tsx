@@ -1,16 +1,22 @@
 import { Container, Box, Typography, Grid, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import BookingCard from "../Components/BookingCard";
-import { fake_arr } from "../Components/FakeDB";
 import GuestCard from "../Components/GuestCard";
+import { getMyGuests } from "../utils/Services";
 
 export default function MyGuestsPage() {
   const theme = useTheme();
   const [acceptedItem, setAcceptedItem] = useState(null);
+  const [myGuests, setMyGuests] = useState<any>([]);
+  const [loading, setLoading] = useState(true);
 
+  const fetchMyGuests = async () => {
+    const guests = await getMyGuests();
+    setMyGuests(guests);
+    setLoading(false);
+  };
   useEffect(() => {
-    console.log(acceptedItem);
-  }, [acceptedItem]);
+    fetchMyGuests();
+  }, []);
 
   return (
     <Container>
@@ -32,18 +38,20 @@ export default function MyGuestsPage() {
           mt: 10,
         }}
       >
-        {fake_arr.map((item) => {
-          return (
-            <Grid item key={item.id}>
-              <GuestCard
-                item={item}
-                setAcceptedItem={setAcceptedItem}
-                acceptedItem={acceptedItem}
-              />
-              ;
-            </Grid>
-          );
-        })}
+        {loading
+          ? null
+          : myGuests.map((item: any) => {
+              return (
+                <Grid item key={item.id}>
+                  <GuestCard
+                    item={item}
+                    setAcceptedItem={setAcceptedItem}
+                    acceptedItem={acceptedItem}
+                  />
+                  ;
+                </Grid>
+              );
+            })}
       </Grid>
     </Container>
   );

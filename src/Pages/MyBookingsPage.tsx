@@ -3,18 +3,12 @@ import {
   Box,
   Typography,
   Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
   useTheme,
   Grid,
-  Avatar,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { fake_arr, my_bookings } from "../Components/FakeDB";
 import BookingCard from "../Components/BookingCard";
-import { getUserBookings } from "../utils/Services";
+import { getMyBookings } from "../utils/Services";
 import { Booking } from "../utils/types";
 
 export default function MyBookingsPage() {
@@ -22,7 +16,7 @@ export default function MyBookingsPage() {
   const [myBookings, setMyBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const getBookings = async () => {
-    const bookings = await getUserBookings();
+    const bookings = await getMyBookings();
     setMyBookings(bookings);
     setLoading(false);
   };
@@ -54,7 +48,7 @@ export default function MyBookingsPage() {
           ? null
           : myBookings.map((item) => {
               return (
-                <Grid item key={item.id}>
+                <Grid item key={item.apartment.id}>
                   <BookingCard item={item} />
                 </Grid>
               );
