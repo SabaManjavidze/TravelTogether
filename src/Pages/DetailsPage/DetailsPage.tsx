@@ -17,41 +17,12 @@ import {
 } from "../../utils/Services";
 import BookNowForm from "./components/BookNowForm";
 import BookedDatesView from "./components/BookedDatesView";
+import amenitiesRenderItem from "./components/amenitiesRenderItem";
 export default function DetailsPage() {
   const params = useParams();
   const [apartmentDetails, setApartmentDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
-  const amenitiesRenderitem = ({ item, index }: any) => {
-    return (
-      <Typography
-        key={item}
-        variant="caption"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-          color: "text.primary",
-          mt: 2,
-        }}
-      >
-        <Typography sx={{ lineHeight: 0, width: "50%", textAlign: "right" }}>
-          {apartmentDetails[item.toLowerCase()] ? (
-            <Check color="success" />
-          ) : (
-            <Close color="error" />
-          )}
-        </Typography>
-        <Typography
-          variant="h5"
-          sx={{ px: 3, width: "50%", textAlign: "left" }}
-        >
-          {item}
-        </Typography>
-      </Typography>
-    );
-  };
   const theme = useTheme();
 
   const fetchApartmentDetails = async () => {
@@ -162,7 +133,7 @@ export default function DetailsPage() {
                 </Typography>
                 <Box>
                   {Object.keys(AmenitiesSet).map((item, index) =>
-                    amenitiesRenderitem({ item, index })
+                    amenitiesRenderItem({ item, index, apartmentDetails })
                   )}
                 </Box>
               </Box>
@@ -203,15 +174,24 @@ export default function DetailsPage() {
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ mt: 15, width: "100%" }}>
-          <Box mb={10}>
-            <BookNowForm ownerId={apartmentDetails.ownerId} />
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Box sx={{ mt: 15, width: "100%" }}>
+            <Box mb={10}>
+              <BookNowForm ownerId={apartmentDetails.ownerId} />
+            </Box>
+            <Typography
+              sx={{ textTransform: "none" }}
+              variant="h3"
+              ml={5}
+              mb={4}
+            >
+              Booked Dates
+            </Typography>
+            <BookedDatesView />
           </Box>
-          <Typography sx={{ textTransform: "none" }} variant="h3" ml={5} mb={4}>
-            Booked Dates
-          </Typography>
-          <BookedDatesView />
-        </Box>
+        )}
       </Box>
     </Container>
   );

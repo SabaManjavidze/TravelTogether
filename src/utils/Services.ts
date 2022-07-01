@@ -48,7 +48,25 @@ export const getUserProfile: () => Promise<UserProfile> = async () => {
   });
   return data;
 };
-export const getUserBookings = async () => {
+export const getMyGuests = async () => {
+  const { data } = await axios.get(`${BACKEND_URL}/actions/myGuests`, {
+    withCredentials: true,
+  });
+  return data;
+};
+export const bookApartment = async (booking: CreateBooking) => {
+  const { data } = await axios.post(
+    `${BACKEND_URL}/Actions/addBookingGuests`,
+    {
+      ...booking,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+  console.log(data);
+};
+export const getMyBookings = async () => {
   const { data } = await axios.get(`${BACKEND_URL}/Actions/MyBookings`, {
     withCredentials: true,
   });

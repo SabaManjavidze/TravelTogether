@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../../Hooks/useAuth";
+import { bookApartment } from "../../../utils/Services";
+import { CreateBooking } from "../../../utils/types";
 type BookNowFormProps = {
   ownerId: string;
 };
@@ -23,10 +25,18 @@ export default function BookNowForm({ ownerId }: BookNowFormProps) {
       onSubmit={(e: any) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const dates: any = {};
-        formData.forEach((value, key) => {
-          dates[key] = value;
-        });
+        // const dates: any = {};
+        // formData.forEach((value, key) => {
+        //   dates[key] = value;
+        // });
+        const from = new Date(formData.get("From")?.toString() || "");
+        const to = new Date(formData.get("To")?.toString() || "");
+        const bookingInfo: CreateBooking = {
+          from,
+          to,
+          hostId: ownerId,
+        };
+        bookApartment(bookingInfo);
         // console.log(dates);
       }}
       sx={{

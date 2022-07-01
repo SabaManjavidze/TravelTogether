@@ -155,7 +155,7 @@ export default function Register() {
                 }}
               />
               <img
-                src={userLoading || profImage || default_user_avatar}
+                src={profImage || default_user_avatar}
                 alt=""
                 className="profile-image"
                 style={{

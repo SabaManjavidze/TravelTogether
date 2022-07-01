@@ -17,12 +17,12 @@ type BookingCardProps = {
 };
 export default function BookingCard({ item }: BookingCardProps) {
   const statusColorMap: any = {
-    Pending: { icon: "warning", text: "#ed6c02" },
-    Accepted: { icon: "success", text: "#2e7d32" },
-    Rejected: { icon: "error", text: "#d50000" },
+    Pending: { text: "warning", color: "#ed6c02" },
+    Accepted: { text: "success", color: "#2e7d32" },
+    Rejected: { text: "error", color: "#d50000" },
   };
   const theme = useTheme();
-
+  const statusMap = { "-1": "Rejected", 0: "Pending", 1: "Accepted" };
   const RenderIcon = (status: string, color: any) => {
     switch (status) {
       case "Pending":
@@ -53,6 +53,7 @@ export default function BookingCard({ item }: BookingCardProps) {
       <CardMedia
         component="img"
         height="60%"
+        draggable={false}
         // sx={{
         //   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.8)",
         // }}
@@ -69,7 +70,7 @@ export default function BookingCard({ item }: BookingCardProps) {
         }}
       >
         <Typography gutterBottom variant="h6" component="div" mb={0}>
-          {item.apartment.address}, {item.apartment.city}
+          {item.apartment.city}, {item.apartment.address}
         </Typography>
         <Box
           sx={{
@@ -129,7 +130,8 @@ export default function BookingCard({ item }: BookingCardProps) {
           whiteSpace="nowrap"
         >
           {/* {item.check_in.replace("-", "/")} - {item.check_out.replace("-", "/")} */}
-          {item.from.toString()} - {item.to.toString()}
+          {new Date(item.from).toLocaleDateString()} -{" "}
+          {new Date(item.to).toLocaleDateString()}
         </Typography>
         <Box
           sx={{
@@ -142,15 +144,18 @@ export default function BookingCard({ item }: BookingCardProps) {
           }}
         >
           {/* <StateIcon color={statusColorMap[item.status].icon} /> */}
-          {RenderIcon(item.status, statusColorMap[item.status].icon)}
+          {RenderIcon(
+            statusMap[item.status],
+            statusColorMap[statusMap[item.status]].text
+          )}
           <Typography
             variant="subtitle1"
             fontSize={15}
             textTransform="none"
             ml={0.5}
-            color={`${statusColorMap[item.status].text}`}
+            color={`${statusColorMap[statusMap[item.status]].color}`}
           >
-            {item.status}
+            {statusMap[item.status]}
           </Typography>
         </Box>
       </CardActions>

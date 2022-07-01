@@ -54,7 +54,7 @@ export default function BookedDatesView() {
       to,
       guest: {
         ...guest,
-        picture: `https://avatars.dicebear.com/api/human/${guest.firstName}.svg?background=purple`,
+        picture: `https://avatars.dicebear.com/api/human/${guest.firstName}.svg`,
       },
     };
   }

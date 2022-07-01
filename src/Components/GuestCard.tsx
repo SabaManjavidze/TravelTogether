@@ -21,24 +21,23 @@ export default function GuestCard({
   const theme = useTheme();
   const [btnColor, setBtnColor] = useState<any>("primary");
   const btnTextStyle: SxProps<Theme> = {
-    [theme.breakpoints.up("md")]: {
-      fontSize: "18px",
+    [theme.breakpoints.up("lg")]: {
+      fontSize: "17px",
     },
-    [theme.breakpoints.down("md")]: {
-      fontSize: "18px",
+    [theme.breakpoints.down("lg")]: {
+      fontSize: "15px",
     },
     [theme.breakpoints.down("sm")]: {
-      fontSize: "15px",
+      fontSize: "13px",
     },
   };
   const btnStyle: SxProps<Theme> = {
     display: "flex",
-    flexDirection: "row",
     alignItems: "center",
     whiteSpace: "nowrap",
-    [theme.breakpoints.up("md")]: {
-      width: "45%",
-    },
+    // [theme.breakpoints.up("md")]: {
+    //   width: "45%",
+    // },
     [theme.breakpoints.down("md")]: {
       width: "45%",
     },
@@ -69,7 +68,7 @@ export default function GuestCard({
           [theme.breakpoints.down("md")]: { width: "40%" },
           [theme.breakpoints.down("sm")]: { width: "50%" },
         }}
-        image={item.image}
+        image={item.guest.image}
         alt="green iguana"
       />
       <CardContent
@@ -95,7 +94,8 @@ export default function GuestCard({
             width: "90%",
             height: "100%",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "start",
+            mt: "2rem",
           }}
         >
           {/* Name and From-To */}
@@ -105,8 +105,7 @@ export default function GuestCard({
               justifyContent: "space-between",
               alignItems: "center",
               flexDirection: "row",
-              width: "100%",
-              mb: 1,
+              width: "80%",
               [theme.breakpoints.down("md")]: {
                 width: "100%",
                 flexDirection: "column",
@@ -115,19 +114,26 @@ export default function GuestCard({
           >
             <Typography
               gutterBottom
-              variant="h6"
+              variant="h5"
               //  ml={5}
             >
-              {item.name}
+              {`${item.guest.firstName[0].toUpperCase()}${item.guest.firstName.slice(
+                1,
+                item.guest.firstName.length
+              )}`}
             </Typography>
             <Typography
               variant="h6"
               color={theme.palette.mode === "dark" ? "white" : "black"}
-              fontSize={14}
+              // fontSize={14}
               whiteSpace="nowrap"
-              // mr={7}
+              sx={{
+                letterSpacing: 2.5,
+              }}
+              // mr={5}
             >
-              12.02.2022 - 15.02.2022
+              {new Date(item.from).toLocaleDateString()} -{" "}
+              {new Date(item.to).toLocaleDateString()}
             </Typography>
           </Box>
           {/* Description and Update Status */}
@@ -136,127 +142,144 @@ export default function GuestCard({
               display: "flex",
               alignItems: "center",
               flexDirection: "row",
+              width: "100%",
+              height: "inherit",
               [theme.breakpoints.down("md")]: {
-                width: "100%",
                 flexDirection: "column-reverse",
               },
             }}
           >
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              // maxHeight={"30%"}
-              width={"50%"}
-              sx={{
-                overflow: "auto",
-                maxHeight: "45px",
-                width: "100%",
-                [theme.breakpoints.up("md")]: {
-                  maxHeight: "130px",
-                },
-                [theme.breakpoints.down("md")]: {
-                  maxHeight: "60px",
-                },
-                [theme.breakpoints.down("sm")]: {
-                  maxHeight: "40px",
-                },
-              }}
-            >
-              lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </Typography>
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "50%",
-                [theme.breakpoints.down("md")]: {
-                  width: "100%",
-                  ml: 0,
-                  mt: 1,
-                  mb: 3,
-                },
+                justifyContent: "center",
+                alignItems: "start",
+                width: "40%",
                 [theme.breakpoints.down("sm")]: {
-                  flexDirection: "column",
-                  mb: 1,
+                  width: "100%",
                 },
-                ml: 5,
+                height: "inherit",
               }}
             >
-              <Button
-                sx={btnStyle}
-                onClick={() => {
-                  // console.log("accepted");
-                  if (acceptedItem === null) {
-                    setAcceptedItem(item.id);
-                    setBtnColor("success");
-                  }
-                }}
-                disabled={
-                  acceptedItem !== null ? acceptedItem !== item.id : false
-                }
-                color={btnColor}
-                variant="contained"
-              >
-                <AcceptIcon sx={btnTextStyle} />
-                <Typography
-                  variant="h6"
-                  textTransform="none"
-                  ml={0.5}
-                  textAlign="center"
-                  sx={btnTextStyle}
-                >
-                  Accept
-                </Typography>
-              </Button>
-              <Button
-                sx={[
-                  btnStyle,
-                  {
-                    [theme.breakpoints.down("sm")]: {
-                      mt: 1,
-                    },
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                // maxHeight={"30%"}
+                sx={{
+                  overflow: "auto",
+                  maxHeight: "45px",
+                  width: "100%",
+                  textAlign: "center",
+                  pt: 3,
+                  [theme.breakpoints.up("md")]: {
+                    maxHeight: "130px",
                   },
-                ]}
-                color="primary"
-                variant="outlined"
+                  [theme.breakpoints.down("md")]: {
+                    pt: 0,
+                    maxHeight: "60px",
+                  },
+                  [theme.breakpoints.down("sm")]: {
+                    maxHeight: "40px",
+                    pt: 1,
+                  },
+                }}
               >
-                <DeclineIcon
-                  sx={btnTextStyle}
-                  htmlColor={
-                    theme.palette.mode === "dark"
-                      ? theme.palette.primary.light
-                      : theme.palette.primary.main
+                {item.guest.description || "No Description."}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                [theme.breakpoints.down("md")]: {
+                  width: "100%",
+                },
+                height: "inherit",
+                width: "60%",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  mt: 5,
+                  [theme.breakpoints.down("md")]: {
+                    width: "100%",
+                    mt: 1,
+                  },
+                  [theme.breakpoints.down("sm")]: {
+                    flexDirection: "column",
+                    // mb: 1,
+                  },
+                }}
+              >
+                <Button
+                  sx={[btnStyle, { mr: 3 }]}
+                  onClick={() => {
+                    // console.log("accepted");
+                    if (acceptedItem === null) {
+                      setAcceptedItem(item.id);
+                      setBtnColor("success");
+                    }
+                  }}
+                  disabled={
+                    acceptedItem !== null ? acceptedItem !== item.id : false
                   }
-                />
-                <Typography
-                  variant="h6"
-                  textTransform="none"
-                  sx={btnTextStyle}
-                  ml={0.5}
-                  textAlign="center"
-                  border={theme.palette.mode === "dark" ? "2px" : "1px"}
-                  borderColor={
-                    theme.palette.mode === "dark"
-                      ? "primary.light"
-                      : "primary.main"
-                  }
-                  color={
-                    theme.palette.mode === "dark"
-                      ? "primary.light"
-                      : "primary.main"
-                  }
+                  color={btnColor}
+                  variant="contained"
                 >
-                  Decline
-                </Typography>
-              </Button>
+                  <AcceptIcon sx={btnTextStyle} />
+                  <Typography
+                    variant="h6"
+                    textTransform="none"
+                    ml={0.5}
+                    textAlign="center"
+                    sx={btnTextStyle}
+                  >
+                    Accept
+                  </Typography>
+                </Button>
+                <Button
+                  sx={[
+                    btnStyle,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        mt: 1,
+                      },
+                    },
+                  ]}
+                  color="primary"
+                  variant="outlined"
+                >
+                  <DeclineIcon
+                    sx={btnTextStyle}
+                    htmlColor={
+                      theme.palette.mode === "dark"
+                        ? theme.palette.primary.light
+                        : theme.palette.primary.main
+                    }
+                  />
+                  <Typography
+                    variant="h6"
+                    textTransform="none"
+                    sx={btnTextStyle}
+                    ml={0.5}
+                    textAlign="center"
+                    border={theme.palette.mode === "dark" ? "2px" : "1px"}
+                    borderColor={
+                      theme.palette.mode === "dark"
+                        ? "primary.light"
+                        : "primary.main"
+                    }
+                    color={
+                      theme.palette.mode === "dark"
+                        ? "primary.light"
+                        : "primary.main"
+                    }
+                  >
+                    Decline
+                  </Typography>
+                </Button>
+              </Box>
             </Box>
           </Box>
         </Box>
