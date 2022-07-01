@@ -28,6 +28,17 @@ export interface Apartment extends Amenities {
   description: string;
   city: string;
 }
+export type SearchResult = {
+  id: string;
+  address: string;
+  image: string;
+  distanceFromCenter: number;
+  numOfBeds: number;
+  description: string;
+  city: string;
+  avaliable: boolean | null;
+  ownerId: string;
+};
 export type Amenities = {
   pool: boolean;
   gym: boolean;

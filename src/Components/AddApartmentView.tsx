@@ -61,7 +61,7 @@ export default function AddapartmentView() {
   //   console.log({ encoded });
   // }, [encoded]);
   useEffect(() => {
-    if (!apartmentLoading) {
+    if (!apartmentLoading && apartment) {
       // console.log({ apartment });
       setProfImage(apartment.image);
     }
@@ -153,7 +153,7 @@ export default function AddapartmentView() {
                     <TextField
                       key={item[1]}
                       name={item[0]}
-                      defaultValue={apartment[item[1]]}
+                      defaultValue={apartment ? apartment[item[1]] : ""}
                       type={i > 1 ? "number" : "string"}
                       placeholder={item[0]}
                       sx={{ mt: i > 0 ? 3 : 0 }}
@@ -163,7 +163,7 @@ export default function AddapartmentView() {
                 <TextField
                   name="Description"
                   placeholder="Description"
-                  defaultValue={apartment.description}
+                  defaultValue={apartment ? apartment.description : ""}
                   multiline
                   sx={{
                     mt: 3,
@@ -241,7 +241,9 @@ export default function AddapartmentView() {
                     >
                       <Checkbox
                         name={item}
-                        defaultChecked={apartment[item.toLowerCase()]}
+                        defaultChecked={
+                          apartment ? apartment[item.toLowerCase()] : false
+                        }
                       />
                       <Typography>{item}</Typography>
                     </Box>

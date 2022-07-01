@@ -23,6 +23,9 @@ export default function SearchBar({ navigate }: any) {
   const [location, setLocation] = useState(location_param);
   const [searchData, setSearchData] = useState<any>([]);
   const theme = useTheme();
+  // useEffect(() => {
+  //   console.log(location);
+  // }, [location]);
   const suggestionRenderItem = (option: any, props: any) => (
     <li
       {...props}
@@ -70,7 +73,7 @@ export default function SearchBar({ navigate }: any) {
     setSearchData(data.features);
   };
   const debouncedGetAutoCompleteData = useCallback(
-    debounce(getAutoCompleteData, 300),
+    debounce(getAutoCompleteData, 200),
     []
   );
   const response_type_table = {
@@ -124,7 +127,7 @@ export default function SearchBar({ navigate }: any) {
             <TextField
               {...params}
               value={location}
-              autoFocus
+              // autoFocus
               placeholder="Search location"
               onChange={async (e) => {
                 const value = e.target.value;

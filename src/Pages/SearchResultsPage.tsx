@@ -1,27 +1,43 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { fake_aparts } from "../Components/MOCK_DATA";
 import { ResultCard } from "../Components/ResultCard";
 import SearchBar from "../Components/SearchBar";
+import { SearchApartment } from "../utils/Services";
+import { SearchResult } from "../utils/types";
 
 export default function SearchResultsPage() {
   const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
-  const location = params.get("location");
-  // const check_in = params.get("check_in");
-  // const check_out = params.get("check_out");
+  const location = params.get("location") || "";
+  const check_in = params.get("check_in") || "";
+  const check_out = params.get("check_out") || "";
   const theme = useTheme();
   const [currSortingIdx, setCurrSortingIdx] = useState(0);
   const sort_arr = ["num. of beds", "available", "distance"];
   const [page, setPage] = useState<number>(1);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchSearchResults = async () => {
+    const results = await SearchApartment(location, check_in, check_out, page);
+    console.log({ results });
+    setSearchResults(results as SearchResult[]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchSearchResults();
+  }, [window.location.search]);
+
   return (
     <Container>
       <Box mt={10}>
@@ -30,7 +46,6 @@ export default function SearchResultsPage() {
           component={"h1"}
           variant={"h2"}
           mt={10}
-          color="text.primary"
           sx={{
             [theme.breakpoints.down("sm")]: {
               textAlign: "center",
@@ -87,11 +102,17 @@ export default function SearchResultsPage() {
             mt: 10,
           }}
         >
-          {fake_aparts.slice(0, page * 10).map((item) => (
-            <Grid item key={item.id}>
-              <ResultCard item={item} />
-            </Grid>
-          ))}
+          {loading ? (
+            <Box>
+              <CircularProgress />
+            </Box>
+          ) : (
+            searchResults.map((item) => (
+              <Grid item key={item.id}>
+                <ResultCard item={item} />
+              </Grid>
+            ))
+          )}
         </Grid>
       </Box>
     </Container>

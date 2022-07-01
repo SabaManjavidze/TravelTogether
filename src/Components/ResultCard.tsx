@@ -10,13 +10,12 @@ import {
   CardActions,
   useTheme,
 } from "@mui/material";
-import { Apartment } from "../utils/types";
+import { Apartment, SearchResult } from "../utils/types";
 import { useNavigate } from "react-router";
 import "../App.css";
 
-export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
+export const ResultCard: React.FC<{ item: SearchResult }> = ({ item }) => {
   const theme = useTheme();
-  const imgBoxHeight = 50;
   const navigate = useNavigate();
   return (
     <Box
@@ -55,8 +54,13 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
           navigate(`/details/${item.id}`);
         }}
       >
-        <Typography gutterBottom variant="h5" component="div">
-          {item.address}
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="div"
+          textAlign="center"
+        >
+          {item.city}, {item.address}
         </Typography>
 
         <Box
@@ -68,8 +72,8 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
             alignItems: "center",
           }}
         >
-          <Typography>{item.numOfBeds} beds</Typography>
-          <Typography>{item.distanceFromCenter}m</Typography>
+          <Typography variant="body1">{item.numOfBeds} beds</Typography>
+          <Typography variant="body1">{item.distanceFromCenter}m</Typography>
         </Box>
         <Typography
           variant="body2"
@@ -78,9 +82,9 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
           sx={{
             textAlign: "center",
             maxWidth: "80%",
-            maxHeight: "70%",
+            maxHeight: "80%",
             overflowY: "auto",
-            my: 2,
+            my: 1,
             // [theme.breakpoints.down("md")]: {
             //   overflowY: "auto",
             //   height: 100,
@@ -103,6 +107,7 @@ export const ResultCard: React.FC<{ item: Apartment }> = ({ item }) => {
           }}
           color="primary"
           variant="contained"
+          disabled={!item.avaliable}
         >
           <Typography sx={{ mt: 0, textTransform: "none" }}>
             Book Now

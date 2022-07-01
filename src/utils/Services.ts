@@ -7,6 +7,7 @@ import {
   UserProfile,
   CreateBooking,
   Booking,
+  SearchResult,
 } from "./types";
 
 export const BACKEND_URL = "https://localhost:7060/api";
@@ -106,11 +107,16 @@ export const SearchApartment = async (
   orderBy?: "NumOfBeds" | "DistanceFromCenter"
 ) => {
   try {
-    const params = `city=${city}&from=${from}&to=${to}&pageNumber=${pageNumber}&orderBy=${orderBy}`;
-    const apartments = await axios.get(
-      `${BACKEND_URL}/actions/search?${params}&pageSize=9`
+    // console.log(new URLSearchParams(window.location.href).get("location"));
+    const order_by_param = orderBy ? `&orderBy=${orderBy}` : "";
+    const from_param = from ? `&from=${from}` : "";
+    const to_param = from ? `&to=${to}` : "";
+    const params = `city=${city}${from_param}${to_param}&pageNumber=${pageNumber}${order_by_param}`;
+    const { data }: { data: SearchResult[] } = await axios.get(
+      `${BACKEND_URL}/actions/search?${params}&pageSize=9`,
+      { withCredentials: true }
     );
-    return apartments;
+    return data;
   } catch (error) {
     console.log(error);
     return null;

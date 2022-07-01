@@ -1,13 +1,17 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import { Typography, useTheme } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Box,
+  Typography,
+  useTheme,
+} from "@mui/material";
 
 interface Column {
   id: "from" | "to" | "guest";
@@ -132,15 +136,19 @@ export default function BookedDatesView() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow role="checkbox" tabIndex={-1} key={row.from}>
-                    {columns.map((column) => {
+                  <TableRow
+                    role="checkbox"
+                    tabIndex={-1}
+                    key={row.guest.firstName}
+                  >
+                    {columns.map((column, index) => {
                       const value = row[column.id];
                       return (
-                        <TableCell key={column.id} align={column.align}>
+                        <TableCell key={index} align={column.align}>
                           {typeof value == "string" ? (
                             <Typography variant="h4">{value}</Typography>
                           ) : (
-                            <Typography>
+                            <Box display="inline">
                               <Typography>{value.firstName}</Typography>
                               <img
                                 src={value.picture}
@@ -149,7 +157,7 @@ export default function BookedDatesView() {
                                 height="80px"
                                 style={{ borderRadius: "50%" }}
                               />
-                            </Typography>
+                            </Box>
                           )}
                         </TableCell>
                       );

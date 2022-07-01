@@ -62,6 +62,8 @@ function App() {
               h4: fontStyleOverride,
               h5: fontStyleOverride,
               h6: fontStyleOverride,
+              body1: fontStyleOverride,
+              body2: fontStyleOverride,
             },
           },
         },
