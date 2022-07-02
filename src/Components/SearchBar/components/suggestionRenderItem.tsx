@@ -6,11 +6,7 @@ type suggestionPropType = {
   option: GeopifyResponse;
   state?: AutocompleteRenderOptionState;
 };
-export default function suggestionRenderItem({
-  props,
-  option,
-}: suggestionPropType) {
-  const theme = useTheme();
+export default function suggestionRenderItem({ props, option }: any) {
   return (
     <li
       {...props}
@@ -26,7 +22,8 @@ export default function suggestionRenderItem({
       <div
         style={{
           fontSize: "13px",
-          color: theme.palette.text.secondary,
+          // color: theme.palette.text.secondary,
+          color: "GrayText",
           marginLeft: 5,
         }}
       >

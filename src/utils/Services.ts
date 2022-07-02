@@ -32,7 +32,7 @@ export const RegisterUser = async (user: User) => {
 };
 export const updateStatus = async (id: string, status: Status) => {
   await axios.put(
-    `${BACKEND_URL}/actions/updateStatus`,
+    `${BACKEND_URL}/user/updateStatus`,
     {
       id,
       status,
@@ -55,12 +55,6 @@ export const updateUserProfile = async (updates: any) => {
   );
 };
 
-export const getUserApartment: () => Promise<Apartment> = async () => {
-  const { data } = await axios.get(`${BACKEND_URL}/apartment/userApartment`, {
-    withCredentials: true,
-  });
-  return data;
-};
 export const getUserProfile: () => Promise<UserProfile> = async () => {
   const { data } = await axios.get(`${BACKEND_URL}/User/profile`, {
     withCredentials: true,
@@ -91,38 +85,13 @@ export const getMyBookings = async () => {
   });
   return data as Booking[];
 };
-//#region Apartment
-
-export const updateApartment = async (apartment: Apartment) => {
-  try {
-    const resp = await axios.put(
-      `${BACKEND_URL}/apartment/updateApartment`,
-      {
-        ...apartment,
-      },
-      { withCredentials: true }
-    );
-    return resp.status;
-  } catch (error) {
-    console.log(JSON.stringify(error, null, 2));
-    return null;
-  }
-};
 export const LogOut = async () => {
   await axios.post(`${BACKEND_URL}/actions/logout`, null, {
     withCredentials: true,
   });
   // return data;
 };
-export const getApartmentDetails = async (apartmentId: string) => {
-  const { data } = await axios.get(
-    `${BACKEND_URL}/apartment/apartmentDetails?apartmentId=${apartmentId}`,
-    {
-      withCredentials: true,
-    }
-  );
-  return data;
-};
+
 export const SearchApartment = async (
   city: string,
   from: string,
@@ -145,6 +114,40 @@ export const SearchApartment = async (
     console.log(error);
     return null;
   }
+};
+
+//#region Apartment
+
+export const getUserApartment: () => Promise<Apartment> = async () => {
+  const { data } = await axios.get(`${BACKEND_URL}/apartment`, {
+    withCredentials: true,
+  });
+  return data;
+};
+export const updateApartment = async (apartment: Apartment) => {
+  try {
+    const resp = await axios.put(
+      `${BACKEND_URL}/apartment`,
+      {
+        ...apartment,
+      },
+      { withCredentials: true }
+    );
+    return resp.status;
+  } catch (error) {
+    console.log(JSON.stringify(error, null, 2));
+    return null;
+  }
+};
+
+export const getApartmentDetails = async (apartmentId: string) => {
+  const { data } = await axios.get(
+    `${BACKEND_URL}/apartment/details?apartmentId=${apartmentId}`,
+    {
+      withCredentials: true,
+    }
+  );
+  return data;
 };
 export const createApartment = async (apartment: Apartment) => {
   try {

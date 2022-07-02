@@ -11,9 +11,10 @@ import {
   SxProps,
   Theme,
 } from "@mui/material";
-import { Check as AcceptIcon, Close as DeclineIcon } from "@mui/icons-material";
+import { Check as AcceptIcon, Close as RejectIcon } from "@mui/icons-material";
 import { Guest, User } from "../utils/types";
 import { updateStatus } from "../utils/Services";
+import "../App.css";
 
 type GuestCardProps = {
   item: Guest;
@@ -47,7 +48,7 @@ export default function GuestCard({
     //   width: "45%",
     // },
     [theme.breakpoints.down("md")]: {
-      width: "45%",
+      width: "20vh",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -61,9 +62,8 @@ export default function GuestCard({
       sx={{
         display: "flex",
         flexDirection: "row",
-        width: "100%",
+        // width: "110vh",
         height: 250,
-        // [theme.breakpoints.down("lg")]: { width: 400 },
         border: 1,
         borderColor: "primary.main",
       }}
@@ -72,9 +72,9 @@ export default function GuestCard({
         component="img"
         // height="30%"
         sx={{
-          width: "30%",
-          [theme.breakpoints.down("md")]: { width: "40%" },
-          [theme.breakpoints.down("sm")]: { width: "50%" },
+          width: "30vh",
+          [theme.breakpoints.down("md")]: { width: "25vh" },
+          [theme.breakpoints.down("sm")]: { width: "20vh" },
         }}
         image={item.image}
         alt="green iguana"
@@ -86,10 +86,12 @@ export default function GuestCard({
           pb: "0px !important",
           m: 0,
           display: "flex",
-          width: "70%",
+          width: "40vh",
 
-          [theme.breakpoints.down("md")]: { width: "60%" },
-          [theme.breakpoints.down("sm")]: { width: "50%" },
+          [theme.breakpoints.up("lg")]: { width: "80vh" },
+          [theme.breakpoints.down("lg")]: { width: "65vh" },
+          [theme.breakpoints.down("md")]: { width: "40vh" },
+          [theme.breakpoints.down("sm")]: { width: "30vh" },
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
@@ -113,7 +115,7 @@ export default function GuestCard({
               justifyContent: "space-between",
               alignItems: "center",
               flexDirection: "row",
-              width: "80%",
+              width: "90%",
               [theme.breakpoints.down("md")]: {
                 width: "100%",
                 flexDirection: "column",
@@ -150,7 +152,8 @@ export default function GuestCard({
               display: "flex",
               alignItems: "center",
               flexDirection: "row",
-              width: "100%",
+              // width: "100%",
+              width: "inherit",
               height: "inherit",
               [theme.breakpoints.down("md")]: {
                 flexDirection: "column-reverse",
@@ -162,9 +165,10 @@ export default function GuestCard({
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "start",
-                width: "40%",
+                // width: "40%",
+                width: "25vh",
                 [theme.breakpoints.down("sm")]: {
-                  width: "100%",
+                  width: "inherit",
                 },
                 height: "inherit",
               }}
@@ -173,22 +177,24 @@ export default function GuestCard({
                 variant="body2"
                 color="text.secondary"
                 // maxHeight={"30%"}
+                className="custom-scrollbar"
                 sx={{
                   overflow: "auto",
                   maxHeight: "45px",
-                  width: "100%",
+                  // width: "100%",
                   textAlign: "center",
                   pt: 3,
+                  pr: 2,
                   [theme.breakpoints.up("md")]: {
                     maxHeight: "130px",
                   },
                   [theme.breakpoints.down("md")]: {
                     pt: 0,
-                    maxHeight: "60px",
+                    maxHeight: "40px",
                   },
                   [theme.breakpoints.down("sm")]: {
-                    maxHeight: "40px",
-                    pt: 1,
+                    maxHeight: "30px",
+                    pt: 0,
                   },
                 }}
               >
@@ -210,18 +216,24 @@ export default function GuestCard({
                   flexDirection: "row",
                   justifyContent: "space-between",
                   mt: 5,
+                  pl: 4,
                   [theme.breakpoints.down("md")]: {
                     width: "100%",
-                    mt: 1,
-                  },
-                  [theme.breakpoints.down("sm")]: {
                     flexDirection: "column",
-                    // mb: 1,
+                    alignItems: "center",
+                    my: 1,
+                    pl: 0,
                   },
+                  // [theme.breakpoints.down("sm")]: {
+                  // mb: 1,
+                  // },
                 }}
               >
                 <Button
-                  sx={[btnStyle, { mr: 3 }]}
+                  sx={[
+                    btnStyle,
+                    { mr: 3, [theme.breakpoints.down("md")]: { mr: 0, mb: 1 } },
+                  ]}
                   onClick={() => {
                     // console.log("accepted");
                     updateStatus(item.id, "Accepted");
@@ -259,10 +271,10 @@ export default function GuestCard({
                   color="primary"
                   variant="outlined"
                   onClick={() => {
-                    updateStatus(item.id, "Declined");
+                    updateStatus(item.id, "Rejected");
                   }}
                 >
-                  <DeclineIcon
+                  <RejectIcon
                     sx={btnTextStyle}
                     htmlColor={
                       theme.palette.mode === "dark"
@@ -288,7 +300,7 @@ export default function GuestCard({
                         : "primary.main"
                     }
                   >
-                    Decline
+                    Reject
                   </Typography>
                 </Button>
               </Box>

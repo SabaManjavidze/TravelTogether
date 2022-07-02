@@ -79,8 +79,8 @@ type DateRange = {
 export interface CreateBooking extends DateRange {
   hostId: string;
 }
-export type Status = "Accepted" | "Declined" | "Pending";
-export type StatusEnum = "-1" | 0 | 1;
+export type Status = "Accepted" | "Rejected" | "Pending";
+export type StatusEnum = 2 | 0 | 1;
 
 export interface Booking extends DateRange {
   id: string;

@@ -115,6 +115,7 @@ export default function AddapartmentView() {
               updateApartment(apartment_input);
             } else {
               createApartment(apartment_input);
+              setApartmentLoading(true);
             }
             setApartment(apartment_input);
           }}

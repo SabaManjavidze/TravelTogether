@@ -60,10 +60,10 @@ export default function ProfilePage() {
               updates[key] = item;
             }
           });
-          if (profImage !== "" && encoded !== "") {
-            updates.image = encoded;
+          if (profImage !== "") {
+            updates.image = profImage;
           }
-          console.log(updates);
+          // console.log(updates);
           updateUserProfile(updates);
         }}
         sx={{

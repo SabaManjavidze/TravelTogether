@@ -21,13 +21,14 @@ import suggestionRenderItem from "./components/suggestionRenderItem";
 // };
 
 export default function SearchBar() {
+  const theme = useTheme();
+  const navigate = useNavigate();
   const [params, setParams] = useSearchParams(window.location.href);
+  const [searchData, setSearchData] = useState<GeopifyResponse[]>([]);
   const location = params.get("location") || "";
   const check_in = params.get("checkIn") || "";
   const check_out = params.get("checkOut") || "";
-  const [searchData, setSearchData] = useState<GeopifyResponse[]>([]);
-  const theme = useTheme();
-  const navigate = useNavigate();
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.cancelable = true;
@@ -91,12 +92,17 @@ export default function SearchBar() {
       >
         <Autocomplete
           getOptionLabel={(option: any) => {
-            if (option) {
-              if (option.properties.result_type in response_type_table) {
-                return option.properties.city || option.properties.suburb || "";
-              }
+            const { result_type } = option.properties;
+            if (result_type in response_type_table) {
+              const value = option.properties[result_type];
+              return value;
             }
             return "";
+          }}
+          isOptionEqualToValue={(option, value) => {
+            return (
+              option.properties.address_line1 === value.properties.address_line1
+            );
           }}
           options={searchData}
           className="search-input"
@@ -104,8 +110,8 @@ export default function SearchBar() {
           clearOnEscape={false}
           defaultValue={{
             properties: {
-              city: location || "",
-              suburb: "",
+              city: location,
+              address_line1: location,
               result_type: "city",
             },
           }}
@@ -114,7 +120,7 @@ export default function SearchBar() {
           }
           renderInput={(params: any) => (
             <TextField
-              value={location}
+              {...params}
               onChange={async (e) => {
                 const value = e.target.value;
                 if (value.length > 0) {
@@ -131,7 +137,6 @@ export default function SearchBar() {
                 [theme.breakpoints.down("md")]: { width: 300 },
                 [theme.breakpoints.between("md", "lg")]: { mb: 3 },
               }}
-              {...params}
             />
           )}
         />
@@ -153,7 +158,7 @@ export default function SearchBar() {
           name="check_in"
           label="Check in"
           type="date"
-          defaultValue={check_in}
+          // defaultValue={check_in}
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
           sx={{
             width: 220,
@@ -170,7 +175,7 @@ export default function SearchBar() {
           label="Check out"
           type="date"
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
-          defaultValue={check_out}
+          // defaultValue={check_out}
           sx={{
             width: 220,
             ml: 5,
