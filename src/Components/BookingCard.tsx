@@ -16,13 +16,17 @@ type BookingCardProps = {
   item: Booking;
 };
 export default function BookingCard({ item }: BookingCardProps) {
-  const statusColorMap: any = {
-    Pending: { text: "warning", color: "#ed6c02" },
-    Accepted: { text: "success", color: "#2e7d32" },
-    Rejected: { text: "error", color: "#d50000" },
+  const statusColorMap = {
+    Pending: { text: "warning", color: "#ed6c02", label: "Pending" },
+    Accepted: { text: "success", color: "#2e7d32", label: "Accepted" },
+    Rejected: { text: "error", color: "#d50000", label: "Rejected" },
   };
   const theme = useTheme();
-  const statusMap = { "-1": "Rejected", 0: "Pending", 1: "Accepted" };
+  const statusMap = {
+    "-1": statusColorMap.Rejected,
+    0: statusColorMap.Pending,
+    1: statusColorMap.Accepted,
+  };
   const RenderIcon = (status: string, color: any) => {
     switch (status) {
       case "Pending":
@@ -145,17 +149,17 @@ export default function BookingCard({ item }: BookingCardProps) {
         >
           {/* <StateIcon color={statusColorMap[item.status].icon} /> */}
           {RenderIcon(
-            statusMap[item.status],
-            statusColorMap[statusMap[item.status]].text
+            statusMap[item.status].label,
+            statusMap[item.status].text
           )}
           <Typography
             variant="subtitle1"
             fontSize={15}
             textTransform="none"
             ml={0.5}
-            color={`${statusColorMap[statusMap[item.status]].color}`}
+            color={`${statusMap[item.status].color}`}
           >
-            {statusMap[item.status]}
+            {statusMap[item.status].label}
           </Typography>
         </Box>
       </CardActions>

@@ -29,7 +29,7 @@ export default function NavBar() {
     setAnchorElNav(event.currentTarget);
   };
 
-  const menuRenderItem = (title: any, path: any) => (
+  const menuRenderItem = ({ title, path }: typeof pages[0]) => (
     <MenuItem
       key={title}
       onClick={() => {
@@ -126,7 +126,9 @@ export default function NavBar() {
                   mt: 1,
                 }}
               >
-                {pages.map(({ title, path }) => menuRenderItem(title, path))}
+                {pages.map(({ title, path }) =>
+                  menuRenderItem({ title, path })
+                )}
               </Menu>
             </Box>
           ) : null}

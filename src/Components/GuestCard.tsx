@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import {
   Card,
   CardMedia,
@@ -12,12 +12,20 @@ import {
   Theme,
 } from "@mui/material";
 import { Check as AcceptIcon, Close as DeclineIcon } from "@mui/icons-material";
+import { Guest, User } from "../utils/types";
+import { updateStatus } from "../utils/Services";
+
+type GuestCardProps = {
+  item: Guest;
+  acceptedItem: string;
+  setAcceptedItem: Dispatch<string>;
+};
 
 export default function GuestCard({
   item,
   acceptedItem,
   setAcceptedItem,
-}: any) {
+}: GuestCardProps) {
   const theme = useTheme();
   const [btnColor, setBtnColor] = useState<any>("primary");
   const btnTextStyle: SxProps<Theme> = {
@@ -216,13 +224,14 @@ export default function GuestCard({
                   sx={[btnStyle, { mr: 3 }]}
                   onClick={() => {
                     // console.log("accepted");
-                    if (acceptedItem === null) {
+                    updateStatus(item.id, "Accepted");
+                    if (acceptedItem === "") {
                       setAcceptedItem(item.id);
                       setBtnColor("success");
                     }
                   }}
                   disabled={
-                    acceptedItem !== null ? acceptedItem !== item.id : false
+                    acceptedItem !== "" ? acceptedItem !== item.id : false
                   }
                   color={btnColor}
                   variant="contained"
@@ -249,6 +258,9 @@ export default function GuestCard({
                   ]}
                   color="primary"
                   variant="outlined"
+                  onClick={() => {
+                    updateStatus(item.id, "Declined");
+                  }}
                 >
                   <DeclineIcon
                     sx={btnTextStyle}

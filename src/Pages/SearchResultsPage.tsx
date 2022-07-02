@@ -48,7 +48,7 @@ export default function SearchResultsPage() {
   return (
     <Container>
       <Box mt={10}>
-        <SearchBar navigate={navigate} />
+        <SearchBar />
         <Typography
           component={"h1"}
           variant={"h2"}

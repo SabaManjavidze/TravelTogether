@@ -7,13 +7,19 @@ import {
   CreateBooking,
   Booking,
   SearchResult,
+  Status,
 } from "./types";
 
 export const BACKEND_URL = "https://localhost:7060/api";
 export const default_user_avatar =
   "https://www.innovaxn.eu/wp-content/uploads/blank-profile-picture-973460_1280.png";
 export const amenities = ["Wifi", "Pool", "Gym", "Parking"];
-export const AmenitiesSet = { Wifi: 0, Pool: 1, Gym: 2, Parking: 3 };
+export const AmenitiesSet = {
+  Wifi: false,
+  Pool: false,
+  Gym: false,
+  Parking: false,
+};
 export const RegisterUser = async (user: User) => {
   try {
     const resp = await axios.post(`${BACKEND_URL}/User/Register`, {
@@ -24,6 +30,19 @@ export const RegisterUser = async (user: User) => {
     console.log(JSON.stringify(error, null, 2));
   }
 };
+export const updateStatus = async (id: string, status: Status) => {
+  await axios.put(
+    `${BACKEND_URL}/actions/updateStatus`,
+    {
+      id,
+      status,
+    },
+    {
+      withCredentials: true,
+    }
+  );
+};
+
 export const updateUserProfile = async (updates: any) => {
   await axios.put(
     `${BACKEND_URL}/user/updateUser`,

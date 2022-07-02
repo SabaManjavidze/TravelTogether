@@ -46,7 +46,7 @@ export default function SearchPage() {
           Find apartments
         </Typography>
         <Box mt={10}>
-          <SearchBar navigate={navigate} />
+          <SearchBar />
         </Box>
       </Box>
     </Container>

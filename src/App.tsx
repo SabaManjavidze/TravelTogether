@@ -29,9 +29,9 @@ export const useColorMode = () => useContext(ColorModeContext);
 //  lg: 1200,
 // extra-large
 //  xl: 1536,
-
+type themeType = "light" | "dark";
 function App() {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const [mode, setMode] = useState<themeType>("light");
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
@@ -81,7 +81,7 @@ function App() {
     [mode]
   );
   useEffect(() => {
-    const last_theme: any = localStorage.getItem("theme");
+    const last_theme = localStorage.getItem("theme") as themeType;
 
     if (last_theme && last_theme !== mode) {
       setMode(last_theme);

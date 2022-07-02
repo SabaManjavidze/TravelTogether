@@ -27,7 +27,7 @@ import {
   getUserApartment,
   updateApartment,
 } from "../utils/Services";
-import { Apartment, UserProfile } from "../utils/types";
+import { Amenities, Apartment, UserProfile } from "../utils/types";
 import { useAuth } from "../Hooks/useAuth";
 
 export default function AddapartmentView() {
@@ -48,7 +48,6 @@ export default function AddapartmentView() {
     "Distance From Center": "distanceFromCenter",
     "Num Of Beds": "numOfBeds",
   };
-
   const setUserApartment = async () => {
     const apart = await getUserApartment();
     if (apart) {
@@ -97,19 +96,21 @@ export default function AddapartmentView() {
           onSubmit={(e: FormEvent<HTMLFormElement>) => {
             e.preventDefault();
             const formData = new FormData(e.currentTarget);
-            const apartment_input: any = {};
-            formData.forEach((value, key) => {
+            const apartment_input: Apartment = {};
+            // apartment_input.city = formData.get("city")?.toString();
+            // const apartment_input: any = {};
+            formData.forEach((value: any, key: string) => {
               // console.log(`${key}: ${value}`);
               if (key in AmenitiesSet) {
-                apartment_input[key] = !!value;
+                apartment_input[key as keyof Amenities] = !!value;
               } else {
-                apartment_input[key.replaceAll(" ", "")] = value;
+                apartment_input[key.replaceAll(" ", "") as keyof Apartment] =
+                  value;
               }
             });
             if (profImage !== "") {
               apartment_input.image = profImage;
             }
-            console.log(apartment);
             if (apartment && apartment !== null && apartment != null) {
               updateApartment(apartment_input);
             } else {

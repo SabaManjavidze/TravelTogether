@@ -2,11 +2,12 @@ import { Container, Box, Typography, Grid, useTheme } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import GuestCard from "../Components/GuestCard";
 import { getMyGuests } from "../utils/Services";
+import { Guest } from "../utils/types";
 
 export default function MyGuestsPage() {
   const theme = useTheme();
-  const [acceptedItem, setAcceptedItem] = useState(null);
-  const [myGuests, setMyGuests] = useState<any>([]);
+  const [acceptedItem, setAcceptedItem] = useState("");
+  const [myGuests, setMyGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchMyGuests = async () => {

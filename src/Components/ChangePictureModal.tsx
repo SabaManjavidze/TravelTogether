@@ -1,15 +1,16 @@
-import React, {
-  ChangeEventHandler,
-  FormEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
-import { SxProps, TextField, Typography, useTheme } from "@mui/material";
+import {
+  SxProps,
+  TextField,
+  TextFieldProps,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { Theme } from "@mui/system";
 import { convertToBase64 } from "../utils/Services";
 

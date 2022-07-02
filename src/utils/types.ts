@@ -27,7 +27,7 @@ export type GeopifyProperties = {
   address_line1?: string;
   address_line2?: string;
   category?: string;
-  result_type?: "suburb" | "city" | "postcode";
+  result_type: "suburb" | "city" | "postcode";
   place_id?: string;
 };
 export interface UserProfile extends User {
@@ -40,13 +40,13 @@ export type LoginType = {
   password: string;
 };
 export interface Apartment extends Amenities {
-  id: string;
-  address: string;
-  image: string;
-  distanceFromCenter: number;
-  numOfBeds: number;
-  description: string;
-  city: string;
+  id?: string;
+  address?: string;
+  image?: string;
+  distanceFromCenter?: number;
+  numOfBeds?: number;
+  description?: string;
+  city?: string;
 }
 export type SearchResult = {
   id: string;
@@ -60,14 +60,17 @@ export type SearchResult = {
   ownerId: string;
 };
 export type Amenities = {
-  pool: boolean;
-  gym: boolean;
-  wifi: boolean;
-  parking: boolean;
+  pool?: boolean;
+  gym?: boolean;
+  wifi?: boolean;
+  parking?: boolean;
 };
 export interface Guest extends DateRange {
+  id: string;
   firstName: string;
   lastName: string;
+  image: string;
+  description: string;
 }
 type DateRange = {
   from: Date;
@@ -76,7 +79,7 @@ type DateRange = {
 export interface CreateBooking extends DateRange {
   hostId: string;
 }
-export type Status = "Accept" | "Decline" | "Pending";
+export type Status = "Accepted" | "Declined" | "Pending";
 export type StatusEnum = "-1" | 0 | 1;
 
 export interface Booking extends DateRange {

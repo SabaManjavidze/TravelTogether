@@ -12,7 +12,7 @@ import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import "../../App.css";
 import axios, { AxiosError } from "axios";
 import { debounce } from "lodash";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { GeopifyResponse } from "../../utils/types";
 import suggestionRenderItem from "./components/suggestionRenderItem";
 
@@ -20,13 +20,14 @@ import suggestionRenderItem from "./components/suggestionRenderItem";
 //   options: GeopifyOptions;
 // };
 
-export default function SearchBar({ navigate }: any) {
+export default function SearchBar() {
   const [params, setParams] = useSearchParams(window.location.href);
   const location = params.get("location") || "";
   const check_in = params.get("checkIn") || "";
   const check_out = params.get("checkOut") || "";
   const [searchData, setSearchData] = useState<GeopifyResponse[]>([]);
   const theme = useTheme();
+  const navigate = useNavigate();
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.cancelable = true;
@@ -66,7 +67,7 @@ export default function SearchBar({ navigate }: any) {
     <Grid
       container
       component={"form"}
-      onSubmit={(e: any) => handleSubmit(e)}
+      onSubmit={(e: FormEvent<HTMLFormElement>) => handleSubmit(e)}
       // mt={5}
       display="flex"
       justifyContent={"center"}
@@ -90,11 +91,12 @@ export default function SearchBar({ navigate }: any) {
       >
         <Autocomplete
           getOptionLabel={(option: any) => {
-            const some =
-              option && option.properties?.result_type in response_type_table
-                ? option.properties.city || option.properties.suburb
-                : "";
-            return some;
+            if (option) {
+              if (option.properties.result_type in response_type_table) {
+                return option.properties.city || option.properties.suburb || "";
+              }
+            }
+            return "";
           }}
           options={searchData}
           className="search-input"
@@ -102,7 +104,8 @@ export default function SearchBar({ navigate }: any) {
           clearOnEscape={false}
           defaultValue={{
             properties: {
-              city: location,
+              city: location || "",
+              suburb: "",
               result_type: "city",
             },
           }}
