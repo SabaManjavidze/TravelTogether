@@ -22,7 +22,7 @@ export const AmenitiesSet = {
 };
 export const RegisterUser = async (user: User) => {
   try {
-    const resp = await axios.post(`${BACKEND_URL}/User/Register`, {
+    const resp = await axios.post(`${BACKEND_URL}/user`, {
       ...user,
     });
     return resp;
@@ -32,7 +32,7 @@ export const RegisterUser = async (user: User) => {
 };
 export const updateStatus = async (id: string, status: Status) => {
   await axios.put(
-    `${BACKEND_URL}/user/updateStatus`,
+    `${BACKEND_URL}/action/updateStatus`,
     {
       id,
       status,
@@ -45,7 +45,7 @@ export const updateStatus = async (id: string, status: Status) => {
 
 export const updateUserProfile = async (updates: any) => {
   await axios.put(
-    `${BACKEND_URL}/user/updateUser`,
+    `${BACKEND_URL}/user`,
     {
       ...updates,
     },
@@ -56,7 +56,7 @@ export const updateUserProfile = async (updates: any) => {
 };
 
 export const getUserProfile: () => Promise<UserProfile> = async () => {
-  const { data } = await axios.get(`${BACKEND_URL}/User/profile`, {
+  const { data } = await axios.get(`${BACKEND_URL}/user/`, {
     withCredentials: true,
   });
   return data;

@@ -17,16 +17,16 @@ type BookingCardProps = {
 };
 export default function BookingCard({ item }: BookingCardProps) {
   const statusColorMap = {
-    Pending: { text: "warning", color: "#ed6c02", label: "Pending" },
-    Accepted: { text: "success", color: "#2e7d32", label: "Accepted" },
-    Rejected: { text: "error", color: "#d50000", label: "Rejected" },
+    Pending: { text: "warning", color: "#ed6c02" },
+    Accepted: { text: "success", color: "#2e7d32" },
+    Rejected: { text: "error", color: "#d50000" },
   };
   const theme = useTheme();
-  const statusMap = {
-    "-1": statusColorMap.Rejected,
-    0: statusColorMap.Pending,
-    1: statusColorMap.Accepted,
-  };
+  // const statusColorMap = {
+  //   2: statusColorMap.Rejected,
+  //   0: statusColorMap.Pending,
+  //   1: statusColorMap.Accepted,
+  // };
   const RenderIcon = (status: string, color: any) => {
     switch (status) {
       case "Pending":
@@ -74,7 +74,13 @@ export default function BookingCard({ item }: BookingCardProps) {
         }}
       >
         <Typography gutterBottom variant="h6" component="div" mb={0}>
-          {item.apartment.city}, {item.apartment.address}
+          {`${(
+            item.apartment.city as string
+          )[0].toUpperCase()}${item.apartment.city?.slice(
+            1,
+            item.apartment.city.length
+          )}`}
+          , {item.apartment.address}
         </Typography>
         <Box
           sx={{
@@ -124,13 +130,14 @@ export default function BookingCard({ item }: BookingCardProps) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          mx: 5,
+          mx: 3,
         }}
       >
         <Typography
           variant="h6"
           color={theme.palette.mode === "dark" ? "white" : "black"}
-          fontSize={14}
+          fontSize={15}
+          letterSpacing="1.3px"
           whiteSpace="nowrap"
         >
           {/* {item.check_in.replace("-", "/")} - {item.check_out.replace("-", "/")} */}
@@ -148,18 +155,15 @@ export default function BookingCard({ item }: BookingCardProps) {
           }}
         >
           {/* <StateIcon color={statusColorMap[item.status].icon} /> */}
-          {RenderIcon(
-            statusMap[item.status].label,
-            statusMap[item.status].text
-          )}
+          {RenderIcon(item.status, statusColorMap[item.status].text)}
           <Typography
             variant="subtitle1"
             fontSize={15}
             textTransform="none"
             ml={0.5}
-            color={`${statusMap[item.status].color}`}
+            color={`${statusColorMap[item.status].color}`}
           >
-            {statusMap[item.status].label}
+            {item.status}
           </Typography>
         </Box>
       </CardActions>

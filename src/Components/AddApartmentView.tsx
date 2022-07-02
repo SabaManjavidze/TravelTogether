@@ -21,7 +21,6 @@ import {
 } from "@mui/icons-material";
 import ChangePictureModal from "./ChangePictureModal";
 import {
-  amenities,
   AmenitiesSet,
   createApartment,
   getUserApartment,

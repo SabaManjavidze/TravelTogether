@@ -10,11 +10,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router";
 import { LocationOn as LocationIcon } from "@mui/icons-material";
 import { Close, Check } from "@mui/icons-material";
-import {
-  amenities,
-  AmenitiesSet,
-  getApartmentDetails,
-} from "../../utils/Services";
+import { AmenitiesSet, getApartmentDetails } from "../../utils/Services";
 import BookNowForm from "./components/BookNowForm";
 import BookedDatesView from "./components/BookedDatesView";
 import amenitiesRenderItem from "./components/amenitiesRenderItem";
