@@ -28,14 +28,6 @@ export default function Navigation() {
       {userLoading ? null : (
         <Routes>
           <Route
-            element={
-              isLoggedIn ? <Navigate to="/search" replace /> : <Outlet />
-            }
-          >
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Route>
-          <Route
             element={isLoggedIn ? <Outlet /> : <Navigate to="/login" replace />}
           >
             <Route path="/" element={<Navigate to="/search" replace />} />
@@ -45,6 +37,14 @@ export default function Navigation() {
             <Route path="/mybookings" element={<MyBookingsPage />} />
             <Route path="/myguests" element={<MyGuestsPage />} />
             <Route path="/details/:id" element={<DetailsPage />} />
+          </Route>
+          <Route
+            element={
+              isLoggedIn ? <Navigate to="/search" replace /> : <Outlet />
+            }
+          >
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<LoginPage />} />
           </Route>
         </Routes>
       )}

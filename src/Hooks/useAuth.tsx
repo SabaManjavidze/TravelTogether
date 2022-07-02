@@ -14,11 +14,13 @@ type AuthContextProps = {
   userLoading: boolean;
   isLoggedIn: boolean;
   setIsLoggedIn: Dispatch<boolean>;
+  setUserLoading: Dispatch<boolean>;
 };
 export const AuthContext = createContext<AuthContextProps>({
   user: { description: "", firstName: "", image: "", lastName: "", email: "" },
   isLoggedIn: false,
   setIsLoggedIn: () => null,
+  setUserLoading: () => null,
   setUser: dispatchEvent,
   userLoading: true,
 });
@@ -46,7 +48,14 @@ export const AuthProvider = ({ children }: any) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, setUser, userLoading, isLoggedIn, setIsLoggedIn }}
+      value={{
+        user,
+        setUser,
+        userLoading,
+        isLoggedIn,
+        setIsLoggedIn,
+        setUserLoading,
+      }}
     >
       {children}
     </AuthContext.Provider>

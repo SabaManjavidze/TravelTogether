@@ -11,7 +11,7 @@ import axios from "axios";
 import React, { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-import SearchBar from "../Components/SearchBar";
+import SearchBar from "../Components/SearchBar/SearchBar";
 
 export default function SearchPage() {
   const navigate = useNavigate();

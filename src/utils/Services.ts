@@ -1,7 +1,6 @@
 import axios, { AxiosError } from "axios";
 import {
   LoginType,
-  UpdateProfile,
   User,
   Apartment,
   UserProfile,
@@ -90,6 +89,12 @@ export const updateApartment = async (apartment: Apartment) => {
     return null;
   }
 };
+export const LogOut = async () => {
+  await axios.post(`${BACKEND_URL}/actions/logout`, null, {
+    withCredentials: true,
+  });
+  // return data;
+};
 export const getApartmentDetails = async (apartmentId: string) => {
   const { data } = await axios.get(
     `${BACKEND_URL}/apartment/apartmentDetails?apartmentId=${apartmentId}`,
@@ -113,7 +118,7 @@ export const SearchApartment = async (
     const to_param = from ? `&to=${to}` : "";
     const params = `city=${city}${from_param}${to_param}&pageNumber=${pageNumber}${order_by_param}`;
     const { data }: { data: SearchResult[] } = await axios.get(
-      `${BACKEND_URL}/actions/search?${params}&pageSize=9`,
+      `${BACKEND_URL}/actions/search?${params}&pageSize=15`,
       { withCredentials: true }
     );
     return data;

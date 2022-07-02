@@ -4,16 +4,36 @@ export type User = {
   image: string;
   description: string;
 };
-export interface UpdateProfile {
-  firstName?: string | undefined;
-  lastName?: string | undefined;
-  image?: string | undefined;
-  description?: string | undefined;
-  email?: string | undefined;
-}
+// export interface UserProfile extends User {
+//   // firstName?: string;
+//   // lastName?: string;
+//   // image?: string;
+//   // description?: string;
+//   email?: string;
+// }
+export type GeopifyResponse = {
+  properties: GeopifyProperties;
+};
+export type GeopifyProperties = {
+  old_name?: string;
+  city?: string;
+  suburb?: string;
+  postcode?: string;
+  country?: string;
+  country_code?: string;
+  lon?: number;
+  lat?: number;
+  formatted?: string;
+  address_line1?: string;
+  address_line2?: string;
+  category?: string;
+  result_type?: "suburb" | "city" | "postcode";
+  place_id?: string;
+};
 export interface UserProfile extends User {
   // apartment?: Apartment | null;
   email?: string;
+  id?: string;
 }
 export type LoginType = {
   email: string;
@@ -45,20 +65,16 @@ export type Amenities = {
   wifi: boolean;
   parking: boolean;
 };
-export type Guest = {
+export interface Guest extends DateRange {
   firstName: string;
   lastName: string;
-  from: Date;
-  to: Date;
-};
+}
 type DateRange = {
   from: Date;
   to: Date;
 };
-export interface CreateBooking {
+export interface CreateBooking extends DateRange {
   hostId: string;
-  from: Date;
-  to: Date;
 }
 export type Status = "Accept" | "Decline" | "Pending";
 export type StatusEnum = "-1" | 0 | 1;

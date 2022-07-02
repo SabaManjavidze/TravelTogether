@@ -15,7 +15,7 @@ import { CameraAlt as ImageIcon } from "@mui/icons-material";
 import AddapartmentView from "../Components/AddApartmentView";
 import ApartmentCard from "../Components/ApartmentCard";
 import { default_user_avatar, updateUserProfile } from "../utils/Services";
-import { UpdateProfile, User, UserProfile } from "../utils/types";
+import { User, UserProfile } from "../utils/types";
 import { useAuth } from "../Hooks/useAuth";
 export default function ProfilePage() {
   const [profImage, setProfImage] = useState("");

@@ -18,10 +18,12 @@ import {
 import BookNowForm from "./components/BookNowForm";
 import BookedDatesView from "./components/BookedDatesView";
 import amenitiesRenderItem from "./components/amenitiesRenderItem";
+import { useAuth } from "../../Hooks/useAuth";
 export default function DetailsPage() {
   const params = useParams();
   const [apartmentDetails, setApartmentDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   const theme = useTheme();
 
@@ -179,7 +181,9 @@ export default function DetailsPage() {
         ) : (
           <Box sx={{ mt: 15, width: "100%" }}>
             <Box mb={10}>
-              <BookNowForm ownerId={apartmentDetails.ownerId} />
+              {apartmentDetails.ownerId == user.id ? null : (
+                <BookNowForm ownerId={apartmentDetails.ownerId} />
+              )}
             </Box>
             <Typography
               sx={{ textTransform: "none" }}

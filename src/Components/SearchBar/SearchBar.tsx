@@ -9,51 +9,29 @@ import {
   Typography,
 } from "@mui/material";
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
-import "../App.css";
+import "../../App.css";
 import axios, { AxiosError } from "axios";
 import { debounce } from "lodash";
+import { useSearchParams } from "react-router-dom";
+import { GeopifyResponse } from "../../utils/types";
+import suggestionRenderItem from "./components/suggestionRenderItem";
+
+// type GeopifyResponse = {
+//   options: GeopifyOptions;
+// };
 
 export default function SearchBar({ navigate }: any) {
-  const params = new URLSearchParams(window.location.search);
-  const location_param = params.get("location") || "";
+  const [params, setParams] = useSearchParams(window.location.href);
+  const location = params.get("location") || "";
   const check_in = params.get("checkIn") || "";
   const check_out = params.get("checkOut") || "";
-  const [checkIn, setCheckIn] = useState(check_in);
-  const [checkOut, setCheckOut] = useState(check_out);
-  const [location, setLocation] = useState(location_param);
-  const [searchData, setSearchData] = useState<any>([]);
+  const [searchData, setSearchData] = useState<GeopifyResponse[]>([]);
   const theme = useTheme();
-  // useEffect(() => {
-  //   console.log(location);
-  // }, [location]);
-  const suggestionRenderItem = (option: any, props: any) => (
-    <li
-      {...props}
-      key={option.properties.lat}
-      style={{
-        flex: "1 1 auto",
-        flexDirection: "column",
-        alignItems: "start",
-        justifyContent: "center",
-      }}
-    >
-      <div style={{ fontSize: "20px" }}>{option.properties.city}</div>
-      <div
-        style={{
-          fontSize: "13px",
-          color: theme.palette.text.secondary,
-          marginLeft: 5,
-        }}
-      >
-        {option.properties.address_line2}
-        {", " + option.properties.address_line1}
-      </div>
-    </li>
-  );
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.cancelable = true;
     const data = new FormData(e.currentTarget);
+    const location = data.get("location");
     const check_in = data.get("check_in");
     const check_out = data.get("check_out");
     if (location === "") {
@@ -62,6 +40,9 @@ export default function SearchBar({ navigate }: any) {
       alert(`${location} Please enter a valid search query`);
       return;
     }
+    // setParams(
+    //   `/search-results?location=${location}&checkIn=${check_in}&checkOut=${check_out}`
+    // );
     navigate(
       `/search-results?location=${location}&checkIn=${check_in}&checkOut=${check_out}`
     );
@@ -73,7 +54,7 @@ export default function SearchBar({ navigate }: any) {
     setSearchData(data.features);
   };
   const debouncedGetAutoCompleteData = useCallback(
-    debounce(getAutoCompleteData, 200),
+    debounce(getAutoCompleteData, 400),
     []
   );
   const response_type_table = {
@@ -110,44 +91,44 @@ export default function SearchBar({ navigate }: any) {
         <Autocomplete
           getOptionLabel={(option: any) => {
             const some =
-              searchData.length > 1 &&
-              option &&
-              option.properties?.result_type in response_type_table
+              option && option.properties?.result_type in response_type_table
                 ? option.properties.city || option.properties.suburb
                 : "";
-            // console.log(option.properties.result_type, some);
             return some;
           }}
-          freeSolo
           options={searchData}
           className="search-input"
-          aria-expanded={true}
-          renderOption={(props, option) => suggestionRenderItem(option, props)}
+          clearOnBlur={false}
+          clearOnEscape={false}
+          defaultValue={{
+            properties: {
+              city: location,
+              result_type: "city",
+            },
+          }}
+          renderOption={(props, option) =>
+            suggestionRenderItem({ option: option, props: props })
+          }
           renderInput={(params: any) => (
             <TextField
-              {...params}
               value={location}
-              // autoFocus
-              placeholder="Search location"
               onChange={async (e) => {
                 const value = e.target.value;
-                if (value.length === 0) {
+                if (value.length > 0) {
+                  debouncedGetAutoCompleteData(value);
+                } else {
                   setSearchData([]);
-                  setLocation("");
-                  return;
                 }
-                setLocation(value);
-                debouncedGetAutoCompleteData(value);
-                // console.log(data.features[0].properties.name);
               }}
+              placeholder="Search location"
               name="location"
               sx={{
                 width: 400,
                 m: 0,
-                // [theme.breakpoints.down("lg")]: { width: 220 },
                 [theme.breakpoints.down("md")]: { width: 300 },
                 [theme.breakpoints.between("md", "lg")]: { mb: 3 },
               }}
+              {...params}
             />
           )}
         />
@@ -169,8 +150,7 @@ export default function SearchBar({ navigate }: any) {
           name="check_in"
           label="Check in"
           type="date"
-          value={checkIn}
-          onChange={(e: any) => setCheckIn(e.target.value)}
+          defaultValue={check_in}
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
           sx={{
             width: 220,
@@ -187,12 +167,7 @@ export default function SearchBar({ navigate }: any) {
           label="Check out"
           type="date"
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
-          // inputProps={{
-          //   endAdornment: <DateIcon />,
-          // }}
-          value={checkOut}
-          // defaultValue={}
-          onChange={(e) => setCheckOut(e.target.value)}
+          defaultValue={check_out}
           sx={{
             width: 220,
             ml: 5,
@@ -218,8 +193,6 @@ export default function SearchBar({ navigate }: any) {
             justifyContent: "center",
           },
           [theme.breakpoints.down("md")]: { ml: 0, width: "50%" },
-          // [theme.breakpoints.between("md", "lg")]: { mt: 0 },
-          // height: "100%",
         }}
       >
         <Button

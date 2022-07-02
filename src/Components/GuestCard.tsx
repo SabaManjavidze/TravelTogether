@@ -68,7 +68,7 @@ export default function GuestCard({
           [theme.breakpoints.down("md")]: { width: "40%" },
           [theme.breakpoints.down("sm")]: { width: "50%" },
         }}
-        image={item.guest.image}
+        image={item.image}
         alt="green iguana"
       />
       <CardContent
@@ -117,9 +117,9 @@ export default function GuestCard({
               variant="h5"
               //  ml={5}
             >
-              {`${item.guest.firstName[0].toUpperCase()}${item.guest.firstName.slice(
+              {`${item.firstName[0].toUpperCase()}${item.firstName.slice(
                 1,
-                item.guest.firstName.length
+                item.firstName.length
               )}`}
             </Typography>
             <Typography
@@ -184,7 +184,7 @@ export default function GuestCard({
                   },
                 }}
               >
-                {item.guest.description || "No Description."}
+                {item.description || "No Description."}
               </Typography>
             </Box>
             <Box

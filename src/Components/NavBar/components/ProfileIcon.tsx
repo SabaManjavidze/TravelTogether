@@ -9,12 +9,14 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../Hooks/useAuth";
+import { LogOut } from "../../../utils/Services";
 
 export default function ProfileIcon() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const theme = useTheme();
+  const navigate = useNavigate();
   const settings = [
     { title: "Profile", path: "profile" },
     { title: "My Bookings", path: "mybookings" },
@@ -27,7 +29,8 @@ export default function ProfileIcon() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const { userLoading, user, isLoggedIn } = useAuth();
+  const { userLoading, user, isLoggedIn, setIsLoggedIn, setUserLoading } =
+    useAuth();
   return (
     <Box
       sx={{
@@ -132,8 +135,10 @@ export default function ProfileIcon() {
         <MenuItem
           sx={{ width: "100%" }}
           onClick={() => {
-            // clear cookies
-            // document.cookie = "";
+            LogOut();
+            setIsLoggedIn(false);
+            // setUserLoading(true);
+            navigate("/login");
           }}
           key="logout"
         >
