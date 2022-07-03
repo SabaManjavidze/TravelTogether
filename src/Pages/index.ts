@@ -5,4 +5,4 @@ export { default as MyGuestsPage } from "./MyGuestsPage";
 export { default as ProfilePage } from "./ProfilePage";
 export { default as Register } from "./Register";
 export { default as SearchPage } from "./SearchPage";
-export { default as SearchResultsPage } from "./SearchResultsPage";
+export { default as SearchResultsPage } from "./SearchResultPage/SearchResultsPage";

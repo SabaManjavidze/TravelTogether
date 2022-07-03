@@ -15,9 +15,11 @@ import BookNowForm from "./components/BookNowForm";
 import BookedDatesView from "./components/BookedDatesView";
 import amenitiesRenderItem from "./components/amenitiesRenderItem";
 import { useAuth } from "../../Hooks/useAuth";
+import { BookedDate, User } from "../../utils/types";
 export default function DetailsPage() {
   const params = useParams();
   const [apartmentDetails, setApartmentDetails] = useState<any>(null);
+  const [avaliabilities, setAvaliabilities] = useState<BookedDate[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -27,12 +29,17 @@ export default function DetailsPage() {
     if (params.id) {
       const apartment_details = await getApartmentDetails(params.id);
       setApartmentDetails(apartment_details.apartment);
+      setAvaliabilities(apartment_details.avalibilities);
       setLoading(false);
     }
   };
   useEffect(() => {
     fetchApartmentDetails();
   }, []);
+  // useEffect(() => {
+  //   if (!loading) console.log(avaliabilities[0].firstName);
+  // }, [loading]);
+
   return (
     <Container
       sx={{ height: "100%", maxWidth: "60%", pb: 15 }}
@@ -189,7 +196,7 @@ export default function DetailsPage() {
             >
               Booked Dates
             </Typography>
-            <BookedDatesView />
+            <BookedDatesView bookedDates={avaliabilities} loading={loading} />
           </Box>
         )}
       </Box>

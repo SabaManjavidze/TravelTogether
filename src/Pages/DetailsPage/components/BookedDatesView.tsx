@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
   Paper,
   Table,
@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { BookedDate, User } from "../../../utils/types";
 
 interface Column {
   id: "from" | "to" | "guest";
@@ -38,76 +39,25 @@ const columns: readonly Column[] = [
     format: (value: number) => value.toLocaleString("en-US"),
   },
 ];
-type Guest = {
-  firstName: string;
-  picture?: string;
+type BookedDatesProps = {
+  bookedDates: BookedDate[];
+  loading: boolean;
 };
-interface Data {
-  from: string;
-  to: string;
-  guest: Guest;
-}
-
-export default function BookedDatesView() {
+export default function BookedDatesView({
+  bookedDates,
+  loading,
+}: BookedDatesProps) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const theme = useTheme();
-  function createData(from: string, to: string, guest: Guest): Data {
-    return {
-      from,
-      to,
-      guest: {
-        ...guest,
-        picture: `https://avatars.dicebear.com/api/human/${guest.firstName}.svg`,
-      },
-    };
-  }
-
-  const rows = [
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Fernandez",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Heisenburg",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Walter",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Micheal",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Floyd",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Derrek",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Paul",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Saba",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Luka",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Lebron",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Hubert",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Joey",
-    }),
-    createData("06-29-2022", "07-2-2022", {
-      firstName: "Jim",
-    }),
-  ];
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
+  // useEffect(() => {
+  //   if (!loading) console.log(bookedDates.map((item) => item.firstName));
+  // }, [loading]);
 
+  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <TableContainer sx={{ maxHeight: 800 }}>
@@ -132,26 +82,24 @@ export default function BookedDatesView() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row) => {
+            {!loading && bookedDates.length > 0 ? (
+              bookedDates.map((row) => {
                 return (
-                  <TableRow
-                    role="checkbox"
-                    tabIndex={-1}
-                    key={row.guest.firstName}
-                  >
+                  <TableRow role="checkbox" tabIndex={-1} key={row.firstName}>
                     {columns.map((column, index) => {
-                      const value = row[column.id];
                       return (
                         <TableCell key={index} align={column.align}>
-                          {typeof value == "string" ? (
-                            <Typography variant="h4">{value}</Typography>
+                          {column.label != "Guest" ? (
+                            <Typography variant="h5">
+                              {new Date(
+                                (row as any)[column.label.toLowerCase()]
+                              ).toLocaleDateString()}
+                            </Typography>
                           ) : (
                             <Box display="inline">
-                              <Typography>{value.firstName}</Typography>
+                              <Typography>{row.firstName}</Typography>
                               <img
-                                src={value.picture}
+                                src={row.image}
                                 alt=""
                                 width="80px"
                                 height="80px"
@@ -164,14 +112,17 @@ export default function BookedDatesView() {
                     })}
                   </TableRow>
                 );
-              })}
+              })
+            ) : (
+              <Typography>There are no booked dates</Typography>
+            )}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
         rowsPerPageOptions={[]}
         component="div"
-        count={rows.length}
+        count={bookedDates.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

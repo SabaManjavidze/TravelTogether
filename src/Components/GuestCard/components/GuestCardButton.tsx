@@ -66,9 +66,13 @@ export default function GuestCardButton({
           [theme.breakpoints.down("md")]: { mr: 0, mb: 1 },
         },
       ]}
-      onClick={() => {
+      onClick={async () => {
         if (status === "Pending") {
-          updateStatus(guestId, buttonName);
+          const response = await updateStatus(guestId, buttonName);
+          if (response) {
+            alert("Apartment already booked");
+            return;
+          }
           setLoading(true);
         }
       }}

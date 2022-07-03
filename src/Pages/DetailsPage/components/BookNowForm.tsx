@@ -22,7 +22,7 @@ export default function BookNowForm({ ownerId }: BookNowFormProps) {
   return (
     <Box
       component="form"
-      onSubmit={(e: any) => {
+      onSubmit={async (e: any) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         // const dates: any = {};
@@ -36,7 +36,8 @@ export default function BookNowForm({ ownerId }: BookNowFormProps) {
           to,
           hostId: ownerId,
         };
-        bookApartment(bookingInfo);
+        const response = await bookApartment(bookingInfo);
+        if (response) alert("Apartment Already Booked");
         // console.log(dates);
       }}
       sx={{

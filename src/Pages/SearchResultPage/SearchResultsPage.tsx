@@ -7,13 +7,15 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useRoutes } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import { ResultCard } from "../Components/ResultCard";
-import SearchBar from "../Components/SearchBar/SearchBar";
-import { SearchApartment } from "../utils/Services";
-import { SearchResult } from "../utils/types";
+import { ResultCard } from "../../Components/ResultCard";
+import SearchBar from "../../Components/SearchBar/SearchBar";
+import { setParam } from "../../utils/CustomMethods";
+import { SearchApartment } from "../../utils/Services";
+import { SearchResult } from "../../utils/types";
+import Paging from "./components/Paging";
 
 export default function SearchResultsPage() {
   const navigate = useNavigate();
@@ -24,8 +26,11 @@ export default function SearchResultsPage() {
   const check_in = params.get("checkIn") || "";
   const check_out = params.get("checkOut") || "";
   const order_by = params.get("orderBy");
+  const paging = params.get("page") || "1";
   const theme = useTheme();
-  const [currSortingIdx, setCurrSortingIdx] = useState(2);
+  const [currSortingIdx, setCurrSortingIdx] = useState(
+    parseInt(order_by || "2")
+  );
   const sort_arr = [
     { label: "Num. Of Beds", name: "NumOfBeds" },
     { label: "Num. Of Beds desc", name: "NumOfBedsDesc" },
@@ -33,22 +38,19 @@ export default function SearchResultsPage() {
     { label: "Distance", name: "DistanceFromCenter" },
     { label: "Distance desc", name: "DistanceFromCenterDesc" },
   ];
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(parseInt(paging));
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchSearchResults = async () => {
-    setLoading(true);
-    setSearchResults([]);
-    console.log({ location, check_in, check_out });
     const results = await SearchApartment(
       location,
       check_in,
       check_out,
-      page,
-      order_by as any
+      page || 1,
+      sort_arr[currSortingIdx].name as any
     );
-    console.log({ results });
+    // console.log({ results });
     if (results != null) {
       setSearchResults(results);
     }
@@ -56,9 +58,11 @@ export default function SearchResultsPage() {
   };
 
   useEffect(() => {
-    fetchSearchResults();
+    if (currSortingIdx >= 0) {
+      fetchSearchResults();
+    }
   }, [params]);
-
+  // const setParam =
   return (
     <Container>
       <Box mt={10}>
@@ -102,18 +106,25 @@ export default function SearchResultsPage() {
                 key={item.name.replaceAll(" ", "")}
                 onClick={() => {
                   setCurrSortingIdx(i);
-                  // window.location.href += `&orderBy=${item.name}`;
-                  // console.log(routes);
-                  // params.append("&orderBy=", item.name);
-                  // const curr_url = window.location.href;
-                  const url = windowLocation.search.includes("orderBy=")
-                    ? windowLocation.search.replace(
-                        `orderBy=${sort_arr[currSortingIdx].name}`,
-                        `orderBy=${item.name}`
-                      )
-                    : `${windowLocation.search}&orderBy=${item.name}`;
-                  // windowLocation.search = url;
-                  navigate(`/search-results${url}`);
+                  const orderByThis = `orderBy=${i}`;
+                  // const url = windowLocation.search.includes("orderBy")
+                  //   ? windowLocation.search.replace(
+                  //       `orderBy=${currSortingIdx}`,
+                  //       orderByThis
+                  //     )
+                  //   : `${windowLocation.search}&${orderByThis}`;
+                  const { search, pathname } = windowLocation;
+                  const url = setParam(
+                    search,
+                    pathname,
+                    "orderBy",
+                    i,
+                    currSortingIdx
+                  );
+                  setLoading(true);
+                  setSearchResults([]);
+                  // navigate(`/search-results${url}`);
+                  navigate(url);
                 }}
                 variant={currSortingIdx === i ? "contained" : "outlined"}
                 sx={{
@@ -163,6 +174,14 @@ export default function SearchResultsPage() {
             ))
           )}
         </Grid>
+        <Box pb={5}>
+          <Paging
+            page={page}
+            setPage={setPage}
+            setLoading={setLoading}
+            hasMore={searchResults.length > 0}
+          />
+        </Box>
       </Box>
     </Container>
   );

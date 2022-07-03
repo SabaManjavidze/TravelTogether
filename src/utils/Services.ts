@@ -8,6 +8,7 @@ import {
   Booking,
   SearchResult,
   Status,
+  ApartmentDetails,
 } from "./types";
 
 export const BACKEND_URL = "https://localhost:7060/api";
@@ -31,16 +32,20 @@ export const RegisterUser = async (user: User) => {
   }
 };
 export const updateStatus = async (id: string, status: Status) => {
-  await axios.put(
-    `${BACKEND_URL}/actions/updateStatus`,
-    {
-      id,
-      status,
-    },
-    {
-      withCredentials: true,
-    }
-  );
+  try {
+    await axios.put(
+      `${BACKEND_URL}/actions/updateStatus`,
+      {
+        id,
+        status,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    return error;
+  }
 };
 
 export const updateUserProfile = async (updates: any) => {
@@ -68,16 +73,20 @@ export const getMyGuests = async () => {
   return data;
 };
 export const bookApartment = async (booking: CreateBooking) => {
-  const { data } = await axios.post(
-    `${BACKEND_URL}/Actions/addBookingGuests`,
-    {
-      ...booking,
-    },
-    {
-      withCredentials: true,
-    }
-  );
-  console.log(data);
+  try {
+    const { data } = await axios.post(
+      `${BACKEND_URL}/Actions/addBookingGuests`,
+      {
+        ...booking,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+  } catch (error) {
+    return JSON.stringify(error);
+  }
+  // console.log(data);
 };
 export const getMyBookings = async () => {
   const { data } = await axios.get(`${BACKEND_URL}/Actions/MyBookings`, {
@@ -97,7 +106,11 @@ export const SearchApartment = async (
   from: string,
   to: string,
   pageNumber: number = 1,
-  orderBy?: "NumOfBeds" | "DistanceFromCenter"
+  orderBy?:
+    | "NumOfBeds"
+    | "DistanceFromCenter"
+    | "DistanceFromCenterDesc"
+    | "NumOfBedsDesc"
 ) => {
   try {
     // console.log(new URLSearchParams(window.location.href).get("location"));
@@ -106,7 +119,7 @@ export const SearchApartment = async (
     const to_param = from ? `&to=${to}` : "";
     const params = `city=${city}${from_param}${to_param}&pageNumber=${pageNumber}${order_by_param}`;
     const { data }: { data: SearchResult[] } = await axios.get(
-      `${BACKEND_URL}/actions/search?${params}&pageSize=15`,
+      `${BACKEND_URL}/actions/search?${params}&pageSize=4`,
       { withCredentials: true }
     );
     return data;
@@ -147,7 +160,7 @@ export const getApartmentDetails = async (apartmentId: string) => {
       withCredentials: true,
     }
   );
-  return data;
+  return data as ApartmentDetails;
 };
 export const createApartment = async (apartment: Apartment) => {
   try {

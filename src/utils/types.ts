@@ -48,6 +48,15 @@ export interface Apartment extends Amenities {
   description?: string;
   city?: string;
 }
+export type ApartmentDetails = {
+  apartment: Apartment;
+  avalibilities: BookedDate[];
+};
+export interface BookedDate extends UserProfile {
+  from: string;
+  to: string;
+  // guest: Guest;
+}
 export type SearchResult = {
   id: string;
   address: string;
