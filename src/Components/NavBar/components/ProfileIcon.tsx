@@ -48,8 +48,8 @@ export default function ProfileIcon() {
               }}
             >
               <Typography
-                color="text.prymary"
                 mr={3}
+                color="white"
                 sx={{
                   [theme.breakpoints.down("sm")]: {
                     display: "none",

@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate, useRoutes } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { ResultCard } from "../Components/ResultCard";
 import SearchBar from "../Components/SearchBar/SearchBar";
@@ -19,12 +19,20 @@ export default function SearchResultsPage() {
   const navigate = useNavigate();
   // const params = new URLSearchParams(window.location.href);
   const [params, setSearchParams] = useSearchParams(window.location.href);
+  const windowLocation = useLocation();
   const location = params.get("location") || "";
   const check_in = params.get("checkIn") || "";
   const check_out = params.get("checkOut") || "";
+  const order_by = params.get("orderBy");
   const theme = useTheme();
-  const [currSortingIdx, setCurrSortingIdx] = useState(1);
-  const sort_arr = ["num. of beds", "available", "distance"];
+  const [currSortingIdx, setCurrSortingIdx] = useState(2);
+  const sort_arr = [
+    { label: "Num. Of Beds", name: "NumOfBeds" },
+    { label: "Num. Of Beds desc", name: "NumOfBedsDesc" },
+    { label: "Avaliability", name: "avaliability" },
+    { label: "Distance", name: "DistanceFromCenter" },
+    { label: "Distance desc", name: "DistanceFromCenterDesc" },
+  ];
   const [page, setPage] = useState<number>(1);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(true);
@@ -33,7 +41,13 @@ export default function SearchResultsPage() {
     setLoading(true);
     setSearchResults([]);
     console.log({ location, check_in, check_out });
-    const results = await SearchApartment(location, check_in, check_out, page);
+    const results = await SearchApartment(
+      location,
+      check_in,
+      check_out,
+      page,
+      order_by as any
+    );
     console.log({ results });
     if (results != null) {
       setSearchResults(results);
@@ -60,7 +74,6 @@ export default function SearchResultsPage() {
           }}
         >
           Results for {location?.toUpperCase()}
-          {/* Results for */}
         </Typography>
         <Box
           sx={{
@@ -68,31 +81,59 @@ export default function SearchResultsPage() {
             flexDirection: "row",
             justifyContent: "center",
             width: "100%",
-            overflowX: "auto",
-            whiteSpace: "nowrap",
             mt: 5,
           }}
         >
-          {sort_arr.map((item, i) => (
-            <Button
-              key={item}
-              onClick={() => {
-                setCurrSortingIdx(i);
-              }}
-              variant={currSortingIdx === i ? "contained" : "outlined"}
-            >
-              <Typography
-                key={i}
-                // component={"h5"}
-                variant={"h5"}
-                mx={5}
-                fontSize={20}
-                display={"inline-block"}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+
+              whiteSpace: "nowrap",
+              [theme.breakpoints.down("md")]: {
+                flexDirection: "column",
+                // width: "70%",
+              },
+            }}
+          >
+            {sort_arr.map((item, i) => (
+              <Button
+                key={item.name.replaceAll(" ", "")}
+                onClick={() => {
+                  setCurrSortingIdx(i);
+                  // window.location.href += `&orderBy=${item.name}`;
+                  // console.log(routes);
+                  // params.append("&orderBy=", item.name);
+                  // const curr_url = window.location.href;
+                  const url = windowLocation.search.includes("orderBy=")
+                    ? windowLocation.search.replace(
+                        `orderBy=${sort_arr[currSortingIdx].name}`,
+                        `orderBy=${item.name}`
+                      )
+                    : `${windowLocation.search}&orderBy=${item.name}`;
+                  // windowLocation.search = url;
+                  navigate(`/search-results${url}`);
+                }}
+                variant={currSortingIdx === i ? "contained" : "outlined"}
+                sx={{
+                  width: "19vh",
+                  [theme.breakpoints.down("md")]: { width: "50vh" },
+                }}
               >
-                {item}
-              </Typography>
-            </Button>
-          ))}
+                <Typography
+                  color={currSortingIdx === i ? "white" : "primary.main"}
+                  variant={"h5"}
+                  mx={5}
+                  fontSize={18}
+                  display={"inline-block"}
+                  textTransform="none"
+                >
+                  {item.label}
+                </Typography>
+              </Button>
+            ))}
+          </Box>
         </Box>
         <Grid
           container
@@ -116,7 +157,7 @@ export default function SearchResultsPage() {
             </Box>
           ) : (
             searchResults.map((item) => (
-              <Grid item key={item.id}>
+              <Grid item key={item.id} width="450px">
                 <ResultCard item={item} />
               </Grid>
             ))

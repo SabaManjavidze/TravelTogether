@@ -20,9 +20,10 @@ export const ResultCard: React.FC<{ item: SearchResult }> = ({ item }) => {
   return (
     <Box
       sx={{
-        width: 400,
+        // width: 500,
+        width: "100%",
         height: 450,
-        [theme.breakpoints.down("lg")]: { width: 300 },
+        // [theme.breakpoints.down("lg")]: { width: 300 },
         border: 1,
         borderColor: "primary.main",
       }}
@@ -109,8 +110,22 @@ export const ResultCard: React.FC<{ item: SearchResult }> = ({ item }) => {
           variant="contained"
           disabled={!item.avaliable}
         >
-          <Typography sx={{ mt: 0, textTransform: "none" }}>
-            {item.avaliable ? "Book Now" : "Unavailable"}
+          <Typography
+            sx={{
+              mt: 0,
+              textTransform: "none",
+              color: item.avaliable
+                ? "#fff"
+                : theme.palette.mode === "dark"
+                ? "#fff"
+                : "#2e2a2a",
+            }}
+          >
+            {item.avaliable == null
+              ? "Provide Date Range"
+              : item.avaliable
+              ? "Book Now"
+              : "Unavailable"}
           </Typography>
         </Button>
       </Box>

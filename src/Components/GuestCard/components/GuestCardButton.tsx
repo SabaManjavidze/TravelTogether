@@ -53,7 +53,6 @@ export default function GuestCardButton({
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      // px: 1,
     },
     px: 5,
     py: 1,
@@ -72,12 +71,8 @@ export default function GuestCardButton({
           updateStatus(guestId, buttonName);
           setLoading(true);
         }
-        // if (acceptedItem === "") {
-        //   setBtnColor("success");
-        // }
       }}
       color={buttonName === "Accepted" ? "primary" : "error"}
-      //   color={"primary"}
       variant={buttonName === "Accepted" ? "contained" : "outlined"}
       disabled={status !== "Pending"}
     >

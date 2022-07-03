@@ -23,7 +23,7 @@ export default function suggestionRenderItem({ props, option }: any) {
         style={{
           fontSize: "13px",
           // color: theme.palette.text.secondary,
-          color: "GrayText",
+          color: "#c6c1c1",
           marginLeft: 5,
         }}
       >

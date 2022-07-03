@@ -92,7 +92,8 @@ export default function SearchBar() {
       >
         <Autocomplete
           getOptionLabel={(option: any) => {
-            const { result_type } = option.properties;
+            const { result_type, city } = option.properties;
+            if (city) return city;
             if (result_type in response_type_table) {
               const value = option.properties[result_type];
               return value;
@@ -100,10 +101,12 @@ export default function SearchBar() {
             return "";
           }}
           isOptionEqualToValue={(option, value) => {
+            const { result_type } = option.properties;
             return (
-              option.properties.address_line1 === value.properties.address_line1
+              option.properties[result_type] === value.properties[result_type]
             );
           }}
+          selectOnFocus
           options={searchData}
           className="search-input"
           clearOnBlur={false}
@@ -158,7 +161,7 @@ export default function SearchBar() {
           name="check_in"
           label="Check in"
           type="date"
-          // defaultValue={check_in}
+          defaultValue={check_in}
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
           sx={{
             width: 220,
@@ -175,7 +178,7 @@ export default function SearchBar() {
           label="Check out"
           type="date"
           className={theme.palette.mode === "dark" ? "input-icon" : ""}
-          // defaultValue={check_out}
+          defaultValue={check_out}
           sx={{
             width: 220,
             ml: 5,
