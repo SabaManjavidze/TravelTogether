@@ -12,51 +12,19 @@ import {
   Theme,
 } from "@mui/material";
 import { Check as AcceptIcon, Close as RejectIcon } from "@mui/icons-material";
-import { Guest, User } from "../utils/types";
-import { updateStatus } from "../utils/Services";
-import "../App.css";
+import { Guest, User } from "../../utils/types";
+import { updateStatus } from "../../utils/Services";
+import "../../App.css";
+import GuestCardButton from "./components/GuestCardButton";
 
 type GuestCardProps = {
   item: Guest;
-  acceptedItem: string;
-  setAcceptedItem: Dispatch<string>;
+  setLoading: Dispatch<boolean>;
 };
 
-export default function GuestCard({
-  item,
-  acceptedItem,
-  setAcceptedItem,
-}: GuestCardProps) {
+export default function GuestCard({ item, setLoading }: GuestCardProps) {
   const theme = useTheme();
   const [btnColor, setBtnColor] = useState<any>("primary");
-  const btnTextStyle: SxProps<Theme> = {
-    [theme.breakpoints.up("lg")]: {
-      fontSize: "17px",
-    },
-    [theme.breakpoints.down("lg")]: {
-      fontSize: "15px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      fontSize: "13px",
-    },
-  };
-  const btnStyle: SxProps<Theme> = {
-    display: "flex",
-    alignItems: "center",
-    whiteSpace: "nowrap",
-    // [theme.breakpoints.up("md")]: {
-    //   width: "45%",
-    // },
-    [theme.breakpoints.down("md")]: {
-      width: "20vh",
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      // px: 1,
-    },
-    px: 5,
-    py: 1,
-  };
   return (
     <Card
       sx={{
@@ -65,7 +33,12 @@ export default function GuestCard({
         // width: "110vh",
         height: 250,
         border: 1,
-        borderColor: "primary.main",
+        borderColor:
+          item.status === "Pending"
+            ? "primary.main"
+            : item.status === "Accepted"
+            ? "success.main"
+            : "error.main",
       }}
     >
       <CardMedia
@@ -77,7 +50,7 @@ export default function GuestCard({
           [theme.breakpoints.down("sm")]: { width: "20vh" },
         }}
         image={item.image}
-        alt="green iguana"
+        alt="Apartment Image"
       />
       <CardContent
         sx={{
@@ -87,7 +60,6 @@ export default function GuestCard({
           m: 0,
           display: "flex",
           width: "40vh",
-
           [theme.breakpoints.up("lg")]: { width: "80vh" },
           [theme.breakpoints.down("lg")]: { width: "65vh" },
           [theme.breakpoints.down("md")]: { width: "40vh" },
@@ -153,7 +125,7 @@ export default function GuestCard({
               alignItems: "center",
               flexDirection: "row",
               // width: "100%",
-              width: "inherit",
+              // width: "inherit",
               height: "inherit",
               [theme.breakpoints.down("md")]: {
                 flexDirection: "column-reverse",
@@ -174,8 +146,8 @@ export default function GuestCard({
               }}
             >
               <Typography
-                variant="body2"
-                color="text.secondary"
+                variant="body1"
+                color="text.primary"
                 // maxHeight={"30%"}
                 className="custom-scrollbar"
                 sx={{
@@ -210,100 +182,68 @@ export default function GuestCard({
                 width: "60%",
               }}
             >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  mt: 5,
-                  pl: 4,
-                  [theme.breakpoints.down("md")]: {
-                    width: "100%",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    my: 1,
-                    pl: 0,
-                  },
-                  // [theme.breakpoints.down("sm")]: {
-                  // mb: 1,
-                  // },
-                }}
-              >
-                <Button
-                  sx={[
-                    btnStyle,
-                    { mr: 3, [theme.breakpoints.down("md")]: { mr: 0, mb: 1 } },
-                  ]}
-                  onClick={() => {
-                    // console.log("accepted");
-                    updateStatus(item.id, "Accepted");
-                    if (acceptedItem === "") {
-                      setAcceptedItem(item.id);
-                      setBtnColor("success");
-                    }
-                  }}
-                  disabled={
-                    acceptedItem !== "" ? acceptedItem !== item.id : false
-                  }
-                  color={btnColor}
-                  variant="contained"
-                >
-                  <AcceptIcon sx={btnTextStyle} />
-                  <Typography
-                    variant="h6"
-                    textTransform="none"
-                    ml={0.5}
-                    textAlign="center"
-                    sx={btnTextStyle}
-                  >
-                    Accept
-                  </Typography>
-                </Button>
-                <Button
-                  sx={[
-                    btnStyle,
-                    {
-                      [theme.breakpoints.down("sm")]: {
-                        mt: 1,
-                      },
+              {item.status === "Pending" ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    mt: 5,
+                    pl: 4,
+                    [theme.breakpoints.down("md")]: {
+                      width: "100%",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      my: 1,
+                      pl: 0,
                     },
-                  ]}
-                  color="primary"
-                  variant="outlined"
-                  onClick={() => {
-                    updateStatus(item.id, "Rejected");
                   }}
                 >
-                  <RejectIcon
-                    sx={btnTextStyle}
-                    htmlColor={
-                      theme.palette.mode === "dark"
-                        ? theme.palette.primary.light
-                        : theme.palette.primary.main
-                    }
+                  <GuestCardButton
+                    buttonName="Accepted"
+                    buttonText="Accept"
+                    guestId={item.id}
+                    status={item.status}
+                    setLoading={setLoading}
                   />
+                  <GuestCardButton
+                    buttonName="Rejected"
+                    buttonText="Reject"
+                    guestId={item.id}
+                    status={item.status}
+                    setLoading={setLoading}
+                  />
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "start",
+                    height: "100%",
+                    ml: 5,
+                  }}
+                >
                   <Typography
-                    variant="h6"
-                    textTransform="none"
-                    sx={btnTextStyle}
-                    ml={0.5}
-                    textAlign="center"
-                    border={theme.palette.mode === "dark" ? "2px" : "1px"}
-                    borderColor={
-                      theme.palette.mode === "dark"
-                        ? "primary.light"
-                        : "primary.main"
-                    }
-                    color={
-                      theme.palette.mode === "dark"
-                        ? "primary.light"
-                        : "primary.main"
-                    }
+                    variant="body1"
+                    // sx={{ display: "inlineFlex", alignItems: "center" }}
+                    fontSize={17}
+                    mt={5}
                   >
-                    Reject
+                    The request was{" "}
                   </Typography>
-                </Button>
-              </Box>
+                  <Typography
+                    fontSize={17}
+                    ml={"5px"}
+                    color={
+                      item.status === "Accepted" ? "success.main" : "error.main"
+                    }
+                    mt={5}
+                  >
+                    {item.status}
+                  </Typography>
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

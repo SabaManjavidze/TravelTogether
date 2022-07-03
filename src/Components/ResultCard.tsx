@@ -110,7 +110,7 @@ export const ResultCard: React.FC<{ item: SearchResult }> = ({ item }) => {
           disabled={!item.avaliable}
         >
           <Typography sx={{ mt: 0, textTransform: "none" }}>
-            {item.avaliable ? "Book Now" : "Unavaliable"}
+            {item.avaliable ? "Book Now" : "Unavailable"}
           </Typography>
         </Button>
       </Box>

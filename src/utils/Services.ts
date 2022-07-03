@@ -32,7 +32,7 @@ export const RegisterUser = async (user: User) => {
 };
 export const updateStatus = async (id: string, status: Status) => {
   await axios.put(
-    `${BACKEND_URL}/action/updateStatus`,
+    `${BACKEND_URL}/actions/updateStatus`,
     {
       id,
       status,

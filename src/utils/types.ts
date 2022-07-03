@@ -71,6 +71,7 @@ export interface Guest extends DateRange {
   lastName: string;
   image: string;
   description: string;
+  status: Status;
 }
 type DateRange = {
   from: Date;

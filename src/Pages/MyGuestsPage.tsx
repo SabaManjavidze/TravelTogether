@@ -1,6 +1,13 @@
-import { Container, Box, Typography, Grid, useTheme } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  Grid,
+  useTheme,
+  CircularProgress,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
-import GuestCard from "../Components/GuestCard";
+import GuestCard from "../Components/GuestCard/GuestCard";
 import { getMyGuests } from "../utils/Services";
 import { Guest } from "../utils/types";
 
@@ -11,13 +18,14 @@ export default function MyGuestsPage() {
   const [loading, setLoading] = useState(true);
 
   const fetchMyGuests = async () => {
+    setMyGuests([]);
     const guests = await getMyGuests();
     setMyGuests(guests);
     setLoading(false);
   };
   useEffect(() => {
-    fetchMyGuests();
-  }, []);
+    if (loading) fetchMyGuests();
+  }, [loading]);
 
   return (
     <Container>
@@ -39,20 +47,17 @@ export default function MyGuestsPage() {
           mt: 10,
         }}
       >
-        {loading
-          ? null
-          : myGuests.map((item: any) => {
-              return (
-                <Grid item key={item.id}>
-                  <GuestCard
-                    item={item}
-                    setAcceptedItem={setAcceptedItem}
-                    acceptedItem={acceptedItem}
-                  />
-                  ;
-                </Grid>
-              );
-            })}
+        {loading ? (
+          <CircularProgress sx={{ mt: 5 }} size="3rem" />
+        ) : (
+          myGuests.map((item: any) => {
+            return (
+              <Grid item key={item.id}>
+                <GuestCard item={item} setLoading={setLoading} />;
+              </Grid>
+            );
+          })
+        )}
       </Grid>
     </Container>
   );
