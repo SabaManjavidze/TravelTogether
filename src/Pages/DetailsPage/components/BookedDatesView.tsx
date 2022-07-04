@@ -59,31 +59,31 @@ export default function BookedDatesView({
 
   // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   return (
-    <Paper sx={{ width: "100%", overflow: "hidden" }}>
-      <TableContainer sx={{ maxHeight: 800 }}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  <Typography
-                    color="text.main"
-                    variant={"body1"}
-                    fontSize={"20px"}
+    <Paper sx={{ width: "100%", overflow: "hidden", boxShadow: "none" }}>
+      {!loading && bookedDates?.length > 0 ? (
+        <TableContainer sx={{ maxHeight: 800 }}>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ minWidth: column.minWidth }}
                   >
-                    {column.label}
-                  </Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {!loading && bookedDates.length > 0 ? (
-              bookedDates.map((row) => {
+                    <Typography
+                      color="text.main"
+                      variant={"body1"}
+                      fontSize={"20px"}
+                    >
+                      {column.label}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {bookedDates.map((row) => {
                 return (
                   <TableRow role="checkbox" tabIndex={-1} key={row.firstName}>
                     {columns.map((column, index) => {
@@ -112,22 +112,37 @@ export default function BookedDatesView({
                     })}
                   </TableRow>
                 );
-              })
-            ) : (
-              <Typography>There are no booked dates</Typography>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[]}
-        component="div"
-        count={bookedDates.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        // onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            bgcolor: "background.paper",
+            py: 5,
+          }}
+        >
+          <Typography variant="h5" sx={{ bgcolor: "transparent" }}>
+            There are no booked dates
+          </Typography>
+        </Box>
+      )}
+      {loading ? null : bookedDates?.length > 0 ? (
+        <TablePagination
+          rowsPerPageOptions={[]}
+          component="div"
+          count={bookedDates?.length || 0}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          // onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      ) : null}
     </Paper>
   );
 }
